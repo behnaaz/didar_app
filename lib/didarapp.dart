@@ -1,16 +1,20 @@
+import 'package:didar_app/screen/HomeScreen.dart';
 import 'package:flutter/material.dart';
 
-import 'package:didar_app/homepage.dart';
+
+import 'package:get/get.dart';
 
 class DidarApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-         primarySwatch: Colors.blue,
-      ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+          primarySwatch: Colors.blue,
+          appBarTheme: AppBarTheme(color: Colors.blue[900]),
+          primaryColor: Colors.blue[900]),
+      home: HomeScreen(),
     );
   }
 }
