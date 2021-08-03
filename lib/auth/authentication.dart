@@ -1,10 +1,4 @@
-//import 'dart:async';
-
-// TODO:
-//  replace the code with https://firebase.flutter.dev/docs/auth/usage/
-// This class is using deprecated elements
-
-/*
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -27,27 +21,48 @@ abstract class BaseAuth {
 class Auth implements BaseAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<String> signIn(String email, String password) async {
-    User user = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
-    return user.uid;
+  Future<String> signIn(final String email, final String password) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+    	if (e.code == 'user-not-found') {
+      	   throw Exception('No user found for email' + email); 
+    	}
+    	if (e.code == 'wrong-password') {
+    	   throw Exception('Wrong password provided for ' + email);
+    	}
+    }
+
+    return _firebaseAuth.currentUser.uid;
   }
 
-  Future<String> signUp(String email, String password) async {
-    User user = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    return user.uid;
+  Future<String> signUp(final String email, final String password) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+        throw Exception('The password provided is too weak.');
+    } if (e.code == 'email-already-in-use') {
+    	throw Exception('The account already exists for ' + email);
+    }
+
+    return _firebaseAuth.currentUser.uid;
   }
+
 
   Future<User> getCurrentUser() async {
-    User user = await _firebaseAuth.currentUser();
-    return user;
+    return _firebaseAuth.currentUser;
   }
+
 
   Future<void> signOut() async {
     return _firebaseAuth.signOut();
   }
-
+  
+  
+// TODO:
+//  replace the commented code with https://firebase.flutter.dev/docs/auth/usage/
+/*
   Future<void> sendEmailVerification() async {
     User user = await _firebaseAuth.currentUser();
     user.sendEmailVerification();
@@ -60,5 +75,5 @@ class Auth implements BaseAuth {
 
   Future<void> sendPasswordReset(String email) async {
     _firebaseAuth.sendPasswordResetEmail(email: email);
-  }
-}*/
+  }*/
+}
