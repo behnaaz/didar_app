@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "922756560415",
+    "project_id": "didar-1bc25",
+    "storage_bucket": "didar-1bc25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922756560415:android:0de3b917801cc13aa9c72a",
+        "android_client_info": {
+          "package_name": "com.example.didar_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922756560415-bs55ijltgnbp7p86bjt81pgm6he09ags.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChM1AVFoYy4tpBZhZ-rXL579pU4nYQ_8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "922756560415-bs55ijltgnbp7p86bjt81pgm6he09ags.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
