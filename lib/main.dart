@@ -1,11 +1,10 @@
+import 'package:didar_app/auth/AuthWrapper.dart';
 import 'package:didar_app/auth/authenticatService.dart';
-import 'package:didar_app/screen/HomeScreen.dart';
+import 'package:didar_app/screen/RegisterScreen.dart';
 import 'package:didar_app/screen/SignInScreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -19,14 +18,7 @@ class DidarApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<AuthenticationService>().authStateChanges,
-          initialData: null,
-        )
+        Provider<AuthenticationService>(create: (_) => AuthenticationService()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -35,22 +27,14 @@ class DidarApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             appBarTheme: AppBarTheme(color: Colors.blue[900]),
             primaryColor: Colors.blue[900]),
-        // home: HomeScreen(),
-        home: AuthenticationWrapper(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => AuthWrapper(),
+          '/signIN': (context) => SignInScreen(),
+          '/register': (context) => RegisterScreen(),
+        },
       ),
     );
   }
 }
 
-class AuthenticationWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    
-    //  final firebaseUser = Provider.of<User>(context);
-
-    // if (firebaseUser != null) {
-    //   return HomeScreen();
-    // }
-    return SignInScreen();
-  }
-}

@@ -1,12 +1,12 @@
 import 'package:didar_app/auth/authenticatService.dart';
-import 'package:didar_app/screen/HomeScreen.dart';
-import 'package:didar_app/screen/RegisterScreen.dart';
+import 'package:didar_app/screen/SignInScreen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
 
-class SignInScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -15,7 +15,7 @@ class SignInScreen extends StatelessWidget {
     final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("signIN"),
+        title: Text("Register"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -34,24 +34,21 @@ class SignInScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    // await authService.signIn(
-                    //   email: emailController.text,
-                    //   password: passwordController.text,
-                    // );
-                    print("i am alive");
+                    await authService.signIn(
+                        email: emailController.text,
+                        password: passwordController.text);
                     Navigator.pop(context);
-                    Get.to(HomeScreen());
                   },
-                  child: Text("SignIn"),
+                  child: Text("Create account"),
                 ),
                 SizedBox(
                   width: 20,
                 ),
                 OutlinedButton(
                   onPressed: () {
-                    Get.to(RegisterScreen());
+                    Get.to(SignInScreen());
                   },
-                  child: Text("Register now"),
+                  child: Text("sign in"),
                 )
               ],
             )
