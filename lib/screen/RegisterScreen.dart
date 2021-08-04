@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
+import 'package:didar_app/model/user_profile.dart';
+import 'package:didar_app/persistance/user_profile_dao.dart';
+
 
 class RegisterScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -39,7 +42,9 @@ class RegisterScreen extends StatelessWidget {
                         password: passwordController.text);
                     Navigator.pop(context);
                   },
-                  child: Text("Create account"),
+                  child: Text("Create account"),//TODO add the user profile fields and mae a call to user_profle_dao to save the user_profile in database in after creating 
+                                                // the user so the user id is saved in the profile as well
+                                                // I have created the file skeleton, please feel free to delete this comment when it is addressed
                 ),
                 SizedBox(
                   width: 20,
