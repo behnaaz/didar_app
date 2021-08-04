@@ -1,5 +1,5 @@
 import 'package:didar_app/auth/authenticatService.dart';
-import 'package:didar_app/screen/SignInScreen.dart';
+import 'package:didar_app/screen/SignInScreen.dart';// TODO lets follow the flutter convention and keep the file names lower case, once the comments addressed, please feel free to delete them
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
