@@ -1,3 +1,4 @@
+import 'package:didar_app/auth/authenticatService.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,7 +9,12 @@ class HomeScreen extends StatelessWidget {
         title: Text("DIDAR"),
       ),
       body: Center(
-        child: Text("Didar app"),
+           child: ElevatedButton(
+              onPressed: () {
+                // context.read<AuthenticationService>().signOut();
+              },
+              child: Text("Sign out"),
+            ),
       ),
     );
   }
