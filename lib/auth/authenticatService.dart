@@ -1,29 +1,51 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:didar_app/model/User.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthenticationService {
-  final FirebaseAuth _firebaseAuth;
+  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
-  AuthenticationService(this._firebaseAuth);
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
-  Future<String?> signIn(
-      {required String email, required String password}) async {
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      return "Sign IN sucssecfully!!";
-    } on FirebaseAuthException catch (e) {
-      return e.message;
+  //check if the user is login or not
+  User? _userFromFirebase(auth.User? user) {
+    if (user == null) {
+      return null;
     }
+    return User(user.uid, user.email);
   }
 
-  Future<String?> signUP(
-      {required String email, required String password}) async {
-    try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      return "Sign Up be Happy!!";
-    } on FirebaseAuthException catch (e) {
-      return e.message;
-    }
+  Stream<User?>? get user {
+    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
+
+  Future<User?> signIn({
+    required String email,
+    required String password,
+  }) async {
+    final credential = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return _userFromFirebase(credential.user);
+  }
+
+  Future<User?> signUp({
+    required String email,
+    required String password,
+  }) async {
+    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    return _userFromFirebase(credential.user);
+  }
+
+  Future<void> signOut() async {
+    return await _firebaseAuth.signOut();
+  }
+
+  // Future<String?> signUP(
+  //     {required String email, required String password}) async {
+  //   try {
+  //     await _firebaseAuth.createUserWithEmailAndPassword(
+  //         email: email, password: password);
+  //     return "Sign Up be Happy!!";
+  //   } on FirebaseAuthException catch (e) {
+  //     return e.message;
+  //   }
+  // }
 }
