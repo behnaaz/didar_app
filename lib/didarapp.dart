@@ -1,7 +1,7 @@
 import 'package:didar_app/screen/HomeScreen.dart';
 import 'package:flutter/material.dart';
 
-
+// TODO Delete if not in use anymore
 import 'package:get/get.dart';
 
 class DidarApp extends StatelessWidget {
