@@ -1,15 +1,12 @@
 import 'package:didar_app/auth/authenticatService.dart';
-import 'package:didar_app/screen/SignInScreen.dart';
-
+import 'package:didar_app/screen/home_screen.dart';
+import 'package:didar_app/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
-import 'package:didar_app/model/user_profile.dart';
-import 'package:didar_app/persistance/user_profile_dao.dart';
 
-
-class RegisterScreen extends StatelessWidget {
+class SignInScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -18,7 +15,7 @@ class RegisterScreen extends StatelessWidget {
     final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Register"),
+        title: Text("signIN"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -38,22 +35,23 @@ class RegisterScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     await authService.signIn(
-                        email: emailController.text,
-                        password: passwordController.text);
-                    Navigator.pop(context);
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+                    print("i am alive");
+                    // Navigator.pop(context);
+                    // Get.to(HomeScreen());
                   },
-                  child: Text("Create account"),//TODO add the user profile fields and mae a call to user_profle_dao to save the user_profile in database in after creating 
-                                                // the user so the user id is saved in the profile as well
-                                                // I have created the file skeleton, please feel free to delete this comment when it is addressed
+                  child: Text("SignIn"),
                 ),
                 SizedBox(
                   width: 20,
                 ),
                 OutlinedButton(
                   onPressed: () {
-                    Get.to(SignInScreen());
+                    Get.to(() => RegisterScreen());
                   },
-                  child: Text("sign in"),
+                  child: Text("Register now"),
                 )
               ],
             )

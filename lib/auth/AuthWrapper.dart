@@ -1,6 +1,6 @@
-import 'package:didar_app/screen/HomeScreen.dart';
-import 'package:didar_app/screen/RegisterScreen.dart';
-import 'package:didar_app/screen/SignInScreen.dart';
+import 'package:didar_app/screen/home_screen.dart';
+import 'package:didar_app/screen/register_screen.dart';
+import 'package:didar_app/screen/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:didar_app/auth/authenticatService.dart';
 import 'package:provider/provider.dart';
