@@ -39,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    await authService.signIn(
+                    await authService.signUp(
                         email: emailController.text,
                         password: passwordController.text);
                       print("i am alive");
