@@ -1,7 +1,7 @@
 import 'package:didar_app/auth/AuthWrapper.dart';
 import 'package:didar_app/auth/authenticatService.dart';
-import 'package:didar_app/screen/RegisterScreen.dart';
-import 'package:didar_app/screen/SignInScreen.dart';
+import 'package:didar_app/screen/register_screen.dart';
+import 'package:didar_app/screen/signin_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
