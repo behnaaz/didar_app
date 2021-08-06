@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 class AuthenticationService {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
-  //check if the user is login or not
+  //NOTE: check IF user is login or not
   User? _userFromFirebase(auth.User? user) {
     if (user == null) {
       return null;
@@ -12,6 +12,7 @@ class AuthenticationService {
     return User(user.uid, user.email);
   }
 
+// NOTE : user Instance
   Stream<User?>? get user {
     return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
@@ -37,15 +38,4 @@ class AuthenticationService {
   Future<void> signOut() async {
     return await _firebaseAuth.signOut();
   }
-
-  // Future<String?> signUP(
-  //     {required String email, required String password}) async {
-  //   try {
-  //     await _firebaseAuth.createUserWithEmailAndPassword(
-  //         email: email, password: password);
-  //     return "Sign Up be Happy!!";
-  //   } on FirebaseAuthException catch (e) {
-  //     return e.message;
-  //   }
-  // }
 }
