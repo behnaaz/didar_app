@@ -21,11 +21,13 @@ class DidarApp extends StatelessWidget {
         Provider<AuthenticationService>(create: (_) => AuthenticationService()),
       ],
       child: GetMaterialApp(
+        locale: const Locale('fa'),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
+            fontFamily: "IranSans",
             primarySwatch: Colors.blue,
-            appBarTheme: AppBarTheme(color: Colors.blue[900]),
+            appBarTheme: AppBarTheme(color: Colors.blueGrey[900]),
             primaryColor: Colors.blue[900]),
         initialRoute: '/',
         routes: {
@@ -37,4 +39,3 @@ class DidarApp extends StatelessWidget {
     );
   }
 }
-
