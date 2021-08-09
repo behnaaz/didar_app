@@ -1,3 +1,4 @@
+import 'package:didar_app/screen/_bottom_nav_wrapper.dart';
 import 'package:didar_app/screen/home_screen.dart';
 import 'package:didar_app/screen/signin_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class AuthWrapper extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           final User? user = snapshot.data;
           print(user.toString()); // LOG : USER is Exist or not
-          return user == null ? SignInScreen() : HomeScreen();
+          return user == null ? SignInScreen() : BottomNavigationWrapper();
         } else {
           // NOTE :  IF Snapshot ConnectionState is Not ACTIVE
           return Scaffold(

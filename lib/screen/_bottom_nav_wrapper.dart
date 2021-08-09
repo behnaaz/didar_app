@@ -1,26 +1,21 @@
 import 'package:didar_app/Constants/them_conf.dart';
+import 'package:didar_app/auth/authenticatService.dart';
+import 'package:didar_app/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class BottomNavScreenTest extends StatefulWidget {
-  const BottomNavScreenTest({Key? key}) : super(key: key);
+class BottomNavigationWrapper extends StatefulWidget {
+  const BottomNavigationWrapper({Key? key}) : super(key: key);
 
   @override
-  State<BottomNavScreenTest> createState() => _BottomNavScreenTestState();
+  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
 }
 
-class _BottomNavScreenTestState extends State<BottomNavScreenTest> {
+class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
   int _selectedIndex = 1;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Center(
-      child: Text(
-        'Index 0: Home',
-      ),
-    ),
-    Center(
-      child: Text(
-        'Index 1: Business',
-      ),
-    ),
+  static List<Widget> _widgetOptions = <Widget>[
+    ProfileScreen(),
+    HomeInputsTest(),
     Center(
       child: Text(
         'Index 2: School',
@@ -35,8 +30,25 @@ class _BottomNavScreenTestState extends State<BottomNavScreenTest> {
 
   @override
   Widget build(BuildContext context) {
+     final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
-      body: _widgetOptions[_selectedIndex] ,
+      appBar: AppBar(
+        // title: Text("DIDAR"),
+        title: Image.asset(
+          kImageLogo,
+          height: 45,
+        ),
+        centerTitle: true,
+        leading: Icon(Icons.email),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await authService.signOut();
+              },
+              icon: Icon(Icons.exit_to_app))
+        ],
+      ),
+      body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
