@@ -3,8 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// this will show listTail data and also can delete Doc from Collection
 class ShowDataFromFireStore extends StatelessWidget {
-  CollectionReference profiles =
+  final CollectionReference profiles =
       FirebaseFirestore.instance.collection('user_profile');
   @override
   Widget build(BuildContext context) {
@@ -14,17 +15,18 @@ class ShowDataFromFireStore extends StatelessWidget {
               FirebaseFirestore.instance.collection('user_profile').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              
               return ListView(
-                children: snapshot.data != null ? snapshot.data!.docs.map((e) {
-                  return Center(
-                      child: ListTile(
-                    title: Text(e['email']),
-                    onLongPress: () {
-                      e.reference.delete();
-                    },
-                  ));
-                }).toList() : [],
+                children: snapshot.data != null
+                    ? snapshot.data!.docs.map((e) {
+                        return Center(
+                            child: ListTile(
+                          title: Text(e['email']),
+                          onLongPress: () {
+                            e.reference.delete();
+                          },
+                        ));
+                      }).toList()
+                    : [],
               );
             }
             return CircularProgressIndicator();
@@ -35,7 +37,7 @@ class ShowDataFromFireStore extends StatelessWidget {
 
 class HomeInputsTest extends StatelessWidget {
   final textController = TextEditingController();
-  CollectionReference profiles =
+  final CollectionReference profiles =
       FirebaseFirestore.instance.collection('user_profile');
   @override
   Widget build(BuildContext context) {
@@ -64,11 +66,46 @@ class HomeInputsTest extends StatelessWidget {
   }
 }
 
+///Get the Data From FireStore
+class ShowUserProfile extends StatelessWidget {
+    final CollectionReference profile =
+      FirebaseFirestore.instance.collection('user_profile');
+
+      
+  @override
+  Widget build(BuildContext context) {
+    return  Center(
+      child: StreamBuilder(
+          stream:
+              FirebaseFirestore.instance.collection('user_profile').snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              return ListView(
+                children: snapshot.data != null
+                    ? snapshot.data!.docs.map((e) {
+                        return Center(
+                            child: ListTile(
+                          title: Text(e['email']),
+                          onLongPress: () {
+                            e.reference.delete();
+                          },
+                        ));
+                      }).toList()
+                    : [],
+              );
+            }
+            return CircularProgressIndicator();
+          }),
+    );
+    
+  }
+}
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ShowDataFromFireStore();
+    return ShowUserProfile();
   }
 }

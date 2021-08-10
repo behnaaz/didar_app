@@ -55,6 +55,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         backgroundColor: Colors.grey[900],
         selectedItemColor: kBlue,
         unselectedItemColor: Colors.grey[200],
+        showUnselectedLabels: false,
         items: [
           BottomNavigationBarItem(
             label: "Profile",
