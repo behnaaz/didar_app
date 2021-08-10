@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:didar_app/database/firestore_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -66,38 +67,36 @@ class HomeInputsTest extends StatelessWidget {
   }
 }
 
-///Get the Data From FireStore
+// ANCHOR: it's ACTIVE NOW
+/// Get the Data From FireStore
 class ShowUserProfile extends StatelessWidget {
-    final CollectionReference profile =
+  final CollectionReference profile =
       FirebaseFirestore.instance.collection('user_profile');
 
-      
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return Center(
       child: StreamBuilder(
-          stream:
-              FirebaseFirestore.instance.collection('user_profile').snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          stream: FirestoreServiceDB().userProfile,
+          builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
-              return ListView(
-                children: snapshot.data != null
-                    ? snapshot.data!.docs.map((e) {
-                        return Center(
-                            child: ListTile(
-                          title: Text(e['email']),
-                          onLongPress: () {
-                            e.reference.delete();
-                          },
-                        ));
-                      }).toList()
-                    : [],
+              var userDocument = snapshot.data!;
+              return Center(
+                child: Column(
+                  children: [
+                    Text(
+                      userDocument["full_name"],
+                    ),
+                    Text(
+                      userDocument["email"],
+                    ),
+                  ],
+                ),
               );
             }
             return CircularProgressIndicator();
           }),
     );
-    
   }
 }
 

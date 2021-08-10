@@ -37,7 +37,11 @@ class AuthenticationService {
 
     // add profile document to Firestore
     try {
-      await FirestoreService(credential.user!.uid).updateUserData( fullName: "new fullName ", email: credential.user!.email!, phoneNumber: 98, age: 0);
+      await FirestoreServiceDB(uid: credential.user!.uid).updateUserData(
+          fullName: "new fullName ",
+          email: credential.user!.email!,
+          phoneNumber: 98,
+          age: 0);
     } catch (e) {
       print(
           "authenticateService : I the credential in null, userInstance has been not created");
