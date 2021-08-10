@@ -4,7 +4,7 @@ import 'package:didar_app/screen/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:didar_app/auth/authenticatService.dart';
 import 'package:provider/provider.dart';
-import 'package:didar_app/model/User.dart';
+import 'package:didar_app/model/user_model.dart';
 
 class AuthWrapper extends StatelessWidget {
   @override

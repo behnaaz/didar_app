@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
-import 'package:didar_app/model/user_profile.dart';
+import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/persistance/user_profile_dao.dart';
 
 import 'home_screen.dart';
