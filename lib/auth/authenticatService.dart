@@ -1,3 +1,4 @@
+import 'package:didar_app/database/firestore_service.dart';
 import 'package:didar_app/model/User.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
@@ -30,8 +31,18 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
+    /// Create the Instance od user
     final credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
+
+    // add profile document to Firestore
+    try {
+      await FirestoreService(credential.user!.uid).updateUserData( fullName: "new fullName ", email: credential.user!.email!, phoneNumber: 98, age: 0);
+    } catch (e) {
+      print(
+          "authenticateService : I the credential in null, userInstance has been not created");
+    }
+
     return _userFromFirebase(credential.user);
   }
 
