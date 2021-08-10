@@ -1,5 +1,4 @@
 import 'package:didar_app/screen/_bottom_nav_wrapper.dart';
-import 'package:didar_app/screen/home_screen.dart';
 import 'package:didar_app/screen/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:didar_app/auth/authenticatService.dart';
@@ -20,7 +19,7 @@ class AuthWrapper extends StatelessWidget {
           final User? user = snapshot.data;
           print(user.toString()); // LOG : USER is Exist or not
           if (user != null)
-            print("unic ID:" +
+            print("uni ID:" +
                 user.uid.toString()); // LOG : USER is Exist or not
 
           return user == null ? SignInScreen() : BottomNavigationWrapper();

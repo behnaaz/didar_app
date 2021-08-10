@@ -1,9 +1,7 @@
 import 'package:didar_app/auth/authenticatService.dart';
-import 'package:didar_app/screen/home_screen.dart';
 import 'package:didar_app/screen/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -38,9 +36,6 @@ class SignInScreen extends StatelessWidget {
                       email: emailController.text,
                       password: passwordController.text,
                     );
-                    print("i am alive");
-                    // Navigator.pop(context);
-                    // Get.to(HomeScreen());
                   },
                   child: Text("SignIn"),
                 ),

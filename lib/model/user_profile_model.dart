@@ -8,7 +8,7 @@ class UserProfile {
   final int age;
 
   UserProfile({
-    //TODO : Profile property shulde be complited
+    //TODO : Profile property should be completed
     required this.fullName,
     required this.email,
     required this.phoneNumber,
