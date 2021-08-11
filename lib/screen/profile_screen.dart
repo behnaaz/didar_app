@@ -3,38 +3,6 @@ import 'package:didar_app/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-/// this will show listTail data and also can delete Doc from Collection
-// class ShowDataFromFireStore extends StatelessWidget {
-//   final CollectionReference profiles =
-//       FirebaseFirestore.instance.collection('user_profile');
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: StreamBuilder(
-//           stream:
-//               FirebaseFirestore.instance.collection('user_profile').snapshots(),
-//           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//             if (snapshot.connectionState == ConnectionState.active) {
-//               return ListView(
-//                 children: snapshot.data != null
-//                     ? snapshot.data!.docs.map((e) {
-//                         return Center(
-//                             child: ListTile(
-//                           title: Text(e['email']),
-//                           onLongPress: () {
-//                             e.reference.delete();
-//                           },
-//                         ));
-//                       }).toList()
-//                     : [],
-//               );
-//             }
-//             return CircularProgressIndicator();
-//           }),
-//     );
-//   }
-// }
-
 class ProfileScreen extends StatelessWidget {
  final CollectionReference profile =
       FirebaseFirestore.instance.collection('user_profile');
