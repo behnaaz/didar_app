@@ -37,7 +37,8 @@ class RegisterScreen extends StatelessWidget {
                         email: emailController.text,
                         password: passwordController.text);
                     print("i am registered succecfully"); // LOG : user registered
-               
+                        Navigator.pop(context);
+                  
                   },
                   child: Text(
                       "Create account"),

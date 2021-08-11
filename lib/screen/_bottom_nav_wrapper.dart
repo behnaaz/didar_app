@@ -1,5 +1,6 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/auth/authenticatService.dart';
+import 'package:didar_app/screen/home_screen.dart';
 import 'package:didar_app/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,12 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     ProfileScreen(),
-    HomeInputsTest(),
+    
+    Center(
+      child: Text(
+        'Index 2: home',
+      ),
+    ),
     Center(
       child: Text(
         'Index 2: School',
