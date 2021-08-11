@@ -15,7 +15,7 @@ class FirestoreServiceDB {
   Future updateUserData({
     required String fullName,
     required String email,
-    required int phoneNumber,
+    required String phoneNumber,
     required int age,
   }) async {
   final String uid = _firebaseAuth.currentUser!.uid; 

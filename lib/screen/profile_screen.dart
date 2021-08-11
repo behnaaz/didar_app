@@ -52,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
       await FirestoreServiceDB().updateUserData(
           fullName: fullNameController.text,
           email: emailController.text,
-          phoneNumber:  int.parse(phoneNumberController.text),
+          phoneNumber:  phoneNumberController.text,
           age:  int.parse(ageController.text),);
     } catch (e) {
       print(
@@ -128,7 +128,7 @@ class ProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: TextField(
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.phone,
                             
                             controller: phoneNumberController,
                             decoration: InputDecoration(

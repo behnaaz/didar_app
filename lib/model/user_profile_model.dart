@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 class UserProfile {
   final String fullName;
   final String email;
-  final int phoneNumber;
+  final String phoneNumber;
   final int age;
 
   UserProfile({

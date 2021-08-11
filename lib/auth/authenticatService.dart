@@ -39,9 +39,9 @@ class AuthenticationService {
     // TODO : initilize user profile doc for the first time
     try {
       await FirestoreServiceDB().updateUserData(
-          fullName: "new fullName ",
+          fullName: "",
           email: credential.user!.email!,
-          phoneNumber: 98,
+          phoneNumber: "",
           age: 0);
     } catch (e) {
       print(
