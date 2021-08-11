@@ -12,7 +12,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     ProfileScreen(),
     HomeInputsTest(),

@@ -12,6 +12,7 @@ class AuthenticationService {
     }
     return User(user.uid, user.email);
   }
+  
 
 // NOTE : user Instance
   Stream<User?>? get user {
@@ -31,13 +32,13 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
-    /// Create the Instance od user
+    // Create the Instance od user
     final credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    // add profile document to Firestore
+    // TODO : initilize user profile doc for the first time
     try {
-      await FirestoreServiceDB(uid: credential.user!.uid).updateUserData(
+      await FirestoreServiceDB().updateUserData(
           fullName: "new fullName ",
           email: credential.user!.email!,
           phoneNumber: 98,

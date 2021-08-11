@@ -20,15 +20,42 @@ class SignInScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: "Email"),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: TextField(
+                controller: emailController,
+               
+                decoration: InputDecoration(
+                  labelText: "Email",
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(
+                          color: Colors.yellow,
+                          style: BorderStyle.solid,
+                          width: 2)),
+                ),
+              ),
             ),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(labelText: "Password"),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  prefixIcon: Icon(Icons.lock),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(
+                          color: Colors.yellow,
+                          style: BorderStyle.solid,
+                          width: 2)),
+                ),
+              ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: () async {

@@ -36,9 +36,8 @@ class RegisterScreen extends StatelessWidget {
                     await authService.signUp(
                         email: emailController.text,
                         password: passwordController.text);
-                    print("i am alive");
-                    Navigator.pop(context);
-                    Get.to(HomeScreen());
+                    print("i am registered succecfully"); // LOG : user registered
+               
                   },
                   child: Text(
                       "Create account"),

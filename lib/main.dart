@@ -26,9 +26,10 @@ class DidarApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
             fontFamily: "IranSans",
-            primarySwatch: Colors.blue,
+            // primarySwatch: Colors.blue,
             appBarTheme: AppBarTheme(color: Colors.blueGrey[900]),
-            primaryColor: Colors.blue[900]),
+            // primaryColor: Colors.blue[900],
+            ),
         initialRoute: '/',
         routes: {
           '/': (context) => AuthWrapper(),
