@@ -1,5 +1,5 @@
 import 'package:didar_app/screen/_bottom_nav_wrapper.dart';
-import 'package:didar_app/screen/signin_screen.dart';
+import 'package:didar_app/screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:didar_app/auth/authenticatService.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +22,7 @@ class AuthWrapper extends StatelessWidget {
             print("uni ID:" +
                 user.uid.toString()); // LOG : USER is Exist or not
 
-          return user == null ? SignInScreen() : BottomNavigationWrapper();
+          return user == null ? LoginScreen() : BottomNavigationWrapper();
         } else {
           // NOTE :  IF Snapshot ConnectionState is Not ACTIVE
           return Scaffold(

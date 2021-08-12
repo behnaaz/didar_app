@@ -29,6 +29,7 @@ class AuthenticationService {
   }
 
   Future<User?> signUp({
+    required String fullName,
     required String email,
     required String password,
   }) async {
@@ -39,7 +40,7 @@ class AuthenticationService {
     // TODO : initilize user profile doc for the first time
     try {
       await FirestoreServiceDB().updateUserData(
-          fullName: "",
+          fullName: fullName,
           email: credential.user!.email!,
           phoneNumber: "",
           age: 0);

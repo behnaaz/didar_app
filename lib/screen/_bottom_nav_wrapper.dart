@@ -1,6 +1,6 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/auth/authenticatService.dart';
-import 'package:didar_app/screen/home_screen.dart';
+import 'package:didar_app/screen/_calendar_screen.dart';
 import 'package:didar_app/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,25 +9,29 @@ class BottomNavigationWrapper extends StatefulWidget {
   const BottomNavigationWrapper({Key? key}) : super(key: key);
 
   @override
-  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
+  State<BottomNavigationWrapper> createState() =>
+      _BottomNavigationWrapperState();
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
   int _selectedIndex = 0;
+
+  // ANCHOR : Bottom navigation item widgetOptions
   static List<Widget> _widgetOptions = <Widget>[
     ProfileScreen(),
-    
     Center(
       child: Text(
-        'Index 2: home',
+        'home screen',
       ),
     ),
+    CalendarScreen(),
     Center(
       child: Text(
-        'Index 2: School',
+        'settings',
       ),
-    ),
+    )
   ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -36,7 +40,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
 
   @override
   Widget build(BuildContext context) {
-     final authService = Provider.of<AuthenticationService>(context);
+    final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
       appBar: AppBar(
         // title: Text("DIDAR"),
@@ -62,6 +66,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         selectedItemColor: kBlue,
         unselectedItemColor: Colors.grey[200],
         showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             label: "Profile",
@@ -70,6 +75,10 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
           BottomNavigationBarItem(
             label: "Home",
             icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            label: "calendar",
+            icon: Icon(Icons.calendar_today),
           ),
           BottomNavigationBarItem(
             label: "Setting",
