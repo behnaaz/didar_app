@@ -15,7 +15,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController fullNameController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  
+  // Create Account button Function
   void createAccount(authService) async {
     if (passwordController.text == rePasswordController.text) {
       await authService.signUp(
@@ -31,6 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthenticationService>(context);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -49,59 +51,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: TextField(
+              myTextFormField(
                   controller: fullNameController,
-                  decoration: InputDecoration(
-                    labelText: "Full name",
-                    prefixIcon: Icon(Icons.person),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: TextField(
+                  label: "Full name",
+                  icon: Icon(Icons.person)),
+              myTextFormField(
                   controller: emailController,
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
-                ),
+                  label: "ٍEmail",
+                  icon: Icon(Icons.email)),
+              myTextFormField(
+                controller: passwordController,
+                label: "Password",
+                icon: Icon(Icons.lock),
+                obscureText: true,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    prefixIcon: Icon(Icons.lock),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: TextField(
-                  controller: rePasswordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: "Password confirm",
-                    prefixIcon: Icon(Icons.lock),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
-                ),
+              myTextFormField(
+                controller: rePasswordController,
+                label: "Password confirm",
+                icon: Icon(Icons.lock),
+                obscureText: true,
               ),
               passwordController.text == rePasswordController.text
                   ? Text('')
@@ -147,6 +115,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget myTextFormField(
+      {required TextEditingController controller,
+      required String label,
+      Widget? icon,
+      bool obscureText = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: TextFormField(
+        obscureText: obscureText,
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: icon,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
         ),
       ),
