@@ -1,5 +1,8 @@
 import 'package:didar_app/auth/authenticatService.dart';
+import 'package:email_validator/email_validator.dart';
+
 import 'package:flutter/material.dart';
+import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -15,7 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController fullNameController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
+
   // Create Account button Function
   void createAccount(authService) async {
     if (passwordController.text == rePasswordController.text) {
@@ -54,29 +57,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
               myTextFormField(
                   controller: fullNameController,
                   label: "Full name",
-                  icon: Icon(Icons.person)),
+                  icon: Icon(Icons.person),
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
+                      return "pls Enter your full name";
+                    }
+                  }),
               myTextFormField(
                   controller: emailController,
-                  label: "ٍEmail",
-                  icon: Icon(Icons.email)),
+                  label: "Email",
+                  icon: Icon(Icons.email),
+                  validator: (String? value) {
+                    if (value != null) if (!EmailValidator.validate(value)) {
+                      return "pls Enter valid Email";
+                    }
+                  }),
               myTextFormField(
-                controller: passwordController,
-                label: "Password",
-                icon: Icon(Icons.lock),
-                obscureText: true,
-              ),
+                  controller: passwordController,
+                  label: "Password",
+                  icon: Icon(Icons.lock),
+                  obscureText: true,
+                  onChange: (value){
+                    setState(() {
+                      
+                    });
+                  },
+                  suffix:  passwordStrength(),
+                  validator: (String? value) {
+                    if (value != null) if (estimatePasswordStrength(value) <
+                        0.3) {
+                      return 'This password is weak!';
+                    }
+                  }),
               myTextFormField(
-                controller: rePasswordController,
-                label: "Password confirm",
-                icon: Icon(Icons.lock),
-                obscureText: true,
-              ),
-              passwordController.text == rePasswordController.text
-                  ? Text('')
-                  : Text(
-                      'Password Confirm are not match!',
-                      style: TextStyle(color: Colors.redAccent[700]),
-                    ),
+                  controller: rePasswordController,
+                  label: "Password confirm",
+                  icon: Icon(Icons.lock),
+                  obscureText: true,
+                  validator: (String? value) {
+                    if (passwordController.text != value) {
+                      return 'Password Confirm are not match!';
+                    }
+                  }),
               SizedBox(
                 height: 30,
               ),
@@ -89,7 +111,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 onPressed: () {
+                   if (_formKey.currentState!.validate()) {
+                  
                   createAccount(authService);
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -111,7 +136,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                  )
+                  ),
+                 
                 ],
               )
             ],
@@ -124,14 +150,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget myTextFormField(
       {required TextEditingController controller,
       required String label,
+      String? Function(String? value)? validator,
+      void Function(String value)? onChange,
       Widget? icon,
+      Widget? suffix,
       bool obscureText = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
+        onChanged: 
+        onChange,
+        validator: validator,
         obscureText: obscureText,
         controller: controller,
         decoration: InputDecoration(
+          suffix: suffix,
           labelText: label,
           prefixIcon: icon,
           border: OutlineInputBorder(
@@ -140,5 +173,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  Text passwordStrength() {
+    if (estimatePasswordStrength(passwordController.text) < 0.3) {
+      return Text(
+        'weak!',
+        style: TextStyle(color: Colors.red),
+      );
+    } else if (estimatePasswordStrength(passwordController.text) < 0.7) {
+      return Text(
+        'alright!',
+        style: TextStyle(color: Colors.yellow[800]),
+      );
+      ;
+    } else {
+      return Text(
+        'strong!',
+        style: TextStyle(color: Colors.green),
+      );
+    }
   }
 }
