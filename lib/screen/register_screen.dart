@@ -1,4 +1,5 @@
 import 'package:didar_app/auth/authenticatService.dart';
+import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
 
 import 'package:flutter/material.dart';
@@ -18,18 +19,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController fullNameController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  bool _registerButtonIsActive = true;
   // Create Account button Function
   void createAccount(authService) async {
-    if (passwordController.text == rePasswordController.text) {
+   
       await authService.signUp(
           fullName: fullNameController.text,
           email: emailController.text,
           password: passwordController.text);
       print("i am registered succecfully"); // LOG : user registered
       Navigator.pop(context);
-    }
-    setState(() {});
+    
+    
   }
 
   @override
@@ -77,12 +78,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   label: "Password",
                   icon: Icon(Icons.lock),
                   obscureText: true,
-                  onChange: (value){
-                    setState(() {
-                      
-                    });
+                  onChange: (value) {
+                    setState(() {});
                   },
-                  suffix:  passwordStrength(),
+                  suffix: passwordStrength(),
                   validator: (String? value) {
                     if (value != null) if (estimatePasswordStrength(value) <
                         0.3) {
@@ -110,15 +109,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-                onPressed: () {
-                   if (_formKey.currentState!.validate()) {
-                  
-                  createAccount(authService);
-                  }
-                },
+                onPressed: _registerButtonIsActive
+                    ? () {
+                        if (_formKey.currentState!.validate()) {
+                          createAccount(authService);
+                          _registerButtonIsActive = false;
+                        }
+                        setState(() {
+                          
+                        });
+                      }
+                    : null,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Text("Create account"),
+                  child: _registerButtonIsActive
+                      ? Text("Create account")
+                      : CircularProgressIndicator(
+                          color: Colors.black,
+                        ),
                 ),
               ),
               SizedBox(
@@ -137,7 +145,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Navigator.pop(context);
                     },
                   ),
-                 
                 ],
               )
             ],
@@ -147,33 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget myTextFormField(
-      {required TextEditingController controller,
-      required String label,
-      String? Function(String? value)? validator,
-      void Function(String value)? onChange,
-      Widget? icon,
-      Widget? suffix,
-      bool obscureText = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: TextFormField(
-        onChanged: 
-        onChange,
-        validator: validator,
-        obscureText: obscureText,
-        controller: controller,
-        decoration: InputDecoration(
-          suffix: suffix,
-          labelText: label,
-          prefixIcon: icon,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-        ),
-      ),
-    );
-  }
+
 
   Text passwordStrength() {
     if (estimatePasswordStrength(passwordController.text) < 0.3) {
@@ -195,3 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 }
+
+
+
+

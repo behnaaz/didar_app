@@ -33,8 +33,10 @@ dependencies:
 
     get: ^4.3.4
     provider: ^5.0.0
+
     email_validator: ^2.0.1
     password_strength: ^0.2.0
+    connectivity: ^3.0.6
 
 dev_dependencies:
     flutter_test:
