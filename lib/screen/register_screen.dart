@@ -1,7 +1,10 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
 
@@ -19,20 +22,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _registerButtonIsActive = true;
+
   // Create Account button Function
   void createAccount(authService) async {
-    await authService.signUp(
-        fullName: fullNameController.text,
-        email: emailController.text,
-        password: passwordController.text);
-    print("i am registered succecfully"); // LOG : user registered
-    Navigator.pop(context);
+    ConnectivityResult connectivityResult =
+        await (Connectivity().checkConnectivity());
+
+    // REVIEW - Internet connection check -- ![ Need to check the internet service status]
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      // we have internet connection
+
+      //NOTE - Form Validation Check
+      if (_formKey.currentState!.validate()) {
+        setState(() => _registerButtonIsActive = false);
+
+        // NOTE - try Firebase SignUp Service
+        try {
+          await authService.signUp(
+              fullName: fullNameController.text,
+              email: emailController.text,
+              password: passwordController.text);
+          Navigator.pop(context);
+          Get.snackbar("You are register successfully", "Have fun",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.blue[200],
+              borderRadius: 10);
+        } on FirebaseAuthException catch (e) {
+          Get.snackbar("Sorry", "${e.message}",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red[400],
+              borderRadius: 10);
+          setState(() => _registerButtonIsActive = true);
+        }
+      }
+    } // NOTE - If Internet WiFi and mobile Data were Disconnected
+    else if (connectivityResult == ConnectivityResult.none) {
+      // there is NO internet connection
+      Get.snackbar("Connection Failed", "Check your internet Connection",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.grey,
+          borderRadius: 10);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthenticationService>(context);
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -107,11 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 onPressed: _registerButtonIsActive
                     ? () {
-                        if (_formKey.currentState!.validate()) {
-                          createAccount(authService);
-                          _registerButtonIsActive = false;
-                        }
-                        setState(() {});
+                        createAccount(authService);
                       }
                     : null,
                 child: Padding(
@@ -148,6 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  // LOcal Widget Function -----------------------------------------------------
   Text passwordStrength() {
     if (estimatePasswordStrength(passwordController.text) < 0.3) {
       return Text(
@@ -167,4 +200,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     }
   }
+  // End  ----------------------------------------------------------------------
+
 }

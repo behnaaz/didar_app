@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _loginButtonIsActive = true;
+
+  ///Login Action Button
   void loginButton(authService) async {
     ConnectivityResult connectivityResult =
         await (Connectivity().checkConnectivity());
@@ -27,14 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
         connectivityResult == ConnectivityResult.wifi) {
       // we have internet connection
       if (_formKey.currentState!.validate()) {
-        setState(() {
-          _loginButtonIsActive = false;
-        });
+        setState(() => _loginButtonIsActive = false);
         try {
           dynamic result = await authService.signIn(
               email: emailController.text, password: passwordController.text);
 
-          Get.snackbar("You are login sucessfully", "Have fun",
+          Get.snackbar("You are login successfully", "Have fun",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.blue[200],
               borderRadius: 10);
@@ -43,9 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.red[400],
               borderRadius: 10);
-          setState(() {
-            _loginButtonIsActive = true;
-          });
+          setState(() => _loginButtonIsActive = true);
         }
       }
     } else if (connectivityResult == ConnectivityResult.none) {
