@@ -3,6 +3,7 @@ import 'package:didar_app/screen/_calendar_screen.dart';
 import 'package:didar_app/screen/profile_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
@@ -59,14 +60,14 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         ],
       ),
       body: _widgetOptions[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: SnakeNavigationBar.color(
+          snakeShape: SnakeShape.rectangle,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        backgroundColor: Colors.grey[900],
-        selectedItemColor: kBlue,
-        unselectedItemColor: Colors.grey[200],
+        backgroundColor: Colors.grey[200],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey[900],
         showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             label: "Profile",
