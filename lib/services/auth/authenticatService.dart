@@ -1,5 +1,5 @@
-import 'package:didar_app/database/firestore_service.dart';
 import 'package:didar_app/model/user_model.dart';
+import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthenticationService {
@@ -12,7 +12,6 @@ class AuthenticationService {
     }
     return User(user.uid, user.email);
   }
-  
 
 // NOTE : user Instance
   Stream<User?>? get user {

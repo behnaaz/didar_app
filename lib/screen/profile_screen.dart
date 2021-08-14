@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:didar_app/database/firestore_service.dart';
+import 'package:didar_app/services/database/firestore_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
- final CollectionReference profile =
+  final CollectionReference profile =
       FirebaseFirestore.instance.collection('user_profile');
 
   // TextField Controller
@@ -15,20 +16,24 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(floatingActionButton: FloatingActionButton(onPressed: () async{
- try {
-      await FirestoreServiceDB().updateUserData(
-          fullName: fullNameController.text,
-          email: emailController.text,
-          phoneNumber:  phoneNumberController.text,
-          age:  int.parse(ageController.text),);
-    } catch (e) {
-      print(
-          "authenticateService : I the credential in null, userInstance has been not created");
-    }
-      
-    } ,child: Text("save"),),
-      body: Padding( 
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          try {
+            await FirestoreServiceDB().updateUserData(
+              fullName: fullNameController.text,
+              email: emailController.text,
+              phoneNumber: phoneNumberController.text,
+              age: int.parse(ageController.text),
+            );
+          } catch (e) {
+            print(
+                "authenticateService : I the credential in null, userInstance has been not created");
+          }
+        },
+        child: Text("save"),
+      ),
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         child: Center(
           child: StreamBuilder(
@@ -79,7 +84,7 @@ class ProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: TextField(
-                                  keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.number,
                             controller: ageController,
                             decoration: InputDecoration(
                               labelText: "Age",
@@ -96,8 +101,7 @@ class ProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: TextField(
-                              keyboardType: TextInputType.phone,
-                            
+                            keyboardType: TextInputType.phone,
                             controller: phoneNumberController,
                             decoration: InputDecoration(
                               labelText: "Phone number",

@@ -1,7 +1,6 @@
-import 'package:didar_app/auth/authenticatService.dart';
+import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
-
 import 'package:flutter/material.dart';
 import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
@@ -22,15 +21,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _registerButtonIsActive = true;
   // Create Account button Function
   void createAccount(authService) async {
-   
-      await authService.signUp(
-          fullName: fullNameController.text,
-          email: emailController.text,
-          password: passwordController.text);
-      print("i am registered succecfully"); // LOG : user registered
-      Navigator.pop(context);
-    
-    
+    await authService.signUp(
+        fullName: fullNameController.text,
+        email: emailController.text,
+        password: passwordController.text);
+    print("i am registered succecfully"); // LOG : user registered
+    Navigator.pop(context);
   }
 
   @override
@@ -115,9 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           createAccount(authService);
                           _registerButtonIsActive = false;
                         }
-                        setState(() {
-                          
-                        });
+                        setState(() {});
                       }
                     : null,
                 child: Padding(
@@ -154,8 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-
-
   Text passwordStrength() {
     if (estimatePasswordStrength(passwordController.text) < 0.3) {
       return Text(
@@ -176,7 +168,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 }
-
-
-
-

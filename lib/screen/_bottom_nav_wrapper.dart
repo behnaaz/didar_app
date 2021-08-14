@@ -1,7 +1,7 @@
 import 'package:didar_app/Constants/them_conf.dart';
-import 'package:didar_app/auth/authenticatService.dart';
 import 'package:didar_app/screen/_calendar_screen.dart';
 import 'package:didar_app/screen/profile_screen.dart';
+import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

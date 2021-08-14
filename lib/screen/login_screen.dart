@@ -1,7 +1,7 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:didar_app/auth/authenticatService.dart';
-import 'package:didar_app/screen/_bottom_nav_wrapper.dart';
+
 import 'package:didar_app/screen/register_screen.dart';
+import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
