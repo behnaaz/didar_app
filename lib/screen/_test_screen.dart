@@ -1,5 +1,5 @@
 import 'package:didar_app/screen/_bottom_nav_wrapper.dart';
-import 'package:didar_app/screen/_calendar_screen.dart';
+import 'package:didar_app/screen/calendar_screen.dart';
 import 'package:didar_app/screen/_getx_store_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

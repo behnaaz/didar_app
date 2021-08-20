@@ -1,5 +1,5 @@
 import 'package:didar_app/Constants/them_conf.dart';
-import 'package:didar_app/screen/_calendar_screen.dart';
+import 'package:didar_app/screen/calendar_screen.dart';
 import 'package:didar_app/screen/profile_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   // ANCHOR : Bottom navigation item widgetOptions
   static List<Widget> _widgetOptions = <Widget>[
@@ -61,7 +61,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
       ),
       body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: SnakeNavigationBar.color(
-          snakeShape: SnakeShape.rectangle,
+        snakeShape: SnakeShape.rectangle,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         backgroundColor: Colors.grey[200],

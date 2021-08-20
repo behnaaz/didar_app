@@ -23,28 +23,28 @@ environment:
 dependencies:
     flutter:
         sdk: flutter
-    cupertino_icons: ^1.0.2
-
     # FIRESTORE
     cloud_firestore: ^2.4.0
     firebase_auth: ^3.0.1
     firebase_core: ^1.4.0
     cloud_firestore_web: ^2.3.0
-
+    # Utility 
     get: ^4.3.4
     provider: ^5.0.0
-
+    shamsi_date: ^0.15.0
     # validation
     email_validator: ^2.0.1
     password_strength: ^0.2.0
     connectivity: ^3.0.6
-
     # UI Kit
     flutter_snake_navigationbar: ^0.5.0
+    cupertino_icons: ^1.0.2
 
 dev_dependencies:
     flutter_test:
         sdk: flutter
+    mockito: ^5.0.14
+    rxdart: ^0.27.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
