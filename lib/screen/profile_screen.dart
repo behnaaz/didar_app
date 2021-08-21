@@ -10,6 +10,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  /// This function is for saving the User profile info
+  /// it will save the info on firestore
   void save() async {
     try {
       await FirestoreServiceDB().updateUserData(
@@ -20,27 +22,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     } catch (e) {
       print(
-          "authenticateService : I the credential in null, userInstance has been not created");
+          'authenticateService : I the credential in null, userInstance has been not created');
     }
+    // this will pop the keyboard onPress
     FocusScope.of(context).requestFocus(FocusNode());
   }
 
+//save the info before User Dispose the !Screen
+//FIXME - --> BUT I comment the save() to not send unnecessary Request for update
   @override
   void dispose() {
-    save();
+    // save();
     super.dispose();
   }
 
-  final CollectionReference profile =
-      FirebaseFirestore.instance.collection('user_profile');
-
+// _____________________________________________________________________________
+//               >> Profile TextField Controllers <<
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController ageController = TextEditingController();
-
   final TextEditingController fullNameController = TextEditingController();
-
   final TextEditingController phoneNumberController = TextEditingController();
+//______________________________________________________________________________
 
   @override
   Widget build(BuildContext context) {

@@ -43,7 +43,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
         children: [
           Container(
               child: Padding(
-            padding: const EdgeInsets.only(right: 14, left: 14, top: 8 ,bottom: 20),
+            padding:
+                const EdgeInsets.only(right: 14, left: 14, top: 8, bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -57,13 +58,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
           Expanded(
             child: PageView.builder(
               onPageChanged: (index) {
-                // print(index);
+                print(index);
                 setState(() {
                   _date = Jalali(1400, index + 1);
+                  
                 });
               },
               controller: _pageViewController,
-              itemCount: 12,
               itemBuilder: (BuildContext context, int index) {
                 return Column(
                   children: [
@@ -97,10 +98,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               ...List.generate(
                                 _date.monthLength,
                                 (index) => GestureDetector(
-                                  onTap: (){
-                                    Get.to(()=>  DayEventsScreen(date: _date.withDay(index+1)));
+                                  onTap: () {
+                                    Get.to(() => DayEventsScreen(
+                                        date: _date.withDay(index + 1)));
                                   },
                                   child: Container(
+                                    color: today  == _date.withDay(index+1)
+                                        ? Colors.blue
+                                        : null,
                                     child: Center(
                                         child: Text((index + 1).toString())),
                                   ),
