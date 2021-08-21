@@ -4,33 +4,49 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  void save() async {
+    try {
+      await FirestoreServiceDB().updateUserData(
+        fullName: fullNameController.text,
+        email: emailController.text,
+        phoneNumber: phoneNumberController.text,
+        age: int.parse(ageController.text),
+      );
+    } catch (e) {
+      print(
+          "authenticateService : I the credential in null, userInstance has been not created");
+    }
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
+
+  @override
+  void dispose() {
+    save();
+    super.dispose();
+  }
+
   final CollectionReference profile =
       FirebaseFirestore.instance.collection('user_profile');
 
-  // TextField Controller
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController ageController = TextEditingController();
+
   final TextEditingController fullNameController = TextEditingController();
+
   final TextEditingController phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            await FirestoreServiceDB().updateUserData(
-              fullName: fullNameController.text,
-              email: emailController.text,
-              phoneNumber: phoneNumberController.text,
-              age: int.parse(ageController.text),
-            );
-          } catch (e) {
-            print(
-                "authenticateService : I the credential in null, userInstance has been not created");
-          }
-        },
+        onPressed: () => save(),
         child: Text("save"),
       ),
       body: Padding(
