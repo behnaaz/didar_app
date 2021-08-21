@@ -1,7 +1,6 @@
 import 'package:shamsi_date/shamsi_date.dart';
 
 class SolarCalendar {
-  
   static List<String> daysOfTheWeek = [
     'شنبه',
     'یکشنبه',
@@ -26,4 +25,8 @@ class SolarCalendar {
     'بهمن',
     'اسفند',
   ];
+
+  Jalali now() {
+    return Jalali.now();
+  }
 }

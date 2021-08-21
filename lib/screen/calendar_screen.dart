@@ -1,8 +1,10 @@
+import 'package:didar_app/screen/day_events_screen.dart';
 import 'package:didar_app/services/calendar/solar_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -41,7 +43,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         children: [
           Container(
               child: Padding(
-            padding: const EdgeInsets.only(right: 14, left: 14, top: 8),
+            padding: const EdgeInsets.only(right: 14, left: 14, top: 8 ,bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -94,9 +96,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   _date.weekDay - 1, (index) => Container()),
                               ...List.generate(
                                 _date.monthLength,
-                                (index) => Container(
-                                  child: Center(
-                                      child: Text((index + 1).toString())),
+                                (index) => GestureDetector(
+                                  onTap: (){
+                                    Get.to(()=>  DayEventsScreen(date: _date.withDay(index+1)));
+                                  },
+                                  child: Container(
+                                    child: Center(
+                                        child: Text((index + 1).toString())),
+                                  ),
                                 ),
                               ),
                             ]),
