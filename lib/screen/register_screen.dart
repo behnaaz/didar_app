@@ -65,7 +65,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           borderRadius: 10);
     }
   }
-
+  //TODO For quick demo, please make the labels farsi
+  // after demo, please use internationatizaltion as explained in
+  // https://flutter.dev/docs/development/accessibility-and-localization/internationalization
+  // for both english and farsi (english is not important now but using the approach of ,oving the text is json is important
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthenticationService>(context);

@@ -13,11 +13,11 @@ class CalendarScreen extends StatefulWidget {
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
-
+//TODO important one to set the default calendar to Weekly
 class _CalendarScreenState extends State<CalendarScreen> {
   PageController _pageViewController = PageController(initialPage: 1);
   final Jalali today = Jalali.now();
-  Jalali _date = Jalali(1400);
+  Jalali _date = Jalali(1400);//TODO Not a priority for now, but later this number should be read from a property defined in firebase.
 
 // _____________________________________________________________________________
 //                        >>-- Init state --<<
@@ -60,8 +60,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               onPageChanged: (index) {
                 print(index);
                 setState(() {
-                  _date = Jalali(1400, index + 1);
-                  
+                  _date = Jalali(1400, index + 1);//TODO: replace 1400 and other values as a constant on top of the file
+                  //For example CURRENT_YEAR = 1400 FONT_SIZE=16 LEFT_WIDTH=?? ...
                 });
               },
               controller: _pageViewController,
@@ -69,7 +69,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 return Column(
                   children: [
                     Row(
-                      textDirection: TextDirection.rtl,
+                      textDirection: TextDirection.rtl,//TODO It is better to have a separate class for example VisualSettings and define all such settings in one place there, font size, ...
                       children: List.generate(
                         7,
                         (index) {
@@ -79,7 +79,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               child: Text(SolarCalendar.daysOfTheWeek[index],
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: 11,//TODO please define a constant for example CHILD_FONT_SIZE
                                   )),
                             ),
                           );
