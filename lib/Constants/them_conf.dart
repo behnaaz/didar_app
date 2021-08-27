@@ -26,4 +26,10 @@ class AssetImages {
 
   /// white pattern for the sign in/up screen
   static const String patternAuthBg = "assets/images/auth_bg_pattern.png";
+
+  /// User Empty Avatar png 
+  static const String userEmptyAvatar = "assets/images/user.png";
+
+  /// Edit Icon
+  static const String editIcon = "assets/images/edit.png";
 }

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
-import 'package:didar_app/widgets/my_textFormField.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -50,121 +49,156 @@ class _ProfileScreenState extends State<ProfileScreen> {
         onPressed: () => save(),
         child: Text("save"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-        child: Center(
-          child: StreamBuilder(
-              stream: FirestoreServiceDB().userProfile,
-              builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.active) {
-                  var userDocument = snapshot.data!;
-                  emailController.text = userDocument["email"];
-                  fullNameController.text = userDocument["full_name"];
-                  ageController.text = userDocument["age"].toString();
-                  phoneNumberController.text =
-                      userDocument["phone_number"].toString();
-                  return Center(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: TextField(
-                            controller: fullNameController,
-                            decoration: InputDecoration(
-                              labelText: "Full name",
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(
-                                      color: Colors.yellow,
-                                      style: BorderStyle.solid,
-                                      width: 2)),
+      body: Stack(
+        children: [
+          Center(
+              child: Image.asset(
+            AssetImages.patternAuthBg,
+            fit: BoxFit.cover,
+          )),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 20 ,horizontal: 10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: ColorPallet.grayBg)),
+            child: StreamBuilder(
+                stream: FirestoreServiceDB().userProfile,
+                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    var userDocument = snapshot.data!;
+                    emailController.text = userDocument["email"];
+                    fullNameController.text = userDocument["full_name"];
+                    ageController.text = userDocument["age"].toString();
+                    phoneNumberController.text =
+                        userDocument["phone_number"].toString();
+                    return Center(
+                      child: ListView(
+                        children: [
+                          Center(
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundColor: Colors.white,
+                                  child: Image.asset(AssetImages.userEmptyAvatar),
+                                ),
+                                Positioned(
+                                    bottom: -6,
+                                    right: -2,
+                                    child: Container(
+                                        padding: EdgeInsets.all(3),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: Image.asset(
+                                          AssetImages.editIcon,
+                                          width: 18,
+                                        )))
+                              ],
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: TextField(
-                            controller: emailController,
-                            decoration: InputDecoration(
-                              labelText: "Email",
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(
-                                      color: Colors.yellow,
-                                      style: BorderStyle.solid,
-                                      width: 2)),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            controller: ageController,
-                            decoration: InputDecoration(
-                              labelText: "Age",
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(
-                                      color: Colors.yellow,
-                                      style: BorderStyle.solid,
-                                      width: 2)),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: TextField(
-                            keyboardType: TextInputType.phone,
-                            controller: phoneNumberController,
-                            decoration: InputDecoration(
-                              labelText: "Phone number",
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  borderSide: BorderSide(
-                                      color: Colors.yellow,
-                                      style: BorderStyle.solid,
-                                      width: 2)),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: OutlinedButton(
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0))),
-                                side: MaterialStateBorderSide.resolveWith(
-                                    (states) => BorderSide(
-                                        width: 2,
+                          ),SizedBox(height: 30,),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: TextField(
+                                  controller: fullNameController,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4),
+                                    labelText: "نام کامل",
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                        borderSide: BorderSide(
+                                            color: Colors.yellow,
+                                            style: BorderStyle.solid,
+                                            width: 2)),
+                                  ))),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: TextField(
+                                  controller: emailController,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4),
+                                    labelText: "Email",
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                        borderSide: BorderSide(
+                                            color: Colors.yellow,
+                                            style: BorderStyle.solid,
+                                            width: 2)),
+                                  ))),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: ageController,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4),
+                                    labelText: "Age",
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                        borderSide: BorderSide(
+                                            color: Colors.yellow,
+                                            style: BorderStyle.solid,
+                                            width: 2)),
+                                  ))),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: TextField(
+                              keyboardType: TextInputType.phone,
+                              controller: phoneNumberController,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(4),
+                                labelText: "Phone number",
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                    borderSide: BorderSide(
+                                        color: Colors.yellow,
                                         style: BorderStyle.solid,
-                                        color: Colors.cyan[400]!))),
-                            child: Text('+ Available time'),
-                            onPressed: () {
-                              Get.bottomSheet(   Container(
-                    height: 150,
-                    color: Colors.white,
-                    child:Column(
-                      children: [
-                        
-                      ],
-                    )
-                  ),isDismissible: true, );
-                            },
+                                        width: 2)),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return CircularProgressIndicator();
-              }),
-        ),
+                          Center(
+                            child: OutlinedButton(
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0))),
+                                  side: MaterialStateBorderSide.resolveWith(
+                                      (states) => BorderSide(
+                                          width: 2,
+                                          style: BorderStyle.solid,
+                                          color: Colors.cyan[400]!))),
+                              child: Text('+ Available time'),
+                              onPressed: () {
+                                Get.bottomSheet(
+                                  Container(
+                                      height: 150,
+                                      color: Colors.white,
+                                      child: Column(
+                                        children: [],
+                                      )),
+                                  isDismissible: true,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return CircularProgressIndicator();
+                }),
+          ),
+        ],
       ),
     );
   }
