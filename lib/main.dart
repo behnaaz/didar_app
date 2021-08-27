@@ -22,7 +22,7 @@ class DidarApp extends StatelessWidget {
         Provider<AuthenticationService>(create: (_) => AuthenticationService()),
       ],
       child: GetMaterialApp(
-        // locale: const Locale('fa'),
+        locale: const Locale('fa'),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
