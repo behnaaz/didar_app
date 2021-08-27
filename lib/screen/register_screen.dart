@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _registerButtonIsActive = true;
-
+  bool _acceptTheRules = false;
   // Create Account button Function
   void createAccount(authService) async {
     ConnectivityResult connectivityResult =
@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               email: emailController.text,
               password: passwordController.text);
           Navigator.pop(context);
-          Get.snackbar("You are register successfully", "Have fun",
+          Get.snackbar("خوش آمدید", "ثبت نام با موفقیت آمیز بود!",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.blue[200],
               borderRadius: 10);
@@ -66,169 +66,219 @@ class _RegisterScreenState extends State<RegisterScreen> {
           borderRadius: 10);
     }
   }
+
   //TODO For quick demo, please make the labels farsi
   // after demo, please use internationatizaltion as explained in
   // https://flutter.dev/docs/development/accessibility-and-localization/internationalization
-  // for both english and farsi (english is not important now but using the approach of ,oving the text is json is important
+  // for both english and farsi (english is not important now but using the approach of
+  // ,oving the text is json is important
+
+  // ANCHOR : UI Build Widget --------------------------------------------------
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 180,
-              ),
-              Text(
-                'Register',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+      body: Stack(
+        children: [
+          Center(
+              child: Image.asset(
+            AssetImages.patternAuthBg,
+            fit: BoxFit.cover,
+          )),
+          SafeArea(
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 80,
                 ),
-              ),
-              myTextFormField(
-                  controller: fullNameController,
-                  label: "Full name",
-                  icon: Icon(Icons.person),
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return "pls Enter your full name";
-                    }
-                  }),
-              myTextFormField(
-                  controller: emailController,
-                  label: "Email",
-                  icon: Icon(Icons.email),
-                  validator: (String? value) {
-                    if (value != null) if (!EmailValidator.validate(value)) {
-                      return "pls Enter valid Email";
-                    }
-                  }),
-              myTextFormField(
-                  controller: passwordController,
-                  label: "Password",
-                  icon: Icon(Icons.lock),
-                  obscureText: true,
-                  onChange: (value) {
-                    setState(() {});
-                  },
-                  suffix: passwordStrength(),
-                  validator: (String? value) {
-                    if (value != null) if (estimatePasswordStrength(value) <
-                        0.3) {
-                      return 'This password is weak!';
-                    }
-                  }),
-              myTextFormField(
-                  controller: rePasswordController,
-                  label: "Password confirm",
-                  icon: Icon(Icons.lock),
-                  obscureText: true,
-                  validator: (String? value) {
-                    if (passwordController.text != value) {
-                      return 'Password Confirm are not match!';
-                    }
-                  }),
-              SizedBox(
-                height: 30,
-              ),
-               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      child: Checkbox(value: false, onChanged: (value) {})),
-                  Expanded(
-                    child: RichText(
-                      text: TextSpan(
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: ColorPallet.textColor,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: 'IranSans'),
-                          children: [
-                            TextSpan(
-                                text: 'ضوابط و مقررات ',
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    decorationStyle: TextDecorationStyle.dashed,
-                                    color: ColorPallet.blue)),
-                            TextSpan(
-                              text: 'دیدار را مطالعه کرده و با آن موافقم.',
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: ColorPallet.grayBg)),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 30),
+                            child: Image.asset(
+                              AssetImages.logo,
+                              height: 50,
                             ),
-                          ]),
-                    ),
-                  ),
-                ],
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          myTextFormField(
+                              controller: fullNameController,
+                              label: "نام کامل",
+                              icon: Icon(Icons.person),
+                              validator: (String? value) {
+                                if (value!.isEmpty) {
+                                  return "لطفا نام کامل خود را وارد کنید";
+                                }
+                              }),
+                          myTextFormField(
+                              controller: emailController,
+                              label: "ایمیل",
+                              icon: Icon(Icons.email),
+                              validator: (String? value) {
+                                if (value !=
+                                    null) if (!EmailValidator.validate(value)) {
+                                  return "لطفا ایمیل خود را به درستی وارد کنید";
+                                }
+                              }),
+                          myTextFormField(
+                              controller: passwordController,
+                              label: "کلمه عبور",
+                              icon: Icon(Icons.lock),
+                              obscureText: true,
+                              onChange: (value) {
+                                setState(() {});
+                              },
+                              suffix: passwordStrength(),
+                              validator: (String? value) {
+                                if (value != null) if (estimatePasswordStrength(
+                                        value) <
+                                    0.3) {
+                                  return 'کلمه عبور انتخابی ضعیف است!';
+                                }
+                              }),
+                          myTextFormField(
+                              controller: rePasswordController,
+                              label: "تکرار کلمه عبور",
+                              icon: Icon(Icons.lock),
+                              obscureText: true,
+                              validator: (String? value) {
+                                if (passwordController.text != value) {
+                                  return 'کلمه عبور با تکرار ان مطابقت ندارد!';
+                                }
+                              }),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  child: Checkbox(
+                                      value: _acceptTheRules,
+                                      onChanged: (value) {
+                                        setState(() {});
+                                        _acceptTheRules = value!;
+                                      })),
+                              Expanded(
+                                child: RichText(
+                                  text: TextSpan(
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: ColorPallet.textColor,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'IranSans'),
+                                      children: [
+                                        TextSpan(
+                                            text: 'ضوابط و مقررات ',
+                                            style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                decorationStyle:
+                                                    TextDecorationStyle.dashed,
+                                                color: ColorPallet.blue)),
+                                        TextSpan(
+                                          text:
+                                              'دیدار را مطالعه کرده و با آن موافقم.',
+                                        ),
+                                      ]),
+                                ),
+                              ),
+                            ],
+                          ),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                            onPressed: _acceptTheRules
+                                ? _registerButtonIsActive
+                                    ? () {
+                                        createAccount(authService);
+                                      }
+                                    : null
+                                : null,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: _registerButtonIsActive
+                                  ? Text("ثبت نام")
+                                  : Container(height: 14,width: 14,
+                                    child: CircularProgressIndicator(
+                                        color: ColorPallet.blue,
+                                      ),
+                                  ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("قبلا ثبت نام کردید"),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              OutlinedButton(
+                                child: Text("وارد شوید"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                onPressed: _registerButtonIsActive
-                    ? () {
-                        createAccount(authService);
-                      }
-                    : null,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: _registerButtonIsActive
-                      ? Text("Create account")
-                      : CircularProgressIndicator(
-                          color: Colors.black,
-                        ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Have an account"),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  OutlinedButton(
-                    child: Text("Login"),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              )
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   // LOcal Widget Function -----------------------------------------------------
-  Text passwordStrength() {
+  Widget passwordStrength() {
     if (estimatePasswordStrength(passwordController.text) < 0.3) {
-      return Text(
-        'weak!',
-        style: TextStyle(color: Colors.red),
+      return Padding(
+        padding: const EdgeInsets.only(left: 5),
+        child: Text(
+          'ضعیف!',
+          style: TextStyle(color: Colors.red),
+        ),
       );
     } else if (estimatePasswordStrength(passwordController.text) < 0.7) {
-      return Text(
-        'alright!',
-        style: TextStyle(color: Colors.yellow[800]),
+      return Padding(
+        padding: const EdgeInsets.only(left: 5.0),
+        child: Text(
+          'متوسط!',
+          style: TextStyle(color: Colors.yellow[800]),
+        ),
       );
       ;
     } else {
-      return Text(
-        'strong!',
-        style: TextStyle(color: Colors.green),
+      return Padding(
+        padding: const EdgeInsets.only(left: 5.0),
+        child: Text(
+          'قوی!',
+          style: TextStyle(color: Colors.green),
+        ),
       );
     }
   }
