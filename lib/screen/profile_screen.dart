@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
+import 'package:didar_app/widgets/my_textFormField.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -25,15 +28,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'authenticateService : I the credential in null, userInstance has been not created');
     }
     // this will pop the keyboard onPress
-    FocusScope.of(context).requestFocus(FocusNode());
-  }
-
-//save the info before User Dispose the !Screen
-//FIXME - --> BUT I comment the save() to not send unnecessary Request for update
-  @override
-  void dispose() {
-    // save();
-    super.dispose();
+    try {
+      FocusScope.of(context).requestFocus(FocusNode());
+    } catch (e) {
+      print('there is no context, [keyboard] is already closed');
+    }
   }
 
 // _____________________________________________________________________________
@@ -133,6 +132,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
+                        Center(
+                          child: OutlinedButton(
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0))),
+                                side: MaterialStateBorderSide.resolveWith(
+                                    (states) => BorderSide(
+                                        width: 2,
+                                        style: BorderStyle.solid,
+                                        color: Colors.cyan[400]!))),
+                            child: Text('+ Available time'),
+                            onPressed: () {
+                              Get.bottomSheet(   Container(
+                    height: 150,
+                    color: Colors.white,
+                    child:Column(
+                      children: [
+                        
+                      ],
+                    )
+                  ),isDismissible: true, );
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -142,5 +167,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+//NOTE- save the info before User Dispose the !Screen
+  @override
+  void dispose() {
+    // save();  //FIXME - If you like to save after dispose //
+    super.dispose();
   }
 }

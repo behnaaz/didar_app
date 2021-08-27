@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +9,9 @@ class ShowDataFromFireStore extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: StreamBuilder(
-            stream:
-                FirebaseFirestore.instance.collection('user_profile').snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('user_profile')
+                .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.active) {
                 return ListView(

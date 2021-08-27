@@ -9,13 +9,13 @@ Widget myTextFormField(
     Widget? suffix,
     bool obscureText = false}) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5),
+    padding: const EdgeInsets.symmetric(vertical: 6),
     child: TextFormField(
       onChanged: onChange,
       validator: validator,
       obscureText: obscureText,
       controller: controller,
-      decoration: InputDecoration(
+      decoration: InputDecoration(contentPadding: EdgeInsets.all(4),
         suffix: suffix,
         labelText: label,
         prefixIcon: icon,

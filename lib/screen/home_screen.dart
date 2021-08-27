@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
-          kImageLogo,
+          AssetImages.logo,
           height: 45,
         ),
         centerTitle: true,

@@ -15,7 +15,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 0; 
 
   // ANCHOR : Bottom navigation item widgetOptions
   static List<Widget> _widgetOptions = <Widget>[
@@ -46,7 +46,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
       appBar: AppBar(
         // title: Text("DIDAR"),
         title: Image.asset(
-          kImageLogo,
+          AssetImages.logo,
           height: 45,
         ),
         centerTitle: true,

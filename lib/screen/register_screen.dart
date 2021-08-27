@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
@@ -135,6 +136,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }),
               SizedBox(
                 height: 30,
+              ),
+               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                      child: Checkbox(value: false, onChanged: (value) {})),
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: ColorPallet.textColor,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'IranSans'),
+                          children: [
+                            TextSpan(
+                                text: 'ضوابط و مقررات ',
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    decorationStyle: TextDecorationStyle.dashed,
+                                    color: ColorPallet.blue)),
+                            TextSpan(
+                              text: 'دیدار را مطالعه کرده و با آن موافقم.',
+                            ),
+                          ]),
+                    ),
+                  ),
+                ],
               ),
               ElevatedButton(
                 style: ButtonStyle(
