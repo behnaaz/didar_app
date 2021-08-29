@@ -2,6 +2,7 @@ import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/screen/calendar_screen.dart';
 import 'package:didar_app/screen/profile_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 0; 
+  int _selectedIndex = 0;
 
   // ANCHOR : Bottom navigation item widgetOptions
   static List<Widget> _widgetOptions = <Widget>[
@@ -50,13 +51,35 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
           height: 45,
         ),
         centerTitle: true,
-        leading: Icon(Icons.email),
+        leading: IconButton(
+            onPressed: () async {
+              await authService.signOut();
+            },
+            icon: Icon(Icons.exit_to_app)),
         actions: [
-          IconButton(
-              onPressed: () async {
-                await authService.signOut();
-              },
-              icon: Icon(Icons.exit_to_app))
+          GestureDetector(
+            child: Container(
+                width: 100,
+                child: Stack(children: [
+                  Center(
+                      child: Image.asset(
+                    AssetImages.emailIcon,
+                    height: 30,
+                  )),
+                  Positioned(bottom: 5,right: 20,
+                    child: Container(width: 20,height: 20,
+                    decoration: BoxDecoration(
+                      color: ColorPallet.red,
+
+                      borderRadius: BorderRadiusDirectional.circular(50)
+                    ),
+                      child: Center(
+                        child: Text('2',style: TextStyle(fontSize: 11 ,fontWeight: FontWeight.bold),),
+                      ),
+                    ),
+                  ),
+                ])),
+          )
         ],
       ),
       body: _widgetOptions[_selectedIndex],

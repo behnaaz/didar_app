@@ -27,9 +27,18 @@ class AssetImages {
   /// white pattern for the sign in/up screen
   static const String patternAuthBg = "assets/images/auth_bg_pattern.png";
 
-  /// User Empty Avatar png 
+  /// User Empty Avatar png
   static const String userEmptyAvatar = "assets/images/user.png";
 
   /// Edit Icon
   static const String editIcon = "assets/images/edit.png";
+
+  /// Email stylish icon used in Appbar
+  static const String emailIcon = "assets/images/email.png";
+
+  /// Calendar png that used as placeholder when sessions list is empty
+  static const String sessionPlaceholder = "assets/images/empty-session-placeholder.png";
+
+  /// Nice PNG header for Home page
+  static const String homeHeader = "assets/images/home-header.png";
 }
