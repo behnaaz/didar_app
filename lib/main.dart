@@ -29,7 +29,7 @@ class DidarApp extends StatelessWidget {
         theme: ThemeData(
             fontFamily: "IranSans",scaffoldBackgroundColor: ColorPallet.lightGrayBg,
             // primarySwatch: Colors.blue,
-            appBarTheme: AppBarTheme(color: Colors.blueGrey[900]),
+            appBarTheme: AppBarTheme(color: Colors.white ,iconTheme: IconThemeData(color: ColorPallet.grayBg)),
             // primaryColor: Colors.blue[900],
             ),
         initialRoute: '/',
