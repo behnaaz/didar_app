@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -42,8 +43,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController phoneNumberController = TextEditingController();
 //______________________________________________________________________________
 
+  List _socialList = [];
   @override
   Widget build(BuildContext context) {
+    double widthOfScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => save(),
@@ -58,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-            padding: const EdgeInsets.symmetric(vertical: 20 ,horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -83,7 +86,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 CircleAvatar(
                                   radius: 40,
                                   backgroundColor: Colors.white,
-                                  child: Image.asset(AssetImages.userEmptyAvatar),
+                                  child:
+                                      Image.asset(AssetImages.userEmptyAvatar),
                                 ),
                                 Positioned(
                                     bottom: -6,
@@ -100,7 +104,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         )))
                               ],
                             ),
-                          ),SizedBox(height: 30,),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
                           Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: TextField(
@@ -148,13 +155,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             width: 2)),
                                   ))),
                           Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: TextField(
+                                  keyboardType: TextInputType.phone,
+                                  controller: phoneNumberController,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4),
+                                    labelText: "شماره تلفن",
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                        borderSide: BorderSide(
+                                            color: Colors.yellow,
+                                            style: BorderStyle.solid,
+                                            width: 2)),
+                                  ))),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: TextField(
+                                  keyboardType: TextInputType.phone,
+                                  controller:
+                                      null, //TODO: Define Controller and action in database
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4),
+                                    labelText: "موضوع جلسات",
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                        borderSide: BorderSide(
+                                            color: Colors.yellow,
+                                            style: BorderStyle.solid,
+                                            width: 2)),
+                                  ))),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: TextField(
+                                  keyboardType: TextInputType.phone,
+                                  controller:
+                                      null, //TODO: Define Controller and action in database
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4),
+                                    labelText: "سابقه تحصیلی",
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                        borderSide: BorderSide(
+                                            color: Colors.yellow,
+                                            style: BorderStyle.solid,
+                                            width: 2)),
+                                  ))),
+                          Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: TextField(
-                              keyboardType: TextInputType.phone,
-                              controller: phoneNumberController,
+                              minLines: 3, maxLines: 8, maxLength: 500,
+                              keyboardType: TextInputType.multiline,
+                              controller:
+                                  null, //TODO: Define Controller and action in database
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(4),
-                                labelText: "Phone number",
+                                labelText: "درباره من",
                                 border: OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(8)),
@@ -165,6 +223,90 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
+                          Text('راه های ارتباطی من'),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ...List.generate(_socialList.length,
+                                    (index) => TextFormField()),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadiusDirectional.circular(50),
+                                      color: ColorPallet.blue),
+                                  child: IconButton(
+                                    color: Colors.white,
+                                    icon: Icon(Icons.add),
+                                    onPressed: () {
+                                      setState(() {
+                                        Get.bottomSheet(
+                                          Container(
+                                            padding: EdgeInsets.symmetric(vertical: 15,
+                                                horizontal: 20),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(15),
+                                                    topRight:
+                                                        Radius.circular(15))),
+                                            height: 200,
+                                            child: Column(
+                                              children: [
+                                                TextField(
+                                                  decoration: InputDecoration(
+                                                    label: Text('لینک //:'),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(8)),
+                                                        borderSide: BorderSide(
+                                                            color: Colors.yellow,
+                                                            style:
+                                                                BorderStyle.solid,
+                                                            width: 2),),
+                                                  ),
+                                                ),Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    DropdownButton(hint: Text('ایکون'),
+                                                    elevation: 12,
+                                                      items: <Icon>[
+                                                         Icon(LineIcons
+                                                            .instagram),
+                                                         Icon(LineIcons
+                                                            .twitter),
+                                                         Icon(LineIcons
+                                                            .linkedin),
+                                                         Icon(LineIcons
+                                                            .facebook),
+                                                         Icon(LineIcons
+                                                            .globe),
+                                                      
+                                                      ].map((Icon value) {
+                                                        return DropdownMenuItem<
+                                                            Icon>(
+                                                          value: value,
+                                                          child:value,
+                                                        );
+                                                      }).toList(),
+                                                      onChanged: (icon) {
+                                                        
+                                                      },
+                                                    ),ElevatedButton(onPressed: (){}, child: Text('اضافه کن'))
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          isDismissible: true,
+                                        );
+                                        // _socialList.add(value);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ]),
                           Center(
                             child: OutlinedButton(
                               style: ButtonStyle(
