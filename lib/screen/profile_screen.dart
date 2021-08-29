@@ -242,8 +242,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       setState(() {
                                         Get.bottomSheet(
                                           Container(
-                                            padding: EdgeInsets.symmetric(vertical: 15,
-                                                horizontal: 20),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 15, horizontal: 20),
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius: BorderRadius.only(
@@ -258,42 +258,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   decoration: InputDecoration(
                                                     label: Text('لینک //:'),
                                                     border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(8)),
-                                                        borderSide: BorderSide(
-                                                            color: Colors.yellow,
-                                                            style:
-                                                                BorderStyle.solid,
-                                                            width: 2),),
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  8)),
+                                                      borderSide: BorderSide(
+                                                          color: Colors.yellow,
+                                                          style:
+                                                              BorderStyle.solid,
+                                                          width: 2),
+                                                    ),
                                                   ),
-                                                ),Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    DropdownButton(hint: Text('ایکون'),
-                                                    elevation: 12,
+                                                    DropdownButton(
+                                                      hint: Text('ایکون'),
+                                                      elevation: 12,
                                                       items: <Icon>[
-                                                         Icon(LineIcons
+                                                        Icon(LineIcons
                                                             .instagram),
-                                                         Icon(LineIcons
-                                                            .twitter),
-                                                         Icon(LineIcons
-                                                            .linkedin),
-                                                         Icon(LineIcons
-                                                            .facebook),
-                                                         Icon(LineIcons
-                                                            .globe),
-                                                      
+                                                        Icon(LineIcons.twitter),
+                                                        Icon(
+                                                            LineIcons.linkedin),
+                                                        Icon(
+                                                            LineIcons.facebook),
+                                                        Icon(LineIcons.globe),
                                                       ].map((Icon value) {
                                                         return DropdownMenuItem<
                                                             Icon>(
                                                           value: value,
-                                                          child:value,
+                                                          child: value,
                                                         );
                                                       }).toList(),
-                                                      onChanged: (icon) {
-                                                        
-                                                      },
-                                                    ),ElevatedButton(onPressed: (){}, child: Text('اضافه کن'))
+                                                      onChanged: (icon) {},
+                                                    ),
+                                                    ElevatedButton(
+                                                        onPressed: () {},
+                                                        child: Text('اضافه کن'))
                                                   ],
                                                 )
                                               ],
