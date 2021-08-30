@@ -1,3 +1,17 @@
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Dart
+
+on:
+  push:
+    branches: [ mainline ]
+  pull_request:
+    branches: [ mainline ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,7 +24,5 @@ jobs:
           flutter-version: '2.2.3'
       - name: Install dependencies
         run: flutter pub get
-      - name: Analyze
-        run: flutter analyze
       - name: Run tests
         run: flutter test
