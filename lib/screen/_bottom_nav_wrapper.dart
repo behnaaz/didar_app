@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/screen/calendar_screen.dart';
+import 'package:didar_app/screen/home_screen.dart';
 import 'package:didar_app/screen/profile_screen.dart';
+import 'package:didar_app/screen/setting_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,22 +19,14 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   // ANCHOR : Bottom navigation item widgetOptions
-  static List<Widget> _widgetOptions = <Widget>[
+  final List<Widget> _widgetOptions = <Widget>[
     ProfileScreen(),
-    Center(
-      child: Text(
-        'home screen',
-      ),
-    ),
+    HomeScreen(),
     CalendarScreen(),
-    Center(
-      child: Text(
-        'settings',
-      ),
-    )
+    SettingScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -66,15 +61,21 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                     AssetImages.emailIcon,
                     height: 30,
                   )),
-                  Positioned(bottom: 5,right: 20,
-                    child: Container(width: 20,height: 20,
-                    decoration: BoxDecoration(
-                      color: ColorPallet.red,
-
-                      borderRadius: BorderRadiusDirectional.circular(50)
-                    ),
+                  Positioned(
+                    bottom: 5,
+                    right: 20,
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                          color: ColorPallet.red,
+                          borderRadius: BorderRadiusDirectional.circular(50)),
                       child: Center(
-                        child: Text('2',style: TextStyle(fontSize: 11 ,fontWeight: FontWeight.bold),),
+                        child: Text(
+                          '2',
+                          style: TextStyle(
+                              fontSize: 11, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
@@ -82,7 +83,17 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
           )
         ],
       ),
-      body: _widgetOptions[_selectedIndex],
+      body: Stack(
+        children: [
+          Center(
+              child: Image.asset(
+            AssetImages.patternAuthBg,
+            fit: BoxFit.cover,
+          )),
+          // NOTE : this is a body Injection screen Widget
+          _widgetOptions[_selectedIndex],
+        ],
+      ),
       bottomNavigationBar: SnakeNavigationBar.color(
         snakeShape: SnakeShape.rectangle,
         currentIndex: _selectedIndex,

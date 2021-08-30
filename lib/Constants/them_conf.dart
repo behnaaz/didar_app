@@ -37,8 +37,24 @@ class AssetImages {
   static const String emailIcon = "assets/images/email.png";
 
   /// Calendar png that used as placeholder when sessions list is empty
-  static const String sessionPlaceholder = "assets/images/empty-session-placeholder.png";
+  static const String sessionPlaceholder =
+      "assets/images/empty-session-placeholder.png";
 
   /// Nice PNG header for Home page
   static const String homeHeader = "assets/images/home-header.png";
+
+  /// Custom (Didar) payment card Icon
+  static const String iconSessionSetting = "assets/images/d-icon-session-setting.png";
+
+  /// Custom (Didar) Work Calendar Icon
+  static const String iconWorkCalendar = "assets/images/d-icon-calendar.png";
+
+  /// Custom (Didar) session Add Icon
+  static const String iconAddSession = "assets/images/d-icon-session.png";
+
+  /// Custom (Didar) Revenue Icon
+  static const String iconRevenue = "assets/images/d-icon-revenue.png";
+
+  /// Custom (Didar) Pay Card Icon
+  static const String iconFinancialStuff = "assets/images/d-icon-pay.png";
 }
