@@ -17,10 +17,10 @@ class UserProfile {
 
   factory UserProfile.fromJson(final json) {
     return UserProfile(
-      fullName: json["name"],
-      email: json["id"],
-      phoneNumber: json["symbol"],
-      age: json["currency"],
+      fullName: json["full_name"],
+      email: json["email"],
+      phoneNumber: json["phone_number"],
+      age: json["age"],
     );
   }
 }

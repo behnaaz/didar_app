@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/Constants/them_conf.dart';
+import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -36,7 +39,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
 // _____________________________________________________________________________
+//         >> Get the stream response and return UserProfile_model<<
+//                          ---------
+  UserProfile parseProfileInfo(responseBody) {
+    return UserProfile.fromJson(responseBody);
+  }
+
+// _____________________________________________________________________________
 //               >> Profile TextField Controllers <<
+//                          ---------
   final TextEditingController emailController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
@@ -59,24 +70,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
             AssetImages.patternAuthBg,
             fit: BoxFit.cover,
           )),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: ColorPallet.grayBg)),
-            child: StreamBuilder(
-                stream: FirestoreServiceDB().userProfile,
-                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.active) {
-                    var userDocument = snapshot.data!;
-                    emailController.text = userDocument["email"];
-                    fullNameController.text = userDocument["full_name"];
-                    ageController.text = userDocument["age"].toString();
-                    phoneNumberController.text =
-                        userDocument["phone_number"].toString();
-                    return Center(
+          StreamBuilder(
+              stream: FirestoreServiceDB().userProfile,
+              builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.active) {
+                  // ___________________________________________________________
+                  //   >> Set the profile value on controllers <<
+                  //                 ---------
+                  UserProfile userProfileInfoDocument =
+                      parseProfileInfo(snapshot.data!);
+                  emailController.text = userProfileInfoDocument.email;
+                  fullNameController.text = userProfileInfoDocument.fullName;
+                  ageController.text = userProfileInfoDocument.age.toString();
+                  phoneNumberController.text =
+                      userProfileInfoDocument.phoneNumber;
+                  // ___________________________________________________________
+                  return Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: ColorPallet.grayBg)),
+                    child: Center(
                       child: ListView(
                         children: [
                           Center(
@@ -340,11 +358,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                    );
-                  }
-                  return CircularProgressIndicator();
-                }),
-          ),
+                    ),
+                  );
+                }
+                return Center(child: CircularProgressIndicator());
+              }),
         ],
       ),
     );
