@@ -1,16 +1,16 @@
 jobs:
   build:
-    name: run testing
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v1
-
-      - name: install dependencies
-        uses: geowatson/flutter-latest@1.0.0
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
         with:
-          args: pub get
-
-      - name: run tests
-        uses: geowatson/flutter-latest@1.0.0
-        with:
-          args: test
+          flutter-version: '2.2.3'
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Analyze
+        run: flutter analyze
+      - name: Run tests
+        run: flutter test
