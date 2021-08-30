@@ -36,8 +36,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    dynamic t = today.weekDay;
-    dynamic tt = today.monthLength;
+    //TODO unused variable, please delete if not needed dynamic t = today.weekDay;
+    //dynamic tt = today.monthLength;
     return Container(
       child: Column(
         children: [

@@ -1,10 +1,6 @@
-import 'package:didar_app/services/auth/authenticatService.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:rxdart/rxdart.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 
@@ -13,8 +9,8 @@ class MockFirebaseUser extends Mock implements User {}
 class MockAuthResult extends Mock implements UserCredential {}
 
 void main() async {
-  MockFirebaseAuth _auth = MockFirebaseAuth();
-  BehaviorSubject<MockFirebaseUser> _user = BehaviorSubject<MockFirebaseUser>();
+  //MockFirebaseAuth _auth = MockFirebaseAuth();
+  //BehaviorSubject<MockFirebaseUser> _user = BehaviorSubject<MockFirebaseUser>();
   // when(_auth.authStateChanges()).thenAnswer((_) => _user);
   // AuthTest authService = AuthTest();
   group('User repository test', () {

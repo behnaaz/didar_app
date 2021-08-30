@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (_formKey.currentState!.validate()) {
         setState(() => _loginButtonIsActive = false);
         try {
-          dynamic result = await authService.signIn(
+           await authService.signIn(
               email: emailController.text, password: passwordController.text);
 
           Get.snackbar("You are login successfully", "Have fun",
