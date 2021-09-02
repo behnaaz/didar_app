@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/screen/calendar_screen.dart';
 import 'package:didar_app/screen/home_screen.dart';

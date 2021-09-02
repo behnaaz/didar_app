@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
@@ -60,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List _socialList = [];
   @override
   Widget build(BuildContext context) {
-    double widthOfScreen = MediaQuery.of(context).size.width;
+    //TODO unused double widthOfScreen = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => save(),
@@ -277,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               children: [
                                                 TextField(
                                                   decoration: InputDecoration(
-                                                    label: Text('لینک //:'),
+                                                   // label: Text('لینک //:'), TODO: This line does not work. Please remove or fix it
                                                     border: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.all(

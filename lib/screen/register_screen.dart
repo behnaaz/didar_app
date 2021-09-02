@@ -271,7 +271,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           style: TextStyle(color: Colors.yellow[800]),
         ),
       );
-      ;
     } else {
       return Padding(
         padding: const EdgeInsets.only(left: 5.0),
