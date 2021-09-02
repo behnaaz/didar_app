@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 // _____________________________________________________________________________
 //         >> Get the stream response and return UserProfile_model<<
 //                          ---------
-  UserProfile parseProfileInfo(responseBody) {
+  UserProfile parseProfileInfo(Object responseBody) {
     return UserProfile.fromJson(responseBody);
   }
 
@@ -52,6 +52,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController ageController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController sessionSubjectController = TextEditingController();
+  final TextEditingController educationalDegreeController = TextEditingController();
+  final TextEditingController bioController = TextEditingController();
 //______________________________________________________________________________
 
   List _socialList = [];
@@ -72,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )),
           StreamBuilder(
               stream: FirestoreServiceDB().userProfile,
-              builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+              builder: (context,  snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   // ___________________________________________________________
                   //   >> Set the profile value on controllers <<
@@ -121,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           width: 18,
                                         )))
                               ],
-                            ),
+                            ),z
                           ),
                           SizedBox(
                             height: 30,
