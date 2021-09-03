@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shamsi_date/extensions.dart';
 
 class Availability {
-  //TODO this class represents a free time slot in the calander
+  //TODO this class represents a free time slot in the calendar
 
   List<TimeSlot> availableTimeSlotList;
   Availability({

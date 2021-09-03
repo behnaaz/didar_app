@@ -1,5 +1,5 @@
 import 'package:didar_app/Constants/them_conf.dart';
-import 'package:didar_app/screen/calendar_screen.dart';
+import 'package:didar_app/screen/calendar_weekly_screen.dart';
 import 'package:didar_app/screen/home_screen.dart';
 import 'package:didar_app/screen/profile_screen.dart';
 import 'package:didar_app/screen/setting_screen.dart';
@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:provider/provider.dart';
+
+
 
 class BottomNavigationWrapper extends StatefulWidget {
   const BottomNavigationWrapper({Key? key}) : super(key: key);
@@ -18,13 +20,14 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 2;
 
-  // ANCHOR : Bottom navigation item widgetOptions
+  // NOTE : Bottom navigation item widgetOptions
   final List<Widget> _widgetOptions = <Widget>[
     ProfileScreen(),
     HomeScreen(),
-    CalendarScreen(),
+    // CalendarScreen(),
+    CalendarWeeklyScreen(),
     SettingScreen(),
   ];
 
