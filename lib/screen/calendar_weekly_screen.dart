@@ -18,7 +18,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
               child: Material(
                 elevation: 3,
                 child: Container(
-                  // padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                  padding: EdgeInsets.only(top: 10),
                   child: Column(
                     children: [
                       Text(
@@ -32,7 +32,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                         height: 10,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -43,7 +43,10 @@ class CalendarWeeklyScreen extends StatelessWidget {
                                 Container(
                                   padding: EdgeInsets.all(3),
                                   margin: EdgeInsets.only(right: 5),
-                                  color: ColorPallet.blue,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: ColorPallet.blue,
+                                  ),
                                   child: Text(
                                     '15 دقیقه',
                                     style: TextStyle(
@@ -109,7 +112,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                       child: ListView(
                         children: [
                           ...List.generate(
-                            23,
+                            24,
                             (index) => Container(
                               padding: EdgeInsets.only(right: 2),
                               height: 60,
@@ -117,31 +120,39 @@ class CalendarWeeklyScreen extends StatelessWidget {
                                 clipBehavior: Clip.none,
                                 children: [
                                   Positioned(
-                                      top: 50,right: 5,
+                                      top: 50,
+                                      right: 5,
                                       child: Container(
                                           color: ColorPallet.lightGrayBg,
-                                          child: Text((_clockTime[index])))),
+                                          child: index < 23
+                                              ? Text((_clockTime[index + 1]))
+                                              : null)),
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            // color: Colors.red,
-                                            // border: Border.all(
-                                            //   color: Colors.white,
-                                            // ),
-                                          ),
-                                        ),
+                                        child: Container(),
                                       ),
                                       ...List.generate(
                                         7,
-                                        (index) => Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                // color: Colors.red,
-                                                border: Border.all(
-                                              color: Colors.white,
-                                            )),
+                                        (i) => Expanded(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              print(
+                                                SolarCalendar.daysOfTheWeek[i] +
+                                                    ' | ' +
+                                                    'from ' +
+                                                    _clockTime[index] +
+                                                    ' to ' +
+                                                    _clockTime[index + 1],
+                                              );
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  // color: Colors.red,
+                                                  border: Border.all(
+                                                color: Colors.white,
+                                              )),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -165,6 +176,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
 
 // REMOVE later
 List<String> _clockTime = [
+  '00:00',
   '01:00',
   '02:00',
   '03:00',
@@ -188,21 +200,5 @@ List<String> _clockTime = [
   '21:00',
   '22:00',
   '23:00',
-  '24:00',
-];
-
-//REMOVE mock info
-List<Color?> _myColors = [
-  Colors.blue,
-  Colors.cyan,
-  Colors.red,
-  Colors.yellow,
-  Colors.pink,
-  Colors.cyan[200],
-  Colors.cyan[100],
-  Colors.cyan[400],
-  Colors.redAccent,
-  Colors.green,
-  Colors.teal,
-  Colors.teal[200],
+  '00:00',
 ];
