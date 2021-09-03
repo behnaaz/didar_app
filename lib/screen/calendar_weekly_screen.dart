@@ -114,22 +114,27 @@ class CalendarWeeklyScreen extends StatelessWidget {
                               padding: EdgeInsets.only(right: 2),
                               height: 60,
                               child: Stack(
-                             clipBehavior: Clip.none,
-                      
+                                clipBehavior: Clip.none,
                                 children: [
-                                  
                                   Positioned(
-                                      top: 50,
-                                      child: Material(color: Colors.white, elevation: 2,
-                                        child: Container(
-                                            color: ColorPallet.lightGrayBg,
-                                            child: Text((_clockTime[index]))),
-                                      )),
-                               
+                                      top: 50,right: 5,
+                                      child: Container(
+                                          color: ColorPallet.lightGrayBg,
+                                          child: Text((_clockTime[index])))),
                                   Row(
                                     children: [
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            // color: Colors.red,
+                                            // border: Border.all(
+                                            //   color: Colors.white,
+                                            // ),
+                                          ),
+                                        ),
+                                      ),
                                       ...List.generate(
-                                        8,
+                                        7,
                                         (index) => Expanded(
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -139,7 +144,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                                             )),
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ],
