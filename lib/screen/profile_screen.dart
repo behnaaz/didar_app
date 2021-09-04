@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
