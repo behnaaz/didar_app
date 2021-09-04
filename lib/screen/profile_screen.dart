@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
@@ -58,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List _socialList = [];
   @override
   Widget build(BuildContext context) {
-    //TODO unused double widthOfScreen = MediaQuery.of(context).size.width;
+    
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => save(),
@@ -275,7 +274,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               children: [
                                                 TextField(
                                                   decoration: InputDecoration(
-                                                   // label: Text('لینک //:'), TODO: This line does not work. Please remove or fix it
+                                             
                                                     border: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.all(
@@ -369,7 +368,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-//NOTE- save the info before User Dispose the !Screen
+//NOTE | save the info before User Dispose the !Screen
   @override
   void dispose() {
     // save();  //FIXME - If you like to save after dispose //

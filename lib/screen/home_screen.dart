@@ -1,6 +1,7 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -40,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                               padding: EdgeInsets.symmetric(horizontal: 15),
                               child: Text(
                                 'جمعه 1 مرداد ماه 1400 | 2021 Friday 21 July',
-                                style: TextStyle(color: Colors.white),
+                                style: MyTextStyle.base.copyWith(color: Colors.white),
                               )))
                     ],
                   ),
@@ -49,12 +50,9 @@ class HomeScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                Text(
-                  'جلسات قابل ارائه خود را ثبت کنید',
-                  style: TextStyle(
-                      color: ColorPallet.textColor,
-                      fontWeight: FontWeight.bold),
-                ),
+                Text('جلسات قابل ارائه خود را ثبت کنید',
+                    style:
+                        MyTextStyle.base.copyWith(fontWeight: FontWeight.bold)),
                 Image.asset(
                   AssetImages.sessionPlaceholder,
                   width: widthOfScreen - 150,
@@ -62,7 +60,9 @@ class HomeScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {},
                   child: Text('ثبت جلسه'),
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith((states) => ColorPallet.red),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                        (states) => ColorPallet.red),
                     padding: MaterialStateProperty.resolveWith(
                         (states) => EdgeInsets.symmetric(horizontal: 40)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(

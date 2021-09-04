@@ -24,7 +24,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                       Text(
                         'تنظیم جلسات اصلی',
                         style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: ColorPallet.textColor),
                       ),
@@ -36,7 +36,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('مرداد 1400'),
+                            Text('مرداد 1400' , style: TextStyle(fontSize: 14),),
                             Row(
                               children: [
                                 Text('زمان استراحت'),
@@ -71,7 +71,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                             child: Text(
                               SolarCalendar.daysOfTheWeek[index],
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 12),
+                              style: TextStyle(fontSize: 10),
                             ),
                           )),
                         ),

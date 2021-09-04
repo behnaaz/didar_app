@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// ::> Colors
+
+
+// ::> Colors  -----------------------------------------------------------------
 class ColorPallet {
   ColorPallet._();
   static const Color blue = Color(0xff00b2e2);
@@ -17,7 +20,7 @@ class ColorPallet {
   static const Color yellow = Color(0xffefe59f);
 }
 
-// ::> Image Address
+// ::> Image Address  ----------------------------------------------------------
 class AssetImages {
   AssetImages._();
 
@@ -44,7 +47,8 @@ class AssetImages {
   static const String homeHeader = "assets/images/home-header.png";
 
   /// Custom (Didar) payment card Icon
-  static const String iconSessionSetting = "assets/images/d-icon-session-setting.png";
+  static const String iconSessionSetting =
+      "assets/images/d-icon-session-setting.png";
 
   /// Custom (Didar) Work Calendar Icon
   static const String iconWorkCalendar = "assets/images/d-icon-calendar.png";
@@ -57,4 +61,28 @@ class AssetImages {
 
   /// Custom (Didar) Pay Card Icon
   static const String iconFinancialStuff = "assets/images/d-icon-pay.png";
+}
+
+// ::> TextStyle  --------------------------------------------------------------
+/// fontSize for :
+/// [xSmall] | 10
+/// [small] | 12
+/// [base]  | 14
+/// [large]  | 16
+/// [pageTile]  | 20
+class MyTextStyle {
+  static final TextStyle base = const TextStyle(
+      fontFamily: "IranSans", color: ColorPallet.textColor, fontSize: 14);
+
+  /// FontSize is '10'
+  static final TextStyle xSmall = base.copyWith(fontSize: 10);
+
+  /// FontSize is '12'
+  static final TextStyle small = base.copyWith(fontSize: 12);
+
+  /// FontSize is '16'
+  static final TextStyle large = base.copyWith(fontSize: 16);
+
+  /// FontSize is '20'
+  static final TextStyle pageTitle = base.copyWith(fontSize: 20);
 }
