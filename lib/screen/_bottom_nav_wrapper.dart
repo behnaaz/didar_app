@@ -45,7 +45,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         // title: Text("DIDAR"),
         title: Image.asset(
           AssetImages.logo,
-          height: 45,
+          height: 40,
         ),
         centerTitle: true,
         leading: IconButton(
@@ -55,20 +55,23 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
             icon: Icon(Icons.exit_to_app)),
         actions: [
           GestureDetector(
+               onTap: () {
+              print('message button clicked');
+            },
             child: Container(
-                width: 100,
+                width: 65,
                 child: Stack(children: [
                   Center(
                       child: Image.asset(
                     AssetImages.emailIcon,
-                    height: 30,
+                    height: 25,
                   )),
                   Positioned(
-                    bottom: 5,
-                    right: 20,
+                    bottom: 9,
+                    right: 8,
                     child: Container(
-                      width: 20,
-                      height: 20,
+                      width: 18,
+                      height: 18,
                       decoration: BoxDecoration(
                           color: ColorPallet.red,
                           borderRadius: BorderRadiusDirectional.circular(50)),
@@ -76,7 +79,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                         child: Text(
                           '2',
                           style: TextStyle(
-                              fontSize: 11, fontWeight: FontWeight.bold),
+                              fontSize: 10, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
