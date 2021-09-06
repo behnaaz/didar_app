@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class FirestoreServiceDB {
-  
-
   // NOTE : AuthService Provider
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
@@ -18,7 +16,7 @@ class FirestoreServiceDB {
     required String phoneNumber,
     required int age,
   }) async {
-  final String uid = _firebaseAuth.currentUser!.uid; 
+    final String uid = _firebaseAuth.currentUser!.uid;
     return await _userProfilesCollection.doc(uid).set({
       'full_name': fullName,
       'email': email,
@@ -33,4 +31,14 @@ class FirestoreServiceDB {
         .doc(_firebaseAuth.currentUser!.uid)
         .snapshots();
   }
+
+  // mock
+
+  String userID() => _firebaseAuth.currentUser!.uid;
+  Stream<DocumentSnapshot> get mockUser {
+    return _userProfilesCollection
+        .doc('d5Uh8J7aF3YCwZo8w3lIynVmSqo2')
+        .snapshots();
+  }
+  
 }

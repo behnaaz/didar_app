@@ -20,7 +20,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 3;
 
   // NOTE : Bottom navigation item widgetOptions
   final List<Widget> _widgetOptions = <Widget>[
