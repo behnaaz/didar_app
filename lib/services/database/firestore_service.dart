@@ -7,20 +7,30 @@ class FirestoreServiceDB {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
   /// Collection Reference of [Users_profile]
-  final CollectionReference _userProfilesCollection =
-      FirebaseFirestore.instance.collection('user_profile');
+  final CollectionReference _userProfilesCollection = FirebaseFirestore.instance.collection('user_profile');
 
-  /// Update UserDate
-  Future updateUserData(userData) async {
+  /// initial user profile data >> I use it in register >> AuthenticationService.signUp
+  Future addUserProfileData(userData) async {
     final String uid = _firebaseAuth.currentUser!.uid;
     return await _userProfilesCollection.doc(uid).set(userData);
   }
 
+  /// Update UserDate
+  Future updateUserData(userData) async {
+    final String uid = _firebaseAuth.currentUser!.uid;
+    return await _userProfilesCollection.doc(uid).set(userData, SetOptions(merge: true));
+  }
+  /// add new social links
+  Future addNewSocialLink(String label ,String link ) async {
+    final String uid = _firebaseAuth.currentUser!.uid;
+    return await _userProfilesCollection.doc(uid).set({
+      'social_links': [{label:link}],
+    }, SetOptions(merge: true));
+  }
+
 // Get the stream snapshot of user profile
   Stream<DocumentSnapshot> get userProfile {
-    return _userProfilesCollection
-        .doc(_firebaseAuth.currentUser!.uid)
-        .snapshots();
+    return _userProfilesCollection.doc(_firebaseAuth.currentUser!.uid).snapshots();
   }
 
   // mock

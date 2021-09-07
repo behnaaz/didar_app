@@ -4,8 +4,10 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -31,8 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ).toJson(),
       );
     } catch (e) {
-      print(
-          'authenticateService : I the credential in null, userInstance has been not created');
+      print('authenticateService : I the credential in null, userInstance has been not created');
     }
     // this will pop the keyboard onPress
     try {
@@ -63,6 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController bioController = TextEditingController();
 
 //______________________________________________________________________________
+  String _dropDownIconValue = 'instagram';
 
   List _socialList = [];
   @override
@@ -86,27 +88,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // ___________________________________________________________
                   //     >> Set the profile value on controllers <<
                   //                 ---------
-                  UserProfile userProfileInfoDocument =
-                      parseProfileInfo(snapshot.data!);
-                  firstNameController.text = userProfileInfoDocument.firstName;
-                  lastNameController.text = userProfileInfoDocument.lastName;
+                  UserProfile userProfileDocument = parseProfileInfo(snapshot.data!);
+                  firstNameController.text = userProfileDocument.firstName;
+                  lastNameController.text = userProfileDocument.lastName;
 
-                  emailController.text = userProfileInfoDocument.email;
-                  phoneNumController.text = userProfileInfoDocument.phoneNumber;
+                  emailController.text = userProfileDocument.email;
+                  phoneNumController.text = userProfileDocument.phoneNumber;
 
-                  bioController.text = userProfileInfoDocument.bio;
-                  eduDegreeController.text = userProfileInfoDocument.eduDegree;
+                  bioController.text = userProfileDocument.bio;
+                  eduDegreeController.text = userProfileDocument.eduDegree;
                   // ___________________________________________________________
 
                   return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: ColorPallet.grayBg)),
+                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: ColorPallet.grayBg)),
                     child: Center(
                       child: ListView(
                         children: [
@@ -117,18 +113,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 CircleAvatar(
                                   radius: 40,
                                   backgroundColor: Colors.white,
-                                  child:
-                                      Image.asset(AssetImages.userEmptyAvatar),
+                                  child: Image.asset(AssetImages.userEmptyAvatar),
                                 ),
                                 Positioned(
                                     bottom: -6,
                                     right: -2,
                                     child: Container(
                                         padding: EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
+                                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
                                         child: Image.asset(
                                           AssetImages.editIcon,
                                           width: 18,
@@ -147,17 +139,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             controller: lastNameController,
                             label: "نام خانوادگی",
                           ),
-                          _profileTextField(
-                              controller: emailController,
-                              label: "ایمیل",
-                              keyboardType: TextInputType.emailAddress),
-                          _profileTextField(
-                              controller: phoneNumController,
-                              label: "شماره موبایل",
-                              keyboardType: TextInputType.phone),
-                          _profileTextField(
-                              controller: eduDegreeController,
-                              label: "سابقه تحصیلی"),
+                          _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
+                          _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
+                          _profileTextField(controller: eduDegreeController, label: "سابقه تحصیلی"),
                           _profileTextField(
                             label: 'درباره من',
                             controller: bioController,
@@ -167,105 +151,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             keyboardType: TextInputType.multiline,
                           ),
                           Text('راه های ارتباطی من'),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ...List.generate(_socialList.length,
-                                    (index) => TextFormField()),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadiusDirectional.circular(50),
-                                      color: ColorPallet.blue),
-                                  child: IconButton(
-                                    color: Colors.white,
-                                    icon: Icon(Icons.add),
-                                    onPressed: () {
-                                      setState(() {
-                                        Get.bottomSheet(
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 15, horizontal: 20),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(15),
-                                                    topRight:
-                                                        Radius.circular(15))),
-                                            height: 200,
-                                            child: Column(
-                                              children: [
-                                                TextField(
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  8)),
-                                                      borderSide: BorderSide(
-                                                          color: Colors.yellow,
-                                                          style:
-                                                              BorderStyle.solid,
-                                                          width: 2),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    DropdownButton(
-                                                      hint: Text('ایکون'),
-                                                      elevation: 12,
-                                                      items: <Icon>[
-                                                        Icon(LineIcons
-                                                            .instagram),
-                                                        Icon(LineIcons.twitter),
-                                                        Icon(
-                                                            LineIcons.linkedin),
-                                                        Icon(
-                                                            LineIcons.facebook),
-                                                        Icon(LineIcons.globe),
-                                                      ].map((Icon value) {
-                                                        return DropdownMenuItem<
-                                                            Icon>(
-                                                          value: value,
-                                                          child: value,
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (icon) {},
-                                                    ),
-                                                    ElevatedButton(
-                                                        onPressed: () {},
-                                                        child: Text('اضافه کن'))
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          isDismissible: true,
-                                        );
-                                        // _socialList.add(value);
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ]),
+                          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            ...List.generate(userProfileDocument.socialLinks.length, (index) => Row(children: [Text(userProfileDocument.socialLinks[index].toString())],)),
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(50), color: ColorPallet.blue),
+                              child: IconButton(
+                                color: Colors.white,
+                                icon: Icon(Icons.add),
+                                onPressed: () {
+                                  Get.bottomSheet(
+                                    AddNewSocialLinksBottomSheet(),
+                                    isDismissible: true,
+                                  );
+                                  // _socialList.add(value);
+                                },
+                              ),
+                            ),
+                          ]),
                           Center(
                             child: OutlinedButton(
                               style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0))),
-                                  side: MaterialStateBorderSide.resolveWith(
-                                      (states) => BorderSide(
-                                          width: 2,
-                                          style: BorderStyle.solid,
-                                          color: Colors.cyan[400]!))),
+                                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
+                                  side: MaterialStateBorderSide.resolveWith((states) => BorderSide(width: 2, style: BorderStyle.solid, color: Colors.cyan[400]!))),
                               child: Text('+ Available time'),
                               onPressed: () {
                                 Get.bottomSheet(
@@ -285,6 +193,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   );
                 }
+                // if the snapshot.status was != active
+                // this will be render on screen
                 return Center(child: CircularProgressIndicator());
               }),
         ],
@@ -310,10 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              borderSide: BorderSide(
-                  color: Colors.yellow, style: BorderStyle.solid, width: 2)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.yellow, style: BorderStyle.solid, width: 2)),
         ),
       ),
     );
@@ -324,5 +231,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void dispose() {
     // save();  //FIXME - If you like to save after dispose //
     super.dispose();
+  }
+}
+
+// /////////////////////////////////////////////////////////////////////////////
+//                        Bottom sheet to add socoal links
+//______________________________________________________________________________
+
+// TODO : This class have to move to single File !!
+class AddNewSocialLinksBottomSheet extends StatefulWidget {
+  const AddNewSocialLinksBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  _AddNewSocialLinksBottomSheetState createState() => _AddNewSocialLinksBottomSheetState();
+}
+
+class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSheet> {
+  String _dropDownIconValue = 'instagram';
+  TextEditingController linkController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+      height: 200,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: DropdownButton<String>(
+                    value: _dropDownIconValue,
+                    icon: Icon(LineIcons.angleDown),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: const TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _dropDownIconValue = newValue!;
+                      });
+                    },
+                    items: <String>['instagram', 'facebook', 'tweeter', 'LinkedIn'].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        onTap: () {
+                          setState(() {
+                            _dropDownIconValue = value;
+                          });
+                        },
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )),
+              Expanded(
+                child: TextField(
+                  controller: linkController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: Colors.yellow, style: BorderStyle.solid, width: 2),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          ElevatedButton(
+              onPressed: () {
+                FirestoreServiceDB().addNewSocialLink(_dropDownIconValue, linkController.text);
+              },
+              child: Text('اضافه کن'))
+        ],
+      ),
+    );
   }
 }
