@@ -7,7 +7,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -64,9 +63,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController bioController = TextEditingController();
 
 //______________________________________________________________________________
-  String _dropDownIconValue = 'instagram';
+  //String _dropDownIconValue = 'instagram';
 
-  List _socialList = [];
+  //List _socialList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
