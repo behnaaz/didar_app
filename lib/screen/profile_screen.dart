@@ -1,6 +1,7 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -138,104 +139,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             height: 30,
                           ),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: TextField(
-                                  controller: firstNameController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4),
-                                    labelText: "نام ",
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow,
-                                            style: BorderStyle.solid,
-                                            width: 2)),
-                                  ))),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: TextField(
-                                  controller: lastNameController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4),
-                                    labelText: "نام خانوادگی",
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow,
-                                            style: BorderStyle.solid,
-                                            width: 2)),
-                                  ))),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: TextField(
-                                  controller: emailController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4),
-                                    labelText: "ایمیل",
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow,
-                                            style: BorderStyle.solid,
-                                            width: 2)),
-                                  ))),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: TextField(
-                                  keyboardType: TextInputType.number,
-                                  controller: phoneNumController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4),
-                                    labelText: "شماره موبایل",
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow,
-                                            style: BorderStyle.solid,
-                                            width: 2)),
-                                  ))),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: TextField(
-                                  keyboardType: TextInputType.phone,
-                                  controller: eduDegreeController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4),
-                                    labelText: "سابقه تحصیلی",
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow,
-                                            style: BorderStyle.solid,
-                                            width: 2)),
-                                  ))),
-                  
-            
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: TextField(
-                              minLines: 3,
-                              maxLines: 8,
-                              maxLength: 500,
-                              keyboardType: TextInputType.multiline,
-                              controller: bioController,
-                              decoration: InputDecoration(
-                                labelText: "درباره من",
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                    borderSide: BorderSide(
-                                        color: Colors.yellow,
-                                        style: BorderStyle.solid,
-                                        width: 2)),
-                              ),
-                            ),
+                          _profileTextField(
+                            controller: firstNameController,
+                            label: "نام",
+                          ),
+                          _profileTextField(
+                            controller: lastNameController,
+                            label: "نام خانوادگی",
+                          ),
+                          _profileTextField(
+                              controller: emailController,
+                              label: "ایمیل",
+                              keyboardType: TextInputType.emailAddress),
+                          _profileTextField(
+                              controller: phoneNumController,
+                              label: "شماره موبایل",
+                              keyboardType: TextInputType.phone),
+                          _profileTextField(
+                              controller: eduDegreeController,
+                              label: "سابقه تحصیلی"),
+                          _profileTextField(
+                            label: 'درباره من',
+                            controller: bioController,
+                            minLines: 3,
+                            maxLines: 5,
+                            maxLength: 500,
+                            keyboardType: TextInputType.multiline,
                           ),
                           Text('راه های ارتباطی من'),
                           Column(
@@ -359,6 +288,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 return Center(child: CircularProgressIndicator());
               }),
         ],
+      ),
+    );
+  }
+
+  Padding _profileTextField({
+    required TextEditingController controller,
+    required String label,
+    TextInputType? keyboardType,
+    int? minLines,
+    int? maxLines,
+    int? maxLength,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: TextField(
+        minLines: minLines,
+        maxLines: maxLines,
+        maxLength: maxLength,
+        keyboardType: keyboardType,
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(
+                  color: Colors.yellow, style: BorderStyle.solid, width: 2)),
+        ),
       ),
     );
   }
