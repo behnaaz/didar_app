@@ -2,35 +2,51 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class UserProfile {
-  final String fullName;
+  final String firstName;
+  final String lastName;
   final String email;
   final String phoneNumber;
-  final int age;
+  /// Educational Degree
+  final String eduDegree;
+  final String bio;
+  final List socialLinks;
+  final List sessionTopics;
 
   UserProfile({
-    //TODO : Profile property should be completed
-    required this.fullName,
+    required this.firstName,
+    required this.lastName,
     required this.email,
     required this.phoneNumber,
-    required this.age,
+    required this.eduDegree,
+    required this.bio,
+    required this.socialLinks,
+    required this.sessionTopics,
   });
 
   factory UserProfile.fromJson(final json) {
     return UserProfile(
-      fullName: json["full_name"],
+      firstName: json["first_name"],
+      lastName: json["last_name"],
       email: json["email"],
       phoneNumber: json["phone_number"],
-      age: json["age"],
+      eduDegree: json["edu_degree"],
+      bio: json["bio"],
+      socialLinks: json["social_links"],
+      sessionTopics: json["session_topics"],
+   
     );
   }
 
-
-   Map<String, Object?> toJson() {
+  Map<String, Object?> toJson() {
     return {
-      'full_name': fullName,
-      'email': email,
-      'phone_number': phoneNumber,
-      'age': age,
+     'first_name': firstName,
+     'last_name': lastName,
+     'email': email,
+     'phone_number': phoneNumber,
+     'edu_degree': eduDegree,
+     'bio': bio,
+     'social_links': socialLinks,
+     'session_topics': sessionTopics,
     };
   }
 }

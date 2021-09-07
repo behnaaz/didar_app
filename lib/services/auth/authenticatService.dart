@@ -29,6 +29,7 @@ class AuthenticationService {
   }
 
   Future<User?> signUp({
+    // FIXME : this should be first and last name and does't need for sign-up
     required String fullName,
     required String email,
     required String password,
@@ -39,13 +40,17 @@ class AuthenticationService {
 
     // TODO : initilize user profile doc for the first time
     UserProfile emptyUser = UserProfile(
-        fullName: fullName,
-        email: credential.user!.email!,
-        phoneNumber: '',
-        age: 0);
+      firstName: fullName,
+      lastName: fullName,
+      email: email,
+      phoneNumber: '',
+      bio: '',
+      eduDegree: '',
+      sessionTopics: [],
+      socialLinks: [],
+    );
     try {
-      await FirestoreServiceDB().updateUserData(
-          emptyUser.toJson());
+      await FirestoreServiceDB().updateUserData(emptyUser.toJson());
     } catch (e) {
       print(
           "authenticateService : I the credential in null, userInstance has been not created");

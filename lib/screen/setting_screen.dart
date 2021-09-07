@@ -1,4 +1,3 @@
-import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -8,8 +7,14 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Column(
+      child: Center(
+          child: Column(
         children: [
+          ElevatedButton(
+              onPressed: () {
+                // FirestoreServiceDB().mockUserData();
+              },
+              child: Icon(LineIcons.commentSlash)),
           Text('setting'),
         ],
       )),

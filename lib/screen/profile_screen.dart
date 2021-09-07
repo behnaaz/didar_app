@@ -16,13 +16,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   /// This function is for saving the User profile info
   /// it will save the info on firestore
   void save() async {
-   
     try {
-      await FirestoreServiceDB().updateUserData(UserProfile(
-        fullName: fullNameController.text,
-        email: emailController.text,
-        phoneNumber: phoneNumberController.text,
-        age: int.parse(ageController.text)).toJson(),
+      await FirestoreServiceDB().updateUserData(
+        UserProfile(
+          firstName: firstNameController.text,
+          lastName: lastNameController.text,
+          email: emailController.text,
+          phoneNumber: phoneNumController.text,
+          bio: bioController.text,
+          eduDegree: eduDegreeController.text,
+          sessionTopics: [],
+          socialLinks: [],
+        ).toJson(),
       );
     } catch (e) {
       print(
@@ -46,15 +51,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 // _____________________________________________________________________________
 //               >> Profile TextField Controllers <<
 //                          ---------
+
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController ageController = TextEditingController();
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController sessionSubjectController =
-      TextEditingController();
-  final TextEditingController educationalDegreeController =
-      TextEditingController();
+  final TextEditingController phoneNumController = TextEditingController();
+
+  final TextEditingController eduDegreeController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
+
 //______________________________________________________________________________
 
   List _socialList = [];
@@ -77,16 +83,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   // ___________________________________________________________
-                  //   >> Set the profile value on controllers <<
+                  //     >> Set the profile value on controllers <<
                   //                 ---------
                   UserProfile userProfileInfoDocument =
                       parseProfileInfo(snapshot.data!);
+                  firstNameController.text = userProfileInfoDocument.firstName;
+                  lastNameController.text = userProfileInfoDocument.lastName;
+
                   emailController.text = userProfileInfoDocument.email;
-                  fullNameController.text = userProfileInfoDocument.fullName;
-                  ageController.text = userProfileInfoDocument.age.toString();
-                  phoneNumberController.text =
-                      userProfileInfoDocument.phoneNumber;
+                  phoneNumController.text = userProfileInfoDocument.phoneNumber;
+
+                  bioController.text = userProfileInfoDocument.bio;
+                  eduDegreeController.text = userProfileInfoDocument.eduDegree;
                   // ___________________________________________________________
+
                   return Container(
                     margin:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -131,10 +141,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: TextField(
-                                  controller: fullNameController,
+                                  controller: firstNameController,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(4),
-                                    labelText: "نام کامل",
+                                    labelText: "نام ",
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                        borderSide: BorderSide(
+                                            color: Colors.yellow,
+                                            style: BorderStyle.solid,
+                                            width: 2)),
+                                  ))),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: TextField(
+                                  controller: lastNameController,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4),
+                                    labelText: "نام خانوادگی",
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8)),
@@ -149,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   controller: emailController,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(4),
-                                    labelText: "Email",
+                                    labelText: "ایمیل",
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8)),
@@ -162,10 +187,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: TextField(
                                   keyboardType: TextInputType.number,
-                                  controller: ageController,
+                                  controller: phoneNumController,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(4),
-                                    labelText: "Age",
+                                    labelText: "شماره موبایل",
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8)),
@@ -178,41 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               child: TextField(
                                   keyboardType: TextInputType.phone,
-                                  controller: phoneNumberController,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4),
-                                    labelText: "شماره تلفن",
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow,
-                                            style: BorderStyle.solid,
-                                            width: 2)),
-                                  ))),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: TextField(
-                                  keyboardType: TextInputType.phone,
-                                  controller:
-                                      null, //TODO: Define Controller and action in database
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4),
-                                    labelText: "موضوع جلسات",
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                        borderSide: BorderSide(
-                                            color: Colors.yellow,
-                                            style: BorderStyle.solid,
-                                            width: 2)),
-                                  ))),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: TextField(
-                                  keyboardType: TextInputType.phone,
-                                  controller:
-                                      null, //TODO: Define Controller and action in database
+                                  controller: eduDegreeController,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(4),
                                     labelText: "سابقه تحصیلی",
@@ -224,6 +215,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             style: BorderStyle.solid,
                                             width: 2)),
                                   ))),
+                  
+            
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: TextField(
