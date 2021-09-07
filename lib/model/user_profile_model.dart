@@ -23,4 +23,14 @@ class UserProfile {
       age: json["age"],
     );
   }
+
+
+   Map<String, Object?> toJson() {
+    return {
+      'full_name': fullName,
+      'email': email,
+      'phone_number': phoneNumber,
+      'age': age,
+    };
+  }
 }

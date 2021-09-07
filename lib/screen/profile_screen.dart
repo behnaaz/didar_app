@@ -16,12 +16,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   /// This function is for saving the User profile info
   /// it will save the info on firestore
   void save() async {
+   
     try {
-      await FirestoreServiceDB().updateUserData(
+      await FirestoreServiceDB().updateUserData(UserProfile(
         fullName: fullNameController.text,
         email: emailController.text,
         phoneNumber: phoneNumberController.text,
-        age: int.parse(ageController.text),
+        age: int.parse(ageController.text)).toJson(),
       );
     } catch (e) {
       print(
@@ -49,15 +50,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController ageController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController sessionSubjectController = TextEditingController();
-  final TextEditingController educationalDegreeController = TextEditingController();
+  final TextEditingController sessionSubjectController =
+      TextEditingController();
+  final TextEditingController educationalDegreeController =
+      TextEditingController();
   final TextEditingController bioController = TextEditingController();
 //______________________________________________________________________________
 
   List _socialList = [];
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => save(),
@@ -72,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )),
           StreamBuilder(
               stream: FirestoreServiceDB().userProfile,
-              builder: (context,  snapshot) {
+              builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   // ___________________________________________________________
                   //   >> Set the profile value on controllers <<
@@ -225,10 +227,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: TextField(
-                              minLines: 3, maxLines: 8, maxLength: 500,
+                              minLines: 3,
+                              maxLines: 8,
+                              maxLength: 500,
                               keyboardType: TextInputType.multiline,
-                              controller:
-                                  null, //TODO: Define Controller and action in database
+                              controller: bioController,
                               decoration: InputDecoration(
                                 labelText: "درباره من",
                                 border: OutlineInputBorder(
@@ -274,7 +277,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               children: [
                                                 TextField(
                                                   decoration: InputDecoration(
-                                             
                                                     border: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.all(

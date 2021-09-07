@@ -1,9 +1,9 @@
-
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/screen/register_screen.dart';
 import 'package:didar_app/screen/login_screen.dart';
 import 'package:didar_app/services/auth/AuthWrapper.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
+import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,11 +27,14 @@ class DidarApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-            fontFamily: "IranSans",scaffoldBackgroundColor: ColorPallet.lightGrayBg,
-            // primarySwatch: Colors.blue,
-            appBarTheme: AppBarTheme(color: Colors.white ,iconTheme: IconThemeData(color: ColorPallet.grayBg)),
-            // primaryColor: Colors.blue[900],
-            ),
+          fontFamily: "IranSans",
+          scaffoldBackgroundColor: ColorPallet.lightGrayBg,
+          // primarySwatch: Colors.blue,
+          appBarTheme: AppBarTheme(
+              color: Colors.white,
+              iconTheme: IconThemeData(color: ColorPallet.grayBg)),
+          // primaryColor: Colors.blue[900],
+        ),
         initialRoute: '/',
         routes: {
           '/': (context) => AuthWrapper(),

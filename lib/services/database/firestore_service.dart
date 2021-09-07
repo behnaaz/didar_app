@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:didar_app/model/user_profile_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+
+
 
 class FirestoreServiceDB {
   // NOTE : AuthService Provider
@@ -10,19 +13,11 @@ class FirestoreServiceDB {
       FirebaseFirestore.instance.collection('user_profile');
 
   /// Update UserDate
-  Future updateUserData({
-    required String fullName,
-    required String email,
-    required String phoneNumber,
-    required int age,
-  }) async {
+  Future updateUserData(userData
+
+  ) async {
     final String uid = _firebaseAuth.currentUser!.uid;
-    return await _userProfilesCollection.doc(uid).set({
-      'full_name': fullName,
-      'email': email,
-      'phone_number': phoneNumber,
-      'age': age,
-    });
+    return await _userProfilesCollection.doc(uid).set(userData);
   }
 
 // Get the stream snapshot of user profile
@@ -31,14 +26,4 @@ class FirestoreServiceDB {
         .doc(_firebaseAuth.currentUser!.uid)
         .snapshots();
   }
-
-  // mock
-
-  String userID() => _firebaseAuth.currentUser!.uid;
-  Stream<DocumentSnapshot> get mockUser {
-    return _userProfilesCollection
-        .doc('d5Uh8J7aF3YCwZo8w3lIynVmSqo2')
-        .snapshots();
-  }
-  
 }
