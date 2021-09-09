@@ -61,6 +61,8 @@ class AssetImages {
 
   /// Custom (Didar) Pay Card Icon
   static const String iconFinancialStuff = "assets/images/d-icon-pay.png";
+  /// Custom (Didar) statistic chart  Icon
+  static const String iconChartStatistic = "assets/images/d-statistics-chart.png";
 }
 
 // ::> TextStyle  --------------------------------------------------------------

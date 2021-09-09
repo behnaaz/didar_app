@@ -63,9 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController bioController = TextEditingController();
 
 //______________________________________________________________________________
-  //String _dropDownIconValue = 'instagram';
-
-  //List _socialList = [];
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,7 +232,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 // /////////////////////////////////////////////////////////////////////////////
-//                        Bottom sheet to add socoal links
+//                        Bottom sheet to add social links
 //______________________________________________________________________________
 
 // TODO : This class have to move to single File !!

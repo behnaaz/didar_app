@@ -9,18 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:provider/provider.dart';
 
-
-
 class BottomNavigationWrapper extends StatefulWidget {
   const BottomNavigationWrapper({Key? key}) : super(key: key);
 
   @override
-  State<BottomNavigationWrapper> createState() =>
-      _BottomNavigationWrapperState();
+  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 3;
 
   // NOTE : Bottom navigation item widgetOptions
   final List<Widget> _widgetOptions = <Widget>[
@@ -41,6 +38,40 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: [
+            SafeArea(
+              child: Container(
+                height: 160,
+                color: Colors.white,
+                child: Center(
+                  child: Image.asset(
+                    AssetImages.logo,
+                    height: 60,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+                child: Container(
+              color: ColorPallet.blue,
+              child: ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text('درباره ما' , style: MyTextStyle.large.copyWith(color: Colors.white),),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text('تماس با ما' , style: MyTextStyle.large.copyWith(color: Colors.white),),
+                  )
+                ],
+              ),
+            ))
+          ],
+        ),
+      ),
       appBar: AppBar(
         // title: Text("DIDAR"),
         title: Image.asset(
@@ -55,7 +86,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
             icon: Icon(Icons.exit_to_app)),
         actions: [
           GestureDetector(
-               onTap: () {
+            onTap: () {
               print('message button clicked');
             },
             child: Container(
@@ -72,14 +103,11 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                     child: Container(
                       width: 18,
                       height: 18,
-                      decoration: BoxDecoration(
-                          color: ColorPallet.red,
-                          borderRadius: BorderRadiusDirectional.circular(50)),
+                      decoration: BoxDecoration(color: ColorPallet.red, borderRadius: BorderRadiusDirectional.circular(50)),
                       child: Center(
                         child: Text(
                           '2',
-                          style: TextStyle(
-                              fontSize: 10, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
