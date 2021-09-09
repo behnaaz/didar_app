@@ -1,7 +1,7 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/screen/calendar_weekly_screen.dart';
 import 'package:didar_app/screen/home_screen.dart';
-import 'package:didar_app/screen/profile_screen.dart';
+import 'package:didar_app/screen/profile/profile_screen.dart';
 import 'package:didar_app/screen/setting_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/cupertino.dart';

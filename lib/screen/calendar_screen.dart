@@ -1,3 +1,4 @@
+import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/screen/day_events_screen.dart';
 import 'package:didar_app/services/calendar/solar_calendar.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,7 +70,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 return Column(
                   children: [
                     Row(
-                      textDirection: TextDirection.rtl,//TODO It is better to have a separate class for example VisualSettings and define all such settings in one place there, font size, ...
+                      textDirection: TextDirection.rtl,
                       children: List.generate(
                         7,
                         (index) {
@@ -78,9 +79,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               padding: EdgeInsets.symmetric(vertical: 8),
                               child: Text(SolarCalendar.daysOfTheWeek[index],
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 11,//TODO please define a constant for example CHILD_FONT_SIZE
-                                  )),
+                                  style:MyTextStyle.xSmall),
                             ),
                           );
                         },

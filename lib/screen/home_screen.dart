@@ -8,7 +8,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // final authService = Provider.of<AuthenticationService>(context);
     double widthOfScreen = MediaQuery.of(context).size.width;
-    //TODO unused double heightOfScreen = MediaQuery.of(context).size.height;
     print(widthOfScreen);
     return Container(
       child: Center(

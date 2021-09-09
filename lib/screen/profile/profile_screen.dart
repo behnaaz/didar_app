@@ -1,5 +1,6 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
+import 'package:didar_app/screen/profile/b_sheet_new_social_link.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -63,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController bioController = TextEditingController();
 
 //______________________________________________________________________________
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,7 +149,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Text('راه های ارتباطی من'),
                           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            ...List.generate(userProfileDocument.socialLinks.length, (index) => Row(children: [Text(userProfileDocument.socialLinks[index].toString())],)),
+                            ...List.generate(
+                                userProfileDocument.socialLinks.length,
+                                (index) => Row(
+                                      children: [Text(userProfileDocument.socialLinks[index].toString())],
+                                    )),
                             Container(
                               margin: EdgeInsets.only(top: 10),
                               decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(50), color: ColorPallet.blue),
@@ -228,84 +232,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void dispose() {
     // save();  //FIXME - If you like to save after dispose //
     super.dispose();
-  }
-}
-
-// /////////////////////////////////////////////////////////////////////////////
-//                        Bottom sheet to add social links
-//______________________________________________________________________________
-
-// TODO : This class have to move to single File !!
-class AddNewSocialLinksBottomSheet extends StatefulWidget {
-  const AddNewSocialLinksBottomSheet({Key? key}) : super(key: key);
-
-  @override
-  _AddNewSocialLinksBottomSheetState createState() => _AddNewSocialLinksBottomSheetState();
-}
-
-class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSheet> {
-  String _dropDownIconValue = 'instagram';
-  TextEditingController linkController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
-      height: 200,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: DropdownButton<String>(
-                    value: _dropDownIconValue,
-                    icon: Icon(LineIcons.angleDown),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _dropDownIconValue = newValue!;
-                      });
-                    },
-                    items: <String>['instagram', 'facebook', 'tweeter', 'LinkedIn'].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        onTap: () {
-                          setState(() {
-                            _dropDownIconValue = value;
-                          });
-                        },
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  )),
-              Expanded(
-                child: TextField(
-                  controller: linkController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Colors.yellow, style: BorderStyle.solid, width: 2),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          ElevatedButton(
-              onPressed: () {
-                FirestoreServiceDB().addNewSocialLink(_dropDownIconValue, linkController.text);
-              },
-              child: Text('اضافه کن'))
-        ],
-      ),
-    );
   }
 }
