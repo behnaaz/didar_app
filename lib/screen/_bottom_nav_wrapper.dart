@@ -2,6 +2,7 @@ import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/screen/calendar_weekly_screen.dart';
 import 'package:didar_app/screen/home_screen.dart';
 import 'package:didar_app/screen/profile/profile_screen.dart';
+import 'package:didar_app/screen/sessions_screen.dart';
 import 'package:didar_app/screen/setting_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,11 +18,12 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 1;
 
   // NOTE : Bottom navigation item widgetOptions
   final List<Widget> _widgetOptions = <Widget>[
     ProfileScreen(),
+    SessionsScreen(),
     HomeScreen(),
     // CalendarScreen(),
     CalendarWeeklyScreen(),
@@ -139,6 +141,10 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
           BottomNavigationBarItem(
             label: "Profile",
             icon: Icon(Icons.person),
+          ),
+          BottomNavigationBarItem(
+            label: "sessions",
+            icon: Icon(Icons.chair_rounded),
           ),
           BottomNavigationBarItem(
             label: "Home",
