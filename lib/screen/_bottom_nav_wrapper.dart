@@ -1,6 +1,7 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/screen/calendar_weekly_screen.dart';
 import 'package:didar_app/screen/home_screen.dart';
+import 'package:didar_app/screen/message.dart';
 import 'package:didar_app/screen/profile/profile_screen.dart';
 import 'package:didar_app/screen/sessions_screen.dart';
 import 'package:didar_app/screen/setting_screen.dart';
@@ -8,6 +9,7 @@ import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
@@ -62,11 +64,17 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: Text('درباره ما' , style: MyTextStyle.large.copyWith(color: Colors.white),),
+                    child: Text(
+                      'درباره ما',
+                      style: MyTextStyle.large.copyWith(color: Colors.white),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: Text('تماس با ما' , style: MyTextStyle.large.copyWith(color: Colors.white),),
+                    child: Text(
+                      'تماس با ما',
+                      style: MyTextStyle.large.copyWith(color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -89,6 +97,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         actions: [
           GestureDetector(
             onTap: () {
+              Get.to(() => Message());
               print('message button clicked');
             },
             child: Container(
