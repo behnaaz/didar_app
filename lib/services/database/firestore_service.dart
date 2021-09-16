@@ -19,12 +19,17 @@ class FirestoreServiceDB {
     final String uid = _firebaseAuth.currentUser!.uid;
     return await _userProfilesCollection.doc(uid).set(userData, SetOptions(merge: true));
   }
+
   /// add new social links
-  Future addNewSocialLink(String label ,String link ) async {
+  Future addNewSocialLink(String label, String link, List socialList) async {
+    socialList.add({label: link});
+    
     final String uid = _firebaseAuth.currentUser!.uid;
-    return await _userProfilesCollection.doc(uid).set({
-      'social_links': [{label:link}],
-    }, SetOptions(merge: true));
+    return await _userProfilesCollection.doc(uid).update({
+      'social_links': socialList
+       
+      ,
+    });
   }
 
 // Get the stream snapshot of user profile

@@ -162,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 icon: Icon(Icons.add),
                                 onPressed: () {
                                   Get.bottomSheet(
-                                    AddNewSocialLinksBottomSheet(),
+                                    AddNewSocialLinksBottomSheet(socialList: userProfileDocument.socialLinks),
                                     isDismissible: true,
                                   );
                                   // _socialList.add(value);

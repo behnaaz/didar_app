@@ -3,15 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
 class AddNewSocialLinksBottomSheet extends StatefulWidget {
-  const AddNewSocialLinksBottomSheet({Key? key}) : super(key: key);
+  final List socialList;
+
+  const AddNewSocialLinksBottomSheet({Key? key,required this.socialList}) : super(key: key);
+ 
 
   @override
-  _AddNewSocialLinksBottomSheetState createState() => _AddNewSocialLinksBottomSheetState();
+  _AddNewSocialLinksBottomSheetState createState() => _AddNewSocialLinksBottomSheetState(socialList);
 }
 
 class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSheet> {
+  final List socialList;
   String _dropDownIconValue = 'instagram';
   TextEditingController linkController = TextEditingController();
+
+  _AddNewSocialLinksBottomSheetState(this.socialList);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,7 +73,7 @@ class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSh
           ),
           ElevatedButton(
               onPressed: () {
-                FirestoreServiceDB().addNewSocialLink(_dropDownIconValue, linkController.text);
+                FirestoreServiceDB().addNewSocialLink(_dropDownIconValue, linkController.text,socialList);
               },
               child: Text('اضافه کن'))
         ],
