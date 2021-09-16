@@ -17,107 +17,113 @@ class _SessionsScreenState extends State<SessionsScreen> {
   int _makeupSessionNum = 1;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: ListView(children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Text(
-                  '**برای دوره های 1 و 4 جلسه ای کلاس جبرانی برگزار نمیشود**',
-                  style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'برای دوره های 8 جلسه ای کلاس جبرانی برگزار میکنم',
-                      style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    Switch(
-                        value: makeupClassSwitch,
-                        onChanged: (value) {
-                          setState(() {
-                            makeupClassSwitch = value;
-                          });
-                        })
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'جلسه جبرانی تا چند روز بعد از جلسه اصلی برگزار میشود؟',
-                      style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    DropdownButton(
-                      value: _makeupSessionNum,
-                      onChanged: (int? newValue) {
-                        setState(() {
-                          _makeupSessionNum = newValue!;
-                        });
-                      },
-                      borderRadius: BorderRadius.circular(10),
-                      items: <int>[1, 2, 3, 4].map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          onTap: () {
-                            setState(() {
-                              _makeupSessionNum = value;
-                            });
-                          },
-                          value: value,
-                          child: Text(value.toString()),
-                        );
-                      }).toList(),
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-        ...List.generate(
-          5,
-          (index) => GestureDetector(
-            onTap: () {
-              Get.bottomSheet(SessionEditBS(), isDismissible: true, isScrollControlled: true, useRootNavigator: true, backgroundColor: Colors.white, ignoreSafeArea: false);
-            },
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: 5),
-              padding: EdgeInsets.symmetric(vertical: 25, horizontal: 10),
-              decoration: BoxDecoration(color: _c[index], borderRadius: BorderRadius.circular(10)),
-              child: Row(
+    return Scaffold(
+      floatingActionButton: FloatingActionButton( child : Icon(Icons.add), onPressed: () {
+        // TODO : this is temporary it should navigate this to New Session Screen
+        Get.to(() => SessionEditBS());
+      }),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: ListView(children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: [
                   Text(
-                    'موسیقی',
-                    style: MyTextStyle.base,
+                    '**برای دوره های 1 و 4 جلسه ای کلاس جبرانی برگزار نمیشود**',
+                    style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(border: Border.symmetric(vertical: BorderSide(color: ColorPallet.textColor))),
-                      child: Text(
-                        'آواز تخصصی',
-                        style: MyTextStyle.base,
-                      )),
-                  Text(
-                    '45 دقیقه',
-                    style: MyTextStyle.base,
+                  SizedBox(
+                    height: 10,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'برای دوره های 8 جلسه ای کلاس جبرانی برگزار میکنم',
+                        style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      Switch(
+                          value: makeupClassSwitch,
+                          onChanged: (value) {
+                            setState(() {
+                              makeupClassSwitch = value;
+                            });
+                          })
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'جلسه جبرانی تا چند روز بعد از جلسه اصلی برگزار میشود؟',
+                        style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      DropdownButton(
+                        value: _makeupSessionNum,
+                        onChanged: (int? newValue) {
+                          setState(() {
+                            _makeupSessionNum = newValue!;
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(10),
+                        items: <int>[1, 2, 3, 4].map<DropdownMenuItem<int>>((int value) {
+                          return DropdownMenuItem<int>(
+                            onTap: () {
+                              setState(() {
+                                _makeupSessionNum = value;
+                              });
+                            },
+                            value: value,
+                            child: Text(value.toString()),
+                          );
+                        }).toList(),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
           ),
-        ),
-      ]),
+          ...List.generate(
+            5,
+            (index) => GestureDetector(
+              onTap: () {
+                Get.bottomSheet(SessionEditBS(), isDismissible: true, isScrollControlled: true, useRootNavigator: true, backgroundColor: Colors.white, ignoreSafeArea: false);
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 10),
+                decoration: BoxDecoration(color: _c[index], borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  children: [
+                    Text(
+                      'موسیقی',
+                      style: MyTextStyle.base,
+                    ),
+                    Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(border: Border.symmetric(vertical: BorderSide(color: ColorPallet.textColor))),
+                        child: Text(
+                          'آواز تخصصی',
+                          style: MyTextStyle.base,
+                        )),
+                    Text(
+                      '45 دقیقه',
+                      style: MyTextStyle.base,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ]),
+      ),
     );
   }
 }
@@ -370,39 +376,47 @@ class _SessionEditBSState extends State<SessionEditBS> {
                           Text(
                             'انتخاب رنگ',
                             style: MyTextStyle.base,
-                          ),Row(children: [
-                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
                                 width: 20,
                                 height: 20,
                                 color: ColorPallet.lightRed,
                               ),
-                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
                                 width: 20,
                                 height: 20,
                                 color: ColorPallet.violet,
                               ),
-                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
                                 width: 20,
                                 height: 20,
                                 color: ColorPallet.pink,
                               ),
-                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
                                 width: 20,
                                 height: 20,
                                 color: ColorPallet.yellow,
                               ),
-                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
                                 width: 20,
                                 height: 20,
                                 color: ColorPallet.green,
                               ),
-                            
-                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
                                 width: 20,
                                 height: 20,
                                 color: ColorPallet.lightBlue,
                               )
-                            ],)
+                            ],
+                          )
                         ],
                       )
                     ],
