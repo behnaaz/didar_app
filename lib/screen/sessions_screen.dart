@@ -58,13 +58,15 @@ class _SessionsScreenState extends State<SessionsScreen> {
                       'جلسه جبرانی تا چند روز بعد از جلسه اصلی برگزار میشود؟',
                       style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    DropdownButton(value: _makeupSessionNum,
-                     onChanged: (int? newValue) {
+                    DropdownButton(
+                      value: _makeupSessionNum,
+                      onChanged: (int? newValue) {
                         setState(() {
                           _makeupSessionNum = newValue!;
                         });
-                      },borderRadius: BorderRadius.circular(10),
-                      items: <int>[1,2,3,4].map<DropdownMenuItem<int>>((int value) {
+                      },
+                      borderRadius: BorderRadius.circular(10),
+                      items: <int>[1, 2, 3, 4].map<DropdownMenuItem<int>>((int value) {
                         return DropdownMenuItem<int>(
                           onTap: () {
                             setState(() {
@@ -359,6 +361,50 @@ class _SessionEditBSState extends State<SessionEditBS> {
                           // ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'انتخاب رنگ',
+                            style: MyTextStyle.base,
+                          ),Row(children: [
+                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.lightRed,
+                              ),
+                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.violet,
+                              ),
+                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.pink,
+                              ),
+                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.yellow,
+                              ),
+                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.green,
+                              ),
+                            
+                              Container(margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.lightBlue,
+                              )
+                            ],)
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -384,18 +430,6 @@ class _SessionEditBSState extends State<SessionEditBS> {
                         ),
                       ),
                     ),
-                    // child: Container(
-                    //   padding: EdgeInsets.symmetric(vertical: 15),
-                    //   color: Colors.blue[700],
-                    //   child: Center(
-                    //     child: Text(
-                    //       'ذخیره',
-                    //       style: MyTextStyle.large.copyWith(
-                    //         color: Colors.white,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   )
                 ],
               ),
