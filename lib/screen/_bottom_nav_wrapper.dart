@@ -1,5 +1,4 @@
 import 'package:didar_app/Constants/them_conf.dart';
-import 'package:didar_app/screen/calendar_screen.dart';
 import 'package:didar_app/screen/calendar_weekly_screen.dart';
 import 'package:didar_app/screen/home_screen.dart';
 import 'package:didar_app/screen/message.dart';
