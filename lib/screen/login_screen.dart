@@ -26,35 +26,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
   ///Login Action Button
   void loginButton(authService) async {
-    ConnectivityResult connectivityResult =
-        await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
+    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
       // we have internet connection
       if (_formKey.currentState!.validate()) {
         setState(() => _loginButtonIsActive = false);
         try {
-           await authService.signIn(
-              email: emailController.text, password: passwordController.text);
+          await authService.signIn(email: emailController.text, password: passwordController.text);
 
-          Get.snackbar("You are login successfully", "Have fun",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.blue[200],
-              borderRadius: 10);
+          Get.snackbar("You are login successfully", "Have fun", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
         } on FirebaseAuthException catch (e) {
-          Get.snackbar("Sorry", "${e.message}",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.red[400],
-              borderRadius: 10);
+          Get.snackbar("Sorry", "${e.message}", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
           setState(() => _loginButtonIsActive = true);
         }
       }
     } else if (connectivityResult == ConnectivityResult.none) {
       // there is NO internet connection
-      Get.snackbar("Connection Failed", "Check your internet Connection",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.grey,
-          borderRadius: 10);
+      Get.snackbar("Connection Failed", "Check your internet Connection", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.grey, borderRadius: 10);
     }
   }
 
@@ -72,8 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
           )),
           SafeArea(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
               child: Form(
                 key: _formKey,
                 child: ListView(
@@ -83,10 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: ColorPallet.grayBg)),
+                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30), border: Border.all(color: ColorPallet.grayBg)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -116,32 +100,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return "pls Enter password";
                                 }
                               }),
-                         
                           SizedBox(
                             height: 30,
                           ),
                           ElevatedButton(
                             style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                               ),
                             ),
-                            onPressed: _loginButtonIsActive
-                                ? () => loginButton(authService)
-                                : null,
+                            onPressed: _loginButtonIsActive ? () => loginButton(authService) : null,
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
+                              padding: const EdgeInsets.symmetric(vertical: 15.0),
                               child: _loginButtonIsActive
                                   ? Text(
                                       "ورود",
                                       style: TextStyle(fontSize: 16),
                                     )
-                                  : CircularProgressIndicator(
-                                      color: Colors.black,
+                                  : Container(
+                                      height: 14,
+                                      width: 14,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.black,
+                                      ),
                                     ),
                             ),
                           ),
