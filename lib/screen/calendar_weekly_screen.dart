@@ -1,13 +1,40 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:didar_app/services/calendar/solar_calendar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:shamsi_date/extensions.dart';
 
-class CalendarWeeklyScreen extends StatelessWidget {
+class CalendarWeeklyScreen extends StatefulWidget {
   const CalendarWeeklyScreen({Key? key}) : super(key: key);
 
   @override
+  State<CalendarWeeklyScreen> createState() => _CalendarWeeklyScreenState();
+}
+
+class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
+  // instance of my solar calendar
+  SolarCalendar cal = new SolarCalendar();
+  //TODO - initial page must be implement
+  int _currentIndex = 999;
+  late PageController _pageViewController = PageController(initialPage: _currentIndex);
+  late Jalali now;
+  late Jalali date = now;
+  @override
+  void initState() {
+    now = cal.now();
+    logger.d(now); //REMOVE
+    Jalali date = now;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // logger.i(now.day);
+    // logger.i(now.weekDay);
+    // double numberToRound = 5.3;
+    // print(numberToRound.round());
+    // print( roundedX);
     return Container(
       color: ColorPallet.lightGrayBg,
       child: Center(
@@ -23,10 +50,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                     children: [
                       Text(
                         'تنظیم جلسات اصلی',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: ColorPallet.textColor),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: ColorPallet.textColor),
                       ),
                       SizedBox(
                         height: 10,
@@ -36,7 +60,11 @@ class CalendarWeeklyScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('مرداد 1400' , style: TextStyle(fontSize: 14),),
+                            Text(
+                              //ANCHOR - Year and month of calendar
+                              SolarCalendar.monthNameList[date.month - 1] + ' ' + date.year.toString(),
+                              style: TextStyle(fontSize: 14),
+                            ),
                             Row(
                               children: [
                                 Text('زمان استراحت'),
@@ -49,8 +77,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                                   ),
                                   child: Text(
                                     '15 دقیقه',
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.white),
+                                    style: TextStyle(fontSize: 12, color: Colors.white),
                                   ),
                                 )
                               ],
@@ -84,15 +111,14 @@ class CalendarWeeklyScreen extends StatelessWidget {
                             7,
                             (index) => Expanded(
                                 child: Container(
-                              padding: EdgeInsets.all(5),
+                              padding: EdgeInsets.symmetric(vertical: 6),
                               margin: EdgeInsets.symmetric(horizontal: 12),
-                              decoration: BoxDecoration(
-                                  // color: Colors.yellow,
-                                  borderRadius: BorderRadius.circular(50)),
+                              decoration: BoxDecoration(color: now == date.addDays(index) ? ColorPallet.blue.withOpacity(.6) : null, borderRadius: BorderRadius.circular(50)),
                               child: Text(
-                                (index + 1).toString(),
+                                // ANCHOR : weekly days
+                                (date.addDays(index).day).toString(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 12),
+                                style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
                               ),
                             )),
                           ),
@@ -104,8 +130,18 @@ class CalendarWeeklyScreen extends StatelessWidget {
               ),
             ),
             Expanded(
+              //ANCHOR : pageView builder ---------------------
               child: PageView.builder(
-                  itemCount: 12,
+                  controller: _pageViewController,
+                  onPageChanged: (index) {
+                    print('pageView page index : $index'); //REMOVE
+                    setState(() {
+                      _currentIndex < index ? date = date.addDays(7) : date = date.addDays(-7);
+                      _currentIndex = index;
+                      logger.d(date); //REMOVE
+                    });
+                  },
+                  // itemCount: 12,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       // color:ColorPallet.lightGrayBg,
@@ -119,14 +155,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                               child: Stack(
                                 clipBehavior: Clip.none,
                                 children: [
-                                  Positioned(
-                                      top: 50,
-                                      right: 5,
-                                      child: Container(
-                                          color: ColorPallet.lightGrayBg,
-                                          child: index < 23
-                                              ? Text((SolarCalendar.clockTime[index + 1]))
-                                              : null)),
+                                  Positioned(top: 50, right: 5, child: Container(color: ColorPallet.lightGrayBg, child: index < 23 ? Text((SolarCalendar.clockTime[index + 1])) : null)),
                                   Row(
                                     children: [
                                       Expanded(
@@ -138,12 +167,7 @@ class CalendarWeeklyScreen extends StatelessWidget {
                                           child: GestureDetector(
                                             onTap: () {
                                               print(
-                                                SolarCalendar.daysOfTheWeek[i] +
-                                                    ' | ' +
-                                                    'from ' +
-                                                    SolarCalendar.clockTime[index] +
-                                                    ' to ' +
-                                                    SolarCalendar.clockTime[index + 1],
+                                                SolarCalendar.daysOfTheWeek[i] + ' | ' + 'from ' + SolarCalendar.clockTime[index] + ' to ' + SolarCalendar.clockTime[index + 1],
                                               );
                                             },
                                             child: Container(
@@ -173,4 +197,3 @@ class CalendarWeeklyScreen extends StatelessWidget {
     );
   }
 }
-

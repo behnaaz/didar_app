@@ -12,6 +12,15 @@ class SolarCalendar {
     'پنجشنبه',
     'جمعه',
   ];
+  static const List<String> daysOfTheWeekShort = [
+    'ش',
+    'ی',
+    'د',
+    'س',
+    'چ',
+    'پ',
+    'ج',
+  ];
 
   static const List<String> monthNameList = [
     'فروردین',
@@ -58,4 +67,6 @@ class SolarCalendar {
   Jalali now() {
     return Jalali.now();
   }
+
+  
 }
