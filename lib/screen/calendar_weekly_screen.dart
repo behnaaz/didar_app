@@ -24,7 +24,6 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
   void initState() {
     now = cal.now();
     logger.d(now); //REMOVE
-    Jalali date = now;
     super.initState();
   }
 

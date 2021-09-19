@@ -1,6 +1,5 @@
 import 'package:didar_app/Constants/them_conf.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 
 class SettingItem {
   final String icon;
