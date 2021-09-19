@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
+
 import 'package:provider/provider.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
