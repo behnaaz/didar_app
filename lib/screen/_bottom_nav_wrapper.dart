@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
@@ -22,6 +23,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
   int _selectedIndex = 3;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // NOTE : Bottom navigation item widgetOptions
   final List<Widget> _widgetOptions = <Widget>[
@@ -43,6 +45,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
+      key: _scaffoldKey,
       drawer: Drawer(
         child: Column(
           children: [
@@ -76,6 +79,29 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                       'تماس با ما',
                       style: MyTextStyle.large.copyWith(color: Colors.white),
                     ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      await authService.signOut();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.exit_to_app,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'خروج از اکانت',
+                            style: MyTextStyle.large.copyWith(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -91,10 +117,10 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         ),
         centerTitle: true,
         leading: IconButton(
-            onPressed: () async {
-              await authService.signOut();
+            onPressed: () {
+              _scaffoldKey.currentState!.openDrawer();
             },
-            icon: Icon(Icons.exit_to_app)),
+            icon: Icon(Icons.more_vert)),
         actions: [
           GestureDetector(
             onTap: () {
