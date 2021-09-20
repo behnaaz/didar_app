@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               email: emailController.text,
               password: passwordController.text);
           Navigator.pop(context);
-          Get.snackbar("خوش آمدید", "ثبت نام با موفقیت آمیز بود!",
+          Get.snackbar("خوش آمدید", "ثبت نام موفقیت آمیز بود!",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.blue[200],
               borderRadius: 10);
