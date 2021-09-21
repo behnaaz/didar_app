@@ -187,13 +187,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             keyboardType: TextInputType.multiline,
                           ),
                           Text('راه های ارتباطی من'),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                             ...List.generate(
                                 userProfileDocument.socialLinks.length,
-                                (index) => Row(
-                                      // Text(userProfileDocument.socialLinks[index].toString())
-                                      children: _socialListChild(userProfileDocument.socialLinks[index]),
-                                    )),
+                                (index) => Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                     
+                                    onTap: () {
+                                      print('tapp');
+                                    },
+                                    hoverColor: Colors.amber,
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(vertical: 5),
+                                      child: Row(
+                                        // Text(userProfileDocument.socialLinks[index].toString())
+                                        children: _socialListChild(userProfileDocument.socialLinks[index]),
+                                      ),
+                                    ),
+                                  ),
+                                )),
                             Container(
                               margin: EdgeInsets.only(top: 10),
                               decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(50), color: ColorPallet.blue),
