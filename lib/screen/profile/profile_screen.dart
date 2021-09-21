@@ -16,7 +16,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String? _dropDownChooseSession ;
+  String? _dropDownChooseSession;
+  List _socialLinks = [];
 
   /// This function is for saving the User profile info
   /// it will save the info on firestore
@@ -31,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           bio: bioController.text,
           eduDegree: eduDegreeController.text,
           sessionTopics: [],
-          socialLinks: [],
+          socialLinks: _socialLinks,
         ).toJson(),
       );
     } catch (e) {
@@ -97,6 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   bioController.text = userProfileDocument.bio;
                   eduDegreeController.text = userProfileDocument.eduDegree;
+                  _socialLinks = userProfileDocument.socialLinks;
                   // ___________________________________________________________
 
                   return Container(
@@ -141,9 +143,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
-                            decoration: BoxDecoration(border: Border.all(color: Colors.grey) ,borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8)),
                             child: DropdownButton<String>(
-                              
                               borderRadius: BorderRadius.circular(10),
                               value: _dropDownChooseSession,
                               hint: Text('موضوع جلسات'),
@@ -190,7 +191,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ...List.generate(
                                 userProfileDocument.socialLinks.length,
                                 (index) => Row(
-                                      children: [Text(userProfileDocument.socialLinks[index].toString())],
+                                      // Text(userProfileDocument.socialLinks[index].toString())
+                                      children: _socialListChild(userProfileDocument.socialLinks[index]),
                                     )),
                             Container(
                               margin: EdgeInsets.only(top: 10),
@@ -244,6 +246,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> _socialListChild(Map social) {
+    List sKey = social.keys.toList();
+    List sValue = social.values.toList();
+    return [
+      // 'instagram', 'facebook', 'tweeter', 'LinkedIn'
+      sKey[0] != 'facebook'
+          ? sKey[0] != 'instagram'
+              ? sKey[0] != 'tweeter'
+                  ? Icon(LineIcons.linkedin)
+                  : Icon(LineIcons.twitter)
+              : Icon(LineIcons.instagram)
+          : Icon(LineIcons.facebook),
+
+      SizedBox(
+        width: 10,
+      ),
+      Text(sValue[0])
+    ];
   }
 
 //NOTE | save the info before User Dispose the !Screen

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:didar_app/model/user_profile_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class FirestoreServiceDB {
@@ -20,15 +21,15 @@ class FirestoreServiceDB {
     return await _userProfilesCollection.doc(uid).set(userData, SetOptions(merge: true));
   }
 
+ 
+
   /// add new social links
   Future addNewSocialLink(String label, String link, List socialList) async {
     socialList.add({label: link});
-    
+
     final String uid = _firebaseAuth.currentUser!.uid;
     return await _userProfilesCollection.doc(uid).update({
-      'social_links': socialList
-       
-      ,
+      'social_links': socialList,
     });
   }
 
