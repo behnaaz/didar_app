@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# Making sure the code to be committed passes the flutter analyze
+
+if flutter analyze 2>&1
+then
+	exit 0
+else	
+	echo "Please first run 'flutter analyze' and fix all the errors before committing."
+	exit 1
+fi
+
