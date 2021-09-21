@@ -1,7 +1,5 @@
 import 'package:didar_app/Constants/them_conf.dart';
-import 'package:didar_app/screen/calendar_weekly_screen.dart';
-import 'package:didar_app/screen/home_screen.dart';
-import 'package:didar_app/screen/message.dart';
+import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/screen/profile/profile_screen.dart';
 import 'package:didar_app/screen/sessions_screen.dart';
 import 'package:didar_app/screen/setting_screen.dart';
@@ -9,19 +7,25 @@ import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
-import 'package:get/get.dart';
-
 import 'package:provider/provider.dart';
+import 'calendar_weekly_screen.dart';
+import 'home_screen.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
-  const BottomNavigationWrapper({Key? key}) : super(key: key);
+  const BottomNavigationWrapper({Key? key, required this.screen}) : super(key: key);
+
+  final String screen;
 
   @override
-  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
+  State<BottomNavigationWrapper> createState() =>
+      _BottomNavigationWrapperState(bottom_navigation_widgets.indexOf(screen));
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 0;
+
+  int _selectedIndex = 0;//TODO for behnaz 2
+  _BottomNavigationWrapperState(this._selectedIndex);
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // NOTE : Bottom navigation item widgetOptions
@@ -95,7 +99,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                             width: 10,
                           ),
                           Text(
-                            'خروج از اکانت',
+                            'خروج',
                             style: MyTextStyle.large.copyWith(color: Colors.white),
                           ),
                         ],
@@ -109,7 +113,6 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         ),
       ),
       appBar: AppBar(
-        // title: Text("DIDAR"),
         title: Image.asset(
           AssetImages.logo,
           height: 40,
@@ -123,7 +126,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(() => Message());
+              Navigator.pushNamed(context, routeMessagess);
               print('message button clicked');
             },
             child: Container(

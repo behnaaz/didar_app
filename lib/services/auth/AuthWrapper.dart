@@ -1,3 +1,4 @@
+import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/screen/_bottom_nav_wrapper.dart';
 import 'package:didar_app/screen/login_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
@@ -22,15 +23,14 @@ class AuthWrapper extends StatelessWidget {
             print(
                 "uni ID:" + user.uid.toString()); // LOG : USER is Exist or not
 
-          return user == null ? LoginScreen() : BottomNavigationWrapper();
-        } else {
-          // NOTE :  IF Snapshot ConnectionState is Not ACTIVE
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return user == null ? LoginScreen() : BottomNavigationWrapper(screen: routeHome);//TODO behnaz
         }
+        // NOTE :  IF Snapshot ConnectionState is Not ACTIVE
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
       },
     );
   }

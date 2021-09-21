@@ -1,4 +1,5 @@
 import 'package:didar_app/Constants/them_conf.dart';
+import 'package:didar_app/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -57,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                   width: widthOfScreen - 150,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {  Navigator.pushNamed(context, routeSessions); },
                   child: Text('ثبت جلسه'),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith(

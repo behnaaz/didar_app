@@ -1,5 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:didar_app/Constants/them_conf.dart';
+import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
@@ -44,11 +45,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               fullName: fullNameController.text,
               email: emailController.text,
               password: passwordController.text);
-          Navigator.pop(context);
+
           Get.snackbar("خوش آمدید", "ثبت نام موفقیت آمیز بود!",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.blue[200],
               borderRadius: 10);
+              Navigator.pushNamed(context, routeLogin);
         } on FirebaseAuthException catch (e) {
           Get.snackbar("Sorry", "${e.message}",
               snackPosition: SnackPosition.BOTTOM,

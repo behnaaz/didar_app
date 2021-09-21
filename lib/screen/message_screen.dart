@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:line_icons/line_icons.dart';
 
-class Message extends StatelessWidget {
+class MessageScreen extends StatelessWidget {
   final _kTabs = <Tab>[
     Tab(
         child: Text(
