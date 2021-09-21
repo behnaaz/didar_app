@@ -170,25 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ]),
-                          Center(
-                            child: OutlinedButton(
-                              style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
-                                  side: MaterialStateBorderSide.resolveWith((states) => BorderSide(width: 2, style: BorderStyle.solid, color: Colors.cyan[400]!))),
-                              child: Text('+ Available time'),
-                              onPressed: () {
-                                Get.bottomSheet(
-                                  Container(
-                                      height: 150,
-                                      color: Colors.white,
-                                      child: Column(
-                                        children: [],
-                                      )),
-                                  isDismissible: true,
-                                );
-                              },
-                            ),
-                          ),
+                       
                         ],
                       ),
                     ),
