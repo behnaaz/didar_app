@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -15,6 +16,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String? _dropDownChooseSession ;
+
   /// This function is for saving the User profile info
   /// it will save the info on firestore
   void save() async {
@@ -136,6 +139,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             controller: lastNameController,
                             label: "نام خانوادگی",
                           ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.grey) ,borderRadius: BorderRadius.circular(8)),
+                            child: DropdownButton<String>(
+                              
+                              borderRadius: BorderRadius.circular(10),
+                              value: _dropDownChooseSession,
+                              hint: Text('موضوع جلسات'),
+                              icon: Icon(LineIcons.angleDown),
+                              iconSize: 24,
+                              alignment: AlignmentDirectional.center,
+                              isExpanded: true,
+                              elevation: 16,
+                              style: const TextStyle(color: ColorPallet.textColor, fontWeight: FontWeight.bold),
+                              underline: Container(
+                                height: 0,
+                              ),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _dropDownChooseSession = newValue!;
+                                });
+                              },
+                              items: <String>['طراحی', 'آواز', 'پیانو'].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  onTap: () {
+                                    setState(() {
+                                      _dropDownChooseSession = value;
+                                    });
+                                  },
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
                           _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
                           _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
                           _profileTextField(controller: eduDegreeController, label: "سابقه تحصیلی"),
@@ -170,7 +208,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ]),
-                       
                         ],
                       ),
                     ),
