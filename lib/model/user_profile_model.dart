@@ -11,7 +11,7 @@ class UserProfile {
   /// Educational Degree
   final String eduDegree;
   final String bio;
-  final List socialLinks;
+  final List<Map> socialLinks;
   final List sessionTopics;
 
   UserProfile({

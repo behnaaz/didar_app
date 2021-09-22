@@ -17,7 +17,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String? _dropDownChooseSession;
-  List _socialLinks = [];
+  List<Map> _socialLinks = [];
 
   /// This function is for saving the User profile info
   /// it will save the info on firestore
@@ -218,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 icon: Icon(Icons.add),
                                 onPressed: () {
                                   Get.bottomSheet(
-                                    AddNewSocialLinksBottomSheet(socialList: userProfileDocument.socialLinks),
+                                    AddNewSocialLinksBottomSheet(socialList: _socialLinks),
                                     isDismissible: true,
                                   );
                                   // _socialList.add(value);

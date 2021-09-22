@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
+
 class FirestoreServiceDB {
   // NOTE : AuthService Provider
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
@@ -21,7 +22,7 @@ class FirestoreServiceDB {
   }
 
   /// add new social links
-  Future addNewSocialLink(String label, String link, List socialList) async {
+  Future addNewSocialLink(String label, String link, List<Map> socialList) async {
     final String uid = _firebaseAuth.currentUser!.uid;
     bool edit = false;
     for (var i = 0; i < socialList.length; i++) {
