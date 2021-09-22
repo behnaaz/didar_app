@@ -10,14 +10,14 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // NOTE : AuthService Provider
-    final AuthenticationService authService =
+     AuthenticationService authService =
         Provider.of<AuthenticationService>(context);
 
     return StreamBuilder<User?>(
       stream: authService.user,
       builder: (_, AsyncSnapshot<User?> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          final User? user = snapshot.data;
+           User? user = snapshot.data;
           print(user.toString()); // LOG : USER is Exist or not
           if (user != null)
             print(

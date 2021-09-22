@@ -11,19 +11,19 @@ class FirestoreServiceDB {
 
   /// initial user profile data >> I use it in register >> AuthenticationService.signUp
   Future addUserProfileData(userData) async {
-    final String uid = _firebaseAuth.currentUser!.uid;
+     String uid = _firebaseAuth.currentUser!.uid;
     return await _userProfilesCollection.doc(uid).set(userData);
   }
 
   /// Update UserDate
   Future updateUserData(userData) async {
-    final String uid = _firebaseAuth.currentUser!.uid;
+     String uid = _firebaseAuth.currentUser!.uid;
     return await _userProfilesCollection.doc(uid).set(userData, SetOptions(merge: true));
   }
 
   /// add new social links
   Future addNewSocialLink(String label, String link, List<dynamic> socialList) async {
-    final String uid = _firebaseAuth.currentUser!.uid;
+     String uid = _firebaseAuth.currentUser!.uid;
     bool edit = false;
     for (var i = 0; i < socialList.length; i++) {
       if (socialList[i].containsKey(label)) {

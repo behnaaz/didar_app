@@ -54,7 +54,7 @@ var widgetRoutes = {
   routeMessages: MessageScreen()
 };
 
-Widget _findWidget(final String route) {
+Widget _findWidget(String route) {
   if (widgetRoutes.containsKey(route)) {
     return widgetRoutes[route]!;
   }

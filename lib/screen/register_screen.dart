@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // ANCHOR : UI Build Widget --------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthenticationService>(context);
+    var authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
       body: Stack(
         children: [

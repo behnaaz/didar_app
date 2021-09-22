@@ -25,7 +25,7 @@ class UserProfile {
     required this.sessionTopics,
   });
 
-  factory UserProfile.fromJson(final json) {
+  factory UserProfile.fromJson( json) {
     return UserProfile(
       firstName: json["first_name"],
       lastName: json["last_name"],

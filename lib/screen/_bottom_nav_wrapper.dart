@@ -46,7 +46,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthenticationService>(context);
+    var authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(

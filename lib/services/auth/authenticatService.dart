@@ -23,7 +23,7 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
-    final credential = await _firebaseAuth.signInWithEmailAndPassword(
+    var credential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     return _userFromFirebase(credential.user);
   }
@@ -35,10 +35,10 @@ class AuthenticationService {
     required String password,
   }) async {
     // Create the Instance od user
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+    var credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    // TODO : initilize user profile doc for the first time
+    // TODO : init user profile doc for the first time
     UserProfile emptyUser = UserProfile(
       firstName: fullName,
       lastName: fullName,
