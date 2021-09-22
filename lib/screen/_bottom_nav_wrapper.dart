@@ -22,8 +22,9 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 0; //TODO for behnaz 2
-  _BottomNavigationWrapperState(this._selectedIndex);
+  int _selectedIndex  = 0; //TODO for behnaz 2
+  int _selectedIndex2 = 0; //TODO for behnaz 2
+  _BottomNavigationWrapperState(this._selectedIndex2);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

@@ -1,12 +1,15 @@
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger(); //REMOVE later
 
 class AddNewSocialLinksBottomSheet extends StatefulWidget {
   final List socialList;
 
-  const AddNewSocialLinksBottomSheet({Key? key,required this.socialList}) : super(key: key);
- 
+  const AddNewSocialLinksBottomSheet({Key? key, required this.socialList}) : super(key: key);
 
   @override
   _AddNewSocialLinksBottomSheetState createState() => _AddNewSocialLinksBottomSheetState(socialList);
@@ -14,12 +17,16 @@ class AddNewSocialLinksBottomSheet extends StatefulWidget {
 
 class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSheet> {
   final List socialList;
+  List<String> _socialDropDownAvailableValue = ['instagram', 'facebook', 'tweeter', 'LinkedIn'];
   String _dropDownIconValue = 'instagram';
   TextEditingController linkController = TextEditingController();
 
   _AddNewSocialLinksBottomSheetState(this.socialList);
   @override
   Widget build(BuildContext context) {
+    
+    
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
@@ -46,7 +53,7 @@ class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSh
                         _dropDownIconValue = newValue!;
                       });
                     },
-                    items: <String>['instagram', 'facebook', 'tweeter', 'LinkedIn'].map<DropdownMenuItem<String>>((String value) {
+                    items:_socialDropDownAvailableValue.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         onTap: () {
                           setState(() {
@@ -73,7 +80,8 @@ class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSh
           ),
           ElevatedButton(
               onPressed: () {
-                FirestoreServiceDB().addNewSocialLink(_dropDownIconValue, linkController.text,socialList);
+                FirestoreServiceDB().addNewSocialLink(_dropDownIconValue, linkController.text, socialList);
+                Get.back();
               },
               child: Text('اضافه کن'))
         ],

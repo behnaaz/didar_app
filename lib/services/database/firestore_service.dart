@@ -20,13 +20,20 @@ class FirestoreServiceDB {
     return await _userProfilesCollection.doc(uid).set(userData, SetOptions(merge: true));
   }
 
- 
-
   /// add new social links
   Future addNewSocialLink(String label, String link, List socialList) async {
-    socialList.add({label: link});
-
     final String uid = _firebaseAuth.currentUser!.uid;
+    bool edit = false;
+    for (var i = 0; i < socialList.length; i++) {
+      if (socialList[i].containsKey(label)) {
+        edit = true;
+        socialList[i][label] = link;
+        break;
+      }
+    }
+if(!edit){
+      socialList.add({label: link});
+}
     return await _userProfilesCollection.doc(uid).update({
       'social_links': socialList,
     });
