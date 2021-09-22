@@ -7,6 +7,7 @@ import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'calendar_weekly_screen.dart';
 import 'home_screen.dart';
@@ -17,13 +18,11 @@ class BottomNavigationWrapper extends StatefulWidget {
   final String screen;
 
   @override
-  State<BottomNavigationWrapper> createState() =>
-      _BottomNavigationWrapperState(bottom_navigation_widgets.indexOf(screen));
+  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState(bottom_navigation_widgets.indexOf(screen));
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-
-  int _selectedIndex = 0;//TODO for behnaz 2
+  int _selectedIndex = 0; //TODO for behnaz 2
   _BottomNavigationWrapperState(this._selectedIndex);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -126,7 +125,10 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
         actions: [
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, routeMessagess);
+              // this is Simpler way , I Use GETx package for navigate and stateManaging
+              // Checkout https://pub.dev/packages/get for more Information.
+              Get.toNamed(routeMessagess);
+              // Navigator.pushNamed(context, routeMessagess);
               print('message button clicked');
             },
             child: Container(
