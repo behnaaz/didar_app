@@ -87,7 +87,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      Row(children: [
+                      Row(children: <Widget>[
                         Expanded(child: SizedBox()),
                         ...List.generate(
                           7,

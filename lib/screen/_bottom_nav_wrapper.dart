@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'calendar_weekly_screen.dart';
-import 'home_screen.dart';
+import 'package:didar_app/screen/calendar_weekly_screen.dart';
+import 'package:didar_app/screen/home_screen.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
   const BottomNavigationWrapper({Key? key, required this.screen}) : super(key: key);
@@ -22,8 +22,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
- 
-  int _selectedIndex = 0; //TODO for behnaz 
+  int _selectedIndex = 0; //TODO for behnaz
   _BottomNavigationWrapperState(this._selectedIndex);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();

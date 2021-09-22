@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-var logger = Logger();
+Logger logger = Logger();
 // ::> Colors  -----------------------------------------------------------------
 class ColorPallet {
   ColorPallet._();
@@ -73,6 +73,8 @@ class AssetImages {
 /// [large]  | 16
 /// [pageTile]  | 20
 class MyTextStyle {
+  MyTextStyle._();
+  
   static final TextStyle base = const TextStyle(
       fontFamily: "IranSans", color: ColorPallet.textColor, fontSize: 14);
 

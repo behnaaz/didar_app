@@ -58,7 +58,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           )),
           Expanded(
             child: PageView.builder(
-              onPageChanged: (index) {
+              onPageChanged: (int index) {
                 print(index);
                 setState(() {
                   _date = Jalali(1400, index + 1);//TODO: replace 1400 and other values as a constant on top of the file
