@@ -128,8 +128,8 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
             onTap: () {
               // this is Simpler way , I Use GETx package for navigate and stateManaging
               // Checkout https://pub.dev/packages/get for more Information.
-              Get.toNamed(routeMessagess);
-              // Navigator.pushNamed(context, routeMessagess);
+              Get.toNamed(routeMessages);
+              // Navigator.pushNamed(context, routeMessages);
               print('message button clicked');
             },
             child: Container(

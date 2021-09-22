@@ -20,7 +20,7 @@ const routeProfile = '/profile';
 const routeSettings = '/settings';
 const routeCalendar = '/calendar';
 const routeSessions = '/sessions';
-const routeMessagess = '/messages';
+const routeMessages = '/messages';
 const routeDeviceSetupStart = '/setup/$routeDeviceSetupStartPage';
 const routeDeviceSetupStartPage = 'find_devices';
 const routeDeviceSetupSelectDevicePage = 'select_device';
@@ -51,7 +51,7 @@ var widgetRoutes = {
   routeProfile: ProfileScreen(),
   routeSessions: SessionsScreen(),
   routeCalendar: CalendarWeeklyScreen(),
-  routeMessagess: MessageScreen()
+  routeMessages: MessageScreen()
 };
 
 Widget _findWidget(final String route) {

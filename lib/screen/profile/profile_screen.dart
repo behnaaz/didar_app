@@ -197,9 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                      
-                                    onTap: () {
-                                      print('tapp');
-                                    },
+                                    onTap: null, //TODO | sajjad | it should be Delete or Edit
                                     hoverColor: Colors.amber,
                                     child: Container(
                                       padding: EdgeInsets.symmetric(vertical: 5),

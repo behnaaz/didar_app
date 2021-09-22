@@ -57,10 +57,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   //TODO For quick demo, please make the labels farsi
-  // after demo, please use internationatizaltion as explained in
+  // after demo, please use international lang as explained in
   // https://flutter.dev/docs/development/accessibility-and-localization/internationalization
   // for both english and farsi (english is not important now but using the approach of
-  // ,oving the text is json is important
+  
 
   // ANCHOR : UI Build Widget --------------------------------------------------
   @override

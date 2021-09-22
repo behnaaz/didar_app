@@ -14,7 +14,7 @@ class CalendarScreen extends StatefulWidget {
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
-//TODO important one to set the default calendar to Weekly
+ //TODO important one to set the default calendar to Weekly
 class _CalendarScreenState extends State<CalendarScreen> {
   PageController _pageViewController = PageController(initialPage: 1);
   final Jalali today = Jalali.now();

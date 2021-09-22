@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("اگه هنوز اکانت نداری"),
+                              Text("اگه هنوز ثبت نام نکردی "),
                               SizedBox(
                                 width: 5,
                               ),
