@@ -22,7 +22,7 @@ class FirestoreServiceDB {
   }
 
   /// add new social links
-  Future addNewSocialLink(String label, String link, List<Map> socialList) async {
+  Future addNewSocialLink(String label, String link, List<dynamic> socialList) async {
     final String uid = _firebaseAuth.currentUser!.uid;
     bool edit = false;
     for (var i = 0; i < socialList.length; i++) {

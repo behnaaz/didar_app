@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 var logger = Logger(); //REMOVE later
 
 class AddNewSocialLinksBottomSheet extends StatefulWidget {
-  final List<Map> socialList;
+  final List<dynamic> socialList;
 
   const AddNewSocialLinksBottomSheet({Key? key, required this.socialList}) : super(key: key);
 
@@ -16,7 +16,7 @@ class AddNewSocialLinksBottomSheet extends StatefulWidget {
 }
 
 class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSheet> {
-  final List<Map> socialList;
+  final List<dynamic> socialList;
   List<String> _socialDropDownAvailableValue = ['instagram', 'facebook', 'tweeter', 'LinkedIn'];
   String _dropDownIconValue = 'instagram';
   TextEditingController linkController = TextEditingController();

@@ -17,7 +17,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String? _dropDownChooseSession;
-  List<Map> _socialLinks = [];
+  List<dynamic> _socialLinks = [];
 
   /// This function is for saving the User profile info
   /// it will save the info on firestore
