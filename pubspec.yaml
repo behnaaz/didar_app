@@ -44,9 +44,11 @@ dependencies:
 dev_dependencies:
     flutter_test:
         sdk: flutter
+        
     mockito: ^5.0.14
-    rxdart: ^0.27.1
+    
     logger: ^1.1.0
+    lint: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
