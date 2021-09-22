@@ -27,12 +27,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _acceptTheRules = false;
   // Create Account button Function
   void createAccount(authService) async {
-    ConnectivityResult connectivityResult =
-        await (Connectivity().checkConnectivity());
+    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
 
     // REVIEW - Internet connection check -- ![ Need to check the internet service status]
-    if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
+    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
       // we have internet connection
 
       //NOTE - Form Validation Check
@@ -41,31 +39,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         // NOTE - try Firebase SignUp Service
         try {
-          await authService.signUp(
-              fullName: fullNameController.text,
-              email: emailController.text,
-              password: passwordController.text);
+          await authService.signUp(fullName: fullNameController.text, email: emailController.text, password: passwordController.text);
 
-          Get.snackbar("خوش آمدید", "ثبت نام موفقیت آمیز بود!",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.blue[200],
-              borderRadius: 10);
-              Navigator.pushNamed(context, routeLogin);
+          Get.snackbar("خوش آمدید", "ثبت نام موفقیت آمیز بود!", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
+          Get.toNamed(routeLogin);
+       
         } on FirebaseAuthException catch (e) {
-          Get.snackbar("Sorry", "${e.message}",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.red[400],
-              borderRadius: 10);
+          Get.snackbar("Sorry", "${e.message}", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
           setState(() => _registerButtonIsActive = true);
         }
       }
     } // NOTE - If Internet WiFi and mobile Data were Disconnected
     else if (connectivityResult == ConnectivityResult.none) {
       // there is NO internet connection
-      Get.snackbar("Connection Failed", "Check your internet Connection",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.grey,
-          borderRadius: 10);
+      Get.snackbar("Connection Failed", "Check your internet Connection", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.grey, borderRadius: 10);
     }
   }
 
@@ -97,10 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   padding: const EdgeInsets.all(12.0),
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: ColorPallet.grayBg)),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30), border: Border.all(color: ColorPallet.grayBg)),
                     child: Form(
                       key: _formKey,
                       child: Column(
@@ -127,8 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               label: "ایمیل",
                               icon: Icon(Icons.email),
                               validator: (String? value) {
-                                if (value !=
-                                    null) if (!EmailValidator.validate(value)) {
+                                if (value != null) if (!EmailValidator.validate(value)) {
                                   return "لطفا ایمیل خود را به درستی وارد کنید";
                                 }
                               }),
@@ -142,9 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                               suffix: passwordStrength(),
                               validator: (String? value) {
-                                if (value != null) if (estimatePasswordStrength(
-                                        value) <
-                                    0.3) {
+                                if (value != null) if (estimatePasswordStrength(value) < 0.3) {
                                   return 'کلمه عبور انتخابی ضعیف است!';
                                 }
                               }),
@@ -173,34 +154,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       })),
                               Expanded(
                                 child: RichText(
-                                  text: TextSpan(
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: ColorPallet.textColor,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'IranSans'),
-                                      children: [
-                                        TextSpan(
-                                            text: 'ضوابط و مقررات ',
-                                            style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                decorationStyle:
-                                                    TextDecorationStyle.dashed,
-                                                color: ColorPallet.blue)),
-                                        TextSpan(
-                                          text:
-                                              'دیدار را مطالعه کرده و با آن موافقم.',
-                                        ),
-                                      ]),
+                                  text: TextSpan(style: TextStyle(fontSize: 12, color: ColorPallet.textColor, fontWeight: FontWeight.w500, fontFamily: 'IranSans'), children: [
+                                    TextSpan(text: 'ضوابط و مقررات ', style: TextStyle(decoration: TextDecoration.underline, decorationStyle: TextDecorationStyle.dashed, color: ColorPallet.blue)),
+                                    TextSpan(
+                                      text: 'دیدار را مطالعه کرده و با آن موافقم.',
+                                    ),
+                                  ]),
                                 ),
                               ),
                             ],
                           ),
                           ElevatedButton(
                             style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
@@ -217,11 +183,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               padding: const EdgeInsets.all(15.0),
                               child: _registerButtonIsActive
                                   ? Text("ثبت نام")
-                                  : Container(height: 14,width: 14,
-                                    child: CircularProgressIndicator(
+                                  : Container(
+                                      height: 14,
+                                      width: 14,
+                                      child: CircularProgressIndicator(
                                         color: ColorPallet.blue,
                                       ),
-                                  ),
+                                    ),
                             ),
                           ),
                           SizedBox(

@@ -3,6 +3,7 @@ import 'package:didar_app/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -50,21 +51,20 @@ class HomeScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                Text('جلسات قابل ارائه خود را ثبت کنید',
-                    style:
-                        MyTextStyle.base.copyWith(fontWeight: FontWeight.bold)),
+                Text('جلسات قابل ارائه خود را ثبت کنید', style: MyTextStyle.base.copyWith(fontWeight: FontWeight.bold)),
                 Image.asset(
                   AssetImages.sessionPlaceholder,
                   width: widthOfScreen - 150,
                 ),
                 ElevatedButton(
-                  onPressed: () {  Navigator.pushNamed(context, routeSessions); },
+                  onPressed: () {
+                    Get.toNamed(routeSessions);
+              
+                  },
                   child: Text('ثبت جلسه'),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith(
-                        (states) => ColorPallet.red),
-                    padding: MaterialStateProperty.resolveWith(
-                        (states) => EdgeInsets.symmetric(horizontal: 40)),
+                    backgroundColor: MaterialStateProperty.resolveWith((states) => ColorPallet.red),
+                    padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.symmetric(horizontal: 40)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.0),
@@ -77,29 +77,16 @@ class HomeScreen extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(38),
-                  border: Border.all(color: ColorPallet.blue)),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(38), border: Border.all(color: ColorPallet.blue)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  quickAccess(
-                      title: 'مشخصات جلسات',
-                      icon: Image.asset(AssetImages.iconSessionSetting)),
-                  quickAccess(
-                      title: 'تقویم کاری',
-                      icon: Image.asset(AssetImages.iconWorkCalendar)),
-                  quickAccess(
-                      title: 'ثبت جلسات',
-                      icon: Image.asset(AssetImages.iconAddSession)),
-                  quickAccess(
-                      title: 'بازاریابی',
-                      icon: Image.asset(AssetImages.iconRevenue)),
-                  quickAccess(
-                      title: 'آموزش مالی',
-                      icon: Image.asset(AssetImages.iconFinancialStuff)),
+                  quickAccess(title: 'مشخصات جلسات', icon: Image.asset(AssetImages.iconSessionSetting)),
+                  quickAccess(title: 'تقویم کاری', icon: Image.asset(AssetImages.iconWorkCalendar)),
+                  quickAccess(title: 'ثبت جلسات', icon: Image.asset(AssetImages.iconAddSession)),
+                  quickAccess(title: 'بازاریابی', icon: Image.asset(AssetImages.iconRevenue)),
+                  quickAccess(title: 'آموزش مالی', icon: Image.asset(AssetImages.iconFinancialStuff)),
                 ],
               ),
             )

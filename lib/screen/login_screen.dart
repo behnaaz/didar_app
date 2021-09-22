@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await authService.signIn(email: emailController.text, password: passwordController.text);
           //TODO Farsi
           Get.snackbar("You are login successfully", "Have fun", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
-
+          Get.toNamed(routeHome);
           Navigator.pushNamed(context, routeHome);
 
           //BottomNavigationWrapper(routeHome);
