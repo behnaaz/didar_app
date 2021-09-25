@@ -5,6 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:shamsi_date/extensions.dart';
 
+var fakeData = {
+  '2021-9-25|02:00-03:00': 'پیانو',
+  '2021-9-25|04:00-05:00': 'پیانو',
+  '2021-9-26|04:00-05:00': 'آواز',
+  '2021-9-27|03:00-04:00': 'آواز',
+  '2021-9-25|08:00-09:00': 'پیانو',
+  '2021-9-24|08:00-09:00': 'پیانو',
+  '2021-9-24|01:00-02:00': 'پیانو',
+  '2021-9-28|01:00-02:00': 'پیانو',
+  '2021-9-29|05:00-06:00': 'پیانو',
+  '2021-9-30|01:00-02:00': 'پیانو',
+  '2021-10-7|01:00-02:00': 'پیانو',
+};
+
 class CalendarWeeklyScreen extends StatefulWidget {
   const CalendarWeeklyScreen({Key? key}) : super(key: key);
 
@@ -29,7 +43,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // logger.i(now.day);
+    logger.i(now.toDateTime());
     // logger.i(now.weekDay);
     // double numberToRound = 5.3;
     // print(numberToRound.round());
@@ -165,16 +179,32 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                         (i) => Expanded(
                                           child: GestureDetector(
                                             onTap: () {
+                                              // print(
+                                              //   SolarCalendar.daysOfTheWeek[i] + ' | ' + 'from ' + SolarCalendar.clockTime[index] + ' to ' + SolarCalendar.clockTime[index + 1],
+                                              // );
+                                              // print(date.addDays(i).toDateTime());
                                               print(
-                                                SolarCalendar.daysOfTheWeek[i] + ' | ' + 'from ' + SolarCalendar.clockTime[index] + ' to ' + SolarCalendar.clockTime[index + 1],
-                                              );
+                                                  '${date.toGregorian().year}-${date.toGregorian().month}-${date.toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}');
+                                              print(fakeData[
+                                                  '${date.toGregorian().year}-${date.toGregorian().month}-${date.toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}']);
+                                              print(fakeData['2021-9-25|02:00-03:00']);
+                                              print(fakeData.containsKey('2021-9-25|02:00-03:00'));
                                             },
-                                            child: Container(
+                                            child: AnimatedContainer(duration: Duration(milliseconds: 400),
                                               decoration: BoxDecoration(
-                                                  // color: Colors.red,
+                                                  color: fakeData.containsKey(
+                                                              '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}') ==
+                                                          true
+                                                      ? ColorPallet.blue
+                                                      : null,
                                                   border: Border.all(
-                                                color: Colors.white,
-                                              )),
+                                                    color: Colors.white,
+                                                  )),
+                                              child: Center(
+                                                child: Text(fakeData[
+                                                        '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}'] ??
+                                                    ''),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -189,7 +219,31 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                       ),
                     );
                   }),
-            )
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Material(
+                    color: Colors.blue,
+                    child: InkWell(
+                      splashColor: Colors.blue[400],
+                      // highlightColor: Colors.green ,
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Text(
+                          'ذخیره',
+                          style: MyTextStyle.large.copyWith(
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

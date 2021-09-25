@@ -14,7 +14,7 @@ import 'package:didar_app/screen/home_screen.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
   const BottomNavigationWrapper({Key? key, required this.screen}) : super(key: key);
-
+  // FIXME behnaz | why screen is String type ? 
   final String screen;
 
   @override
@@ -22,8 +22,9 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 0; //TODO for behnaz
-  _BottomNavigationWrapperState(this._selectedIndex);
+  int _selectedIndex = 3; //TODO | i use this just for testing
+  int _selectedIndex2 = 0; //TODO for behnaz
+  _BottomNavigationWrapperState(this._selectedIndex2);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
