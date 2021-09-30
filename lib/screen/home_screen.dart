@@ -58,8 +58,8 @@ class HomeScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Get.toNamed(routeSessions);
-              
+                    Get.toNamed(routeSessions); // TODO  bad way to doing that
+                    print('session clicked');
                   },
                   child: Text('ثبت جلسه'),
                   style: ButtonStyle(

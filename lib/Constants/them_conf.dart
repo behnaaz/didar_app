@@ -42,6 +42,9 @@ class AssetImages {
   /// Calendar png that used as placeholder when sessions list is empty
   static const String sessionPlaceholder =
       "assets/images/empty-session-placeholder.png";
+  /// Calendar png that used as placeholder second version
+  static const String sessionPlaceholder2 =
+      "assets/images/home-empty-session.png";
 
   /// Nice PNG header for Home page
   static const String homeHeader = "assets/images/home-header.png";
