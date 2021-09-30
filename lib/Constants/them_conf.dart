@@ -49,6 +49,13 @@ class AssetImages {
   /// Nice PNG header for Home page
   static const String homeHeader = "assets/images/home-header.png";
 
+  /// Rate badge icon
+  static const String badgeRate = "assets/images/rate-badge.png";
+  /// Didar coin badge icon
+  static const String badgeDidarCoin = "assets/images/didar-coin-badge.png";
+  /// student badge icon
+  static const String badgeStudent = "assets/images/student-badge.png";
+
   /// Custom (Didar) payment card Icon
   static const String iconSessionSetting =
       "assets/images/d-icon-session-setting.png";

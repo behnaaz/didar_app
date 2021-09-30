@@ -5,7 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  /// TODO  this is temp
+  bool home2 = false;
+
   @override
   Widget build(BuildContext context) {
     // final authService = Provider.of<AuthenticationService>(context);
@@ -49,6 +57,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
+            home2? 
             Column(
               children: [
                 Text('جلسات قابل ارائه خود را ثبت کنید', style: MyTextStyle.base.copyWith(fontWeight: FontWeight.bold)),
@@ -73,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 )
               ],
-            ),
+            ) : Column(),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
