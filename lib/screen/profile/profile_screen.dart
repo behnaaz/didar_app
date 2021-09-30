@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -67,7 +68,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController bioController = TextEditingController();
 
 //______________________________________________________________________________
-
+  List  _selectedSessions = [];
+  final _sessionSubjects = ['آواز', 'زبان', 'گیتار', 'مدیریت', 'پیانو'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,39 +143,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             controller: lastNameController,
                             label: "نام خانوادگی",
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
-                            decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8)),
-                            child: DropdownButton<String>(
-                              borderRadius: BorderRadius.circular(10),
-                              value: _dropDownChooseSession,
-                              hint: Text('موضوع جلسات'),
-                              icon: Icon(LineIcons.angleDown),
-                              iconSize: 24,
-                              alignment: AlignmentDirectional.center,
-                              isExpanded: true,
-                              elevation: 16,
-                              style: const TextStyle(color: ColorPallet.textColor, fontWeight: FontWeight.bold),
-                              underline: Container(
-                                height: 0,
-                              ),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  _dropDownChooseSession = newValue!;
-                                });
-                              },
-                              items: <String>['طراحی', 'آواز', 'پیانو'].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  onTap: () {
-                                    setState(() {
-                                      _dropDownChooseSession = value;
-                                    });
-                                  },
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
+                          // Container(
+                          //   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                          //   decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8)),
+                          //   child: DropdownButton<String>(
+                          //     borderRadius: BorderRadius.circular(10),
+                          //     value: _dropDownChooseSession,
+                          //     hint: Text('موضوع جلسات'),
+                          //     icon: Icon(LineIcons.angleDown),
+                          //     iconSize: 24,
+                          //     alignment: AlignmentDirectional.center,
+                          //     isExpanded: true,
+                          //     elevation: 16,
+                          //     style: const TextStyle(color: ColorPallet.textColor, fontWeight: FontWeight.bold),
+                          //     underline: Container(
+                          //       height: 0,
+                          //     ),
+                          //     onChanged: (String? newValue) {
+                          //       setState(() {
+                          //         _dropDownChooseSession = newValue!;
+                          //       });
+                          //     },
+                          //     items: <String>['طراحی', 'آواز', 'پیانو'].map<DropdownMenuItem<String>>((String value) {
+                          //       return DropdownMenuItem<String>(
+                          //         onTap: () {
+                          //           setState(() {
+                          //             _dropDownChooseSession = value;
+                          //           });
+                          //         },
+                          //         value: value,
+                          //         child: Text(value),
+                          //       );
+                          //     }).toList(),
+                          //   ),
+                          // ),
+                          MultiSelectDialogField(confirmText: Text('انتخاب'),buttonText: Text('موضوع جلسات'),cancelText: Text('انصراف'),
+                            title: Text('موضوع جلسات'),
+                            initialValue: _selectedSessions,decoration: BoxDecoration(border: Border.all(color: Colors.grey[500]! ),borderRadius: BorderRadius.circular(10)),
+                            items: _sessionSubjects.map((e) => MultiSelectItem(e,e)).toList(),
+                            listType: MultiSelectListType.CHIP,
+                            onConfirm: (values) {
+                              setState(() {
+                                
+                              _selectedSessions = values;
+                              });
+                            },
                           ),
                           _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
                           _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
@@ -194,20 +208,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ...List.generate(
                                 userProfileDocument.socialLinks.length,
                                 (index) => Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                     
-                                    onTap: null, //TODO | sajjad | it should be Delete or Edit
-                                    hoverColor: Colors.amber,
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(vertical: 5),
-                                      child: Row(
-                                        // Text(userProfileDocument.socialLinks[index].toString())
-                                        children: _socialListChild(userProfileDocument.socialLinks[index]),
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: null, //TODO | sajjad | it should be Delete or Edit
+                                        hoverColor: Colors.amber,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(vertical: 5),
+                                          child: Row(
+                                            // Text(userProfileDocument.socialLinks[index].toString())
+                                            children: _socialListChild(userProfileDocument.socialLinks[index]),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )),
+                                    )),
                             Container(
                               margin: EdgeInsets.only(top: 10),
                               decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(50), color: ColorPallet.blue),
