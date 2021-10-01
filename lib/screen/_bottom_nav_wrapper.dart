@@ -13,18 +13,16 @@ import 'package:didar_app/screen/calendar_weekly_screen.dart';
 import 'package:didar_app/screen/home_screen.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
-  const BottomNavigationWrapper({Key? key, required this.screen}) : super(key: key);
-  // FIXME behnaz | why screen is String type ? 
-  final String screen;
+  const BottomNavigationWrapper({Key? key,}) : super(key: key);
+ 
 
   @override
-  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState(bottom_navigation_widgets.indexOf(screen));
+  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  int _selectedIndex = 2; //TODO | i use this just for testing
-  int _selectedIndex2 = 0; //TODO for behnaz
-  _BottomNavigationWrapperState(this._selectedIndex2);
+  int _selectedIndex = 2; 
+  
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

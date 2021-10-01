@@ -41,8 +41,8 @@ var didarRoutes = {
   routeHome: (context) => AuthWrapper(),
   routeLogin: (context) => LoginScreen(),
   routeRegister: (context) => RegisterScreen(),
-  routeCalendar: (context) => BottomNavigationWrapper(screen: routeCalendar),
-  routeSessions: (context) => BottomNavigationWrapper(screen: routeSessions)
+  routeCalendar: (context) => BottomNavigationWrapper(),
+  routeSessions: (context) => BottomNavigationWrapper()
 };
 
 var widgetRoutes = {
@@ -77,7 +77,7 @@ Route<dynamic> getRoute(settings) {
 
 MaterialPageRoute<dynamic> navigateTo(screen, settings) {
   var result = (bottom_navigation_widgets.contains(screen)) ?
-                BottomNavigationWrapper(screen: screen) :
+                BottomNavigationWrapper() :
                 _findWidget(screen);
   return MaterialPageRoute<dynamic>(
     builder: (context) {
