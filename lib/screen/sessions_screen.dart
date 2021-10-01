@@ -1,12 +1,11 @@
 import 'dart:ui';
 
-import 'package:didar_app/Constants/them_conf.dart';
+import 'package:didar_app/constants/them_conf.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SessionsScreen extends StatefulWidget {
