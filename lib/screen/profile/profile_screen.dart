@@ -1,4 +1,4 @@
-import 'package:didar_app/Constants/them_conf.dart';
+import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/screen/profile/b_sheet_new_social_link.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
@@ -17,7 +17,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String? _dropDownChooseSession;
+  //Unused String? _dropDownChooseSession;
   List<dynamic> _socialLinks = [];
 
   /// This function is for saving the User profile info

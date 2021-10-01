@@ -1,4 +1,4 @@
-import 'package:didar_app/Constants/them_conf.dart';
+import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/screen/profile/profile_screen.dart';
 import 'package:didar_app/screen/sessions_screen.dart';
@@ -21,6 +21,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
+
   int _selectedIndex = 2; 
   
 

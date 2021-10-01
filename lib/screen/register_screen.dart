@@ -1,5 +1,5 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:didar_app/Constants/them_conf.dart';
+import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
