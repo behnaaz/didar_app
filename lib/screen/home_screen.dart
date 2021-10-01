@@ -1,7 +1,9 @@
 import 'package:didar_app/constants/them_conf.dart';
+import 'package:didar_app/model/status_item_model.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
@@ -57,32 +59,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            home2? 
-            Column(
-              children: [
-                Text('جلسات قابل ارائه خود را ثبت کنید', style: MyTextStyle.base.copyWith(fontWeight: FontWeight.bold)),
-                Image.asset(
-                  AssetImages.sessionPlaceholder,
-                  width: widthOfScreen - 150,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(routeSessions); // TODO  bad way to doing that
-                    print('session clicked');
-                  },
-                  child: Text('ثبت جلسه'),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith((states) => ColorPallet.red),
-                    padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.symmetric(horizontal: 40)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
+            home2
+                ? Column(
+                    children: [
+                      Text('جلسات قابل ارائه خود را ثبت کنید', style: MyTextStyle.base.copyWith(fontWeight: FontWeight.bold)),
+                      Image.asset(
+                        AssetImages.sessionPlaceholder,
+                        width: widthOfScreen - 150,
                       ),
-                    ),
-                  ),
-                )
-              ],
-            ) : Column(),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(routeSessions); // TODO  bad way to doing that
+                          print('session clicked');
+                        },
+                        child: Text('ثبت جلسه'),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith((states) => ColorPallet.red),
+                          padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.symmetric(horizontal: 40)),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                : HomeEventDetails(),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -100,6 +103,115 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//              This will render when user Event details is not empty
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class HomeEventDetails extends StatelessWidget {
+  final List<StatusItemModel> _statusList = [
+    StatusItemModel(title: 'درآمد ماه آینده', badgeAddress: AssetImages.badgeDidarCoin, status: '80', statusIcon: false),
+    StatusItemModel(title: 'رضایت مشتری', badgeAddress: AssetImages.badgeRate, status: '3', statusIcon: true),
+    StatusItemModel(title: 'فروش ماه گذشته', badgeAddress: AssetImages.badgeDidarCoin, status: '0', statusIcon: false),
+    StatusItemModel(title: 'تعداد مشتری تا امروز', badgeAddress: AssetImages.badgeStudent, status: '2', statusIcon: false),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(children: [SizedBox(height: 4,),
+            Row(
+              children: List.generate(
+                _statusList.length,
+                (index) => Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: ColorPallet.grayBg),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              _statusList[index].statusIcon
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: List.generate(
+                                          5,
+                                          (i) => Icon(
+                                                Icons.star,
+                                                size: 14,
+                                                color: int.parse(_statusList[index].status) >= i + 1 ? Colors.grey : Colors.amber,
+                                              )),
+                                    )
+                                  : Text(_statusList[index].status),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Image.asset(
+                                _statusList[index].badgeAddress,
+                                height: 30,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          _statusList[index].title,
+                          style: MyTextStyle.xSmall,
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              'جلسات آنلاین پیش رو',
+              style: MyTextStyle.large.copyWith(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 10,
+            ),Container(color: Colors.blueAccent,height: 180,),
+            ElevatedButton(
+              onPressed: () {
+                Get.toNamed(routeSessions); // TODO  bad way to doing that
+                print('session clicked');
+              },
+              child: Text(
+                'ورود به جلسه',
+                style: MyTextStyle.base.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) => ColorPallet.red),
+                padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.symmetric(horizontal: 40)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0),
+                  ),
+                ),
+              ),
+            )
+          ]),
         ),
       ),
     );
