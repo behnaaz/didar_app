@@ -2,6 +2,7 @@ import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/screen/profile/b_sheet_new_social_link.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
+import 'package:didar_app/widgets/multiSelect.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,7 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
+
+
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -68,8 +70,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController bioController = TextEditingController();
 
 //______________________________________________________________________________
-  List  _selectedSessions = [];
-  final _sessionSubjects = ['آواز', 'زبان', 'گیتار', 'مدیریت', 'پیانو'];
+  
+  List<String> _selected = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,6 +145,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             controller: lastNameController,
                             label: "نام خانوادگی",
                           ),
+                          DropDownMultiSelect(
+                            onChanged: (List<String> x) {
+                              setState(() {
+                                _selected = x;
+                              });
+                            },
+                            options: ['a', 'b', 'c', 'd'],
+                            selectedValues: _selected,
+                            whenEmpty: 'موضوع جلسات',
+                          ),
                           // Container(
                           //   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
                           //   decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8)),
@@ -177,18 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           //     }).toList(),
                           //   ),
                           // ),
-                          MultiSelectDialogField(confirmText: Text('انتخاب'),buttonText: Text('موضوع جلسات'),cancelText: Text('انصراف'),
-                            title: Text('موضوع جلسات'),
-                            initialValue: _selectedSessions,decoration: BoxDecoration(border: Border.all(color: Colors.grey[500]! ),borderRadius: BorderRadius.circular(10)),
-                            items: _sessionSubjects.map((e) => MultiSelectItem(e,e)).toList(),
-                            listType: MultiSelectListType.CHIP,
-                            onConfirm: (values) {
-                              setState(() {
-                                
-                              _selectedSessions = values;
-                              });
-                            },
-                          ),
+                         
                           _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
                           _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
                           _profileTextField(controller: eduDegreeController, label: "سابقه تحصیلی"),
