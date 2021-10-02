@@ -13,6 +13,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:logger/logger.dart';
+
+Logger logger = Logger();
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -34,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() => _loginButtonIsActive = false);
         try {
           await authService.signIn(email: emailController.text, password: passwordController.text);
+        
           //TODO Farsi
           Get.snackbar("You are login successfully", "Have fun", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
           Get.toNamed(routeHome);
@@ -41,8 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
           //BottomNavigationWrapper(routeHome);
         } on FirebaseAuthException catch (e) {
+          logger.d(e);
           //TODO Farsi
-          Get.snackbar("Sorry", "${e.message}", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
+          Get.snackbar("Sorry", "bad connection Can't connect to server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
           setState(() => _loginButtonIsActive = true);
         }
       }
@@ -137,23 +142,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("اگه هنوز ثبت نام نکردی "),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              OutlinedButton(
-                                onPressed: () {
-                                  Get.to(() => RegisterScreen());
-                                },
-                                child: Text(
-                                  "همین الان ثبت نام کن",
-                                  style: TextStyle(color: ColorPallet.blue),
+                          Center(
+                            child: Row(
+                              
+                              children: [
+                                Text("اگه هنوز ثبت نام نکردی " ,textAlign: TextAlign.center,style: MyTextStyle.small,),
+                                SizedBox(
+                                  width: 5,
                                 ),
-                              )
-                            ],
+                                OutlinedButton(
+                                  onPressed: () {
+                                    Get.to(() => RegisterScreen());
+                                  },
+                                  child: Text(
+                                    "همین الان ثبت نام کن",
+                                    style: TextStyle(color: ColorPallet.blue),
+                                  ),
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),

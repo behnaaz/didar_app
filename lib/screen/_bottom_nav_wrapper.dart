@@ -22,7 +22,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
 
-  int _selectedIndex = 2; 
+  int _selectedIndex = 3; 
   
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();

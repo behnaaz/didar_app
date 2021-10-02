@@ -11,7 +11,6 @@ class AuthWrapper extends StatelessWidget {
     // NOTE : AuthService Provider
      AuthenticationService authService =
         Provider.of<AuthenticationService>(context);
-
     return StreamBuilder<User?>(
       stream: authService.user,
       builder: (_, AsyncSnapshot<User?> snapshot) {

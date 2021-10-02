@@ -16,7 +16,9 @@ var fakeData = {
   '2021-9-28|01:00-02:00': 'پیانو',
   '2021-9-29|05:00-06:00': 'پیانو',
   '2021-9-30|01:00-02:00': 'پیانو',
-  '2021-10-7|01:00-02:00': 'پیانو',
+  '2021-10-2|01:00-02:00': 'پیانو',
+  '2021-10-4|01:00-02:00': 'پیانو و ساز های زهی',
+  '2021-10-4|03:00-04:00': 'یککلمهخیلیبزرگ چطوری اخه ها ها ها',
 };
 
 class CalendarWeeklyScreen extends StatefulWidget {
@@ -190,7 +192,8 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                               print(fakeData['2021-9-25|02:00-03:00']);
                                               print(fakeData.containsKey('2021-9-25|02:00-03:00'));
                                             },
-                                            child: AnimatedContainer(duration: Duration(milliseconds: 400),
+                                            child: AnimatedContainer(
+                                              duration: Duration(milliseconds: 400),
                                               decoration: BoxDecoration(
                                                   color: fakeData.containsKey(
                                                               '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}') ==
@@ -201,9 +204,20 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                     color: Colors.white,
                                                   )),
                                               child: Center(
-                                                child: Text(fakeData[
-                                                        '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}'] ??
-                                                    ''),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(2.0),
+                                                  // child: Text(fakeData[
+                                                  //         '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}'] ??
+                                                  //     '' ,style: MyTextStyle.small.copyWith(color: Colors.black),),
+                                                  child: RichText(
+                                                    overflow: TextOverflow.ellipsis,
+                                                    text: TextSpan(
+                                                        style: TextStyle(color: Colors.black, fontSize: 12),
+                                                        text: fakeData[
+                                                                '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}'] ??
+                                                            ''),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),

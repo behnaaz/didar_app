@@ -764,51 +764,55 @@ class _EditSessionalState extends State<EditSessional> {
                     height: 20,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'انتخاب رنگ',
                         style: MyTextStyle.base,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: 20,
-                            height: 20,
-                            color: ColorPallet.lightRed,
+                      ),SizedBox(width: 8,),
+                      Expanded(
+                        child: Container(height: 20,
+                          child: ListView(scrollDirection: Axis.horizontal,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.lightRed,
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.violet,
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.pink,
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.yellow,
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.green,
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 20,
+                                height: 20,
+                                color: ColorPallet.lightBlue,
+                              )
+                            ],
                           ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: 20,
-                            height: 20,
-                            color: ColorPallet.violet,
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: 20,
-                            height: 20,
-                            color: ColorPallet.pink,
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: 20,
-                            height: 20,
-                            color: ColorPallet.yellow,
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: 20,
-                            height: 20,
-                            color: ColorPallet.green,
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: 20,
-                            height: 20,
-                            color: ColorPallet.lightBlue,
-                          )
-                        ],
+                        ),
                       )
                     ],
                   )
