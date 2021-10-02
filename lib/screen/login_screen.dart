@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         } on FirebaseAuthException catch (e) {
           logger.d(e);
           //TODO Farsi
-          Get.snackbar("Sorry", "bad connection Can't connect to server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
+          Get.snackbar("bad connection", "Can't connect to server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
           setState(() => _loginButtonIsActive = true);
         }
       }

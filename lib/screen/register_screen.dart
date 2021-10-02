@@ -43,10 +43,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
           Get.snackbar("خوش آمدید", "ثبت نام موفقیت آمیز بود!", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
           Get.toNamed(routeLogin);
-       
         } on FirebaseAuthException catch (e) {
-          Get.snackbar("Sorry", "${e.message}", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
+          Get.snackbar("bad connection", "Can't connect to the server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
           setState(() => _registerButtonIsActive = true);
+          print(e);
         }
       }
     } // NOTE - If Internet WiFi and mobile Data were Disconnected
@@ -60,7 +60,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // after demo, please use international lang as explained in
   // https://flutter.dev/docs/development/accessibility-and-localization/internationalization
   // for both english and farsi (english is not important now but using the approach of
-  
 
   // ANCHOR : UI Build Widget --------------------------------------------------
   @override
