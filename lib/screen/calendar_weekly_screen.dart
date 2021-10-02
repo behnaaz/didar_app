@@ -206,9 +206,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                               child: Center(
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(2.0),
-                                                  // child: Text(fakeData[
-                                                  //         '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}'] ??
-                                                  //     '' ,style: MyTextStyle.small.copyWith(color: Colors.black),),
+                                                
                                                   child: RichText(
                                                     overflow: TextOverflow.ellipsis,
                                                     text: TextSpan(
