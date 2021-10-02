@@ -2,9 +2,7 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:logger/logger.dart';
 
-var logger = Logger(); //REMOVE later
 
 class AddNewSocialLinksBottomSheet extends StatefulWidget {
   final List<dynamic> socialList;

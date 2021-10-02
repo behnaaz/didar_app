@@ -11,8 +11,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
-
-
 class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -70,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController bioController = TextEditingController();
 
 //______________________________________________________________________________
-  
+
   List<String> _selected = [];
   @override
   Widget build(BuildContext context) {
@@ -89,7 +87,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           StreamBuilder(
               stream: FirestoreServiceDB().userProfile,
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasError) {
+                  logger.d(snapshot.error);
+                  return Center(
+                    child: Icon(Icons.error_outline),
+                  );
+                } else if (snapshot.connectionState == ConnectionState.active) {
                   // ___________________________________________________________
                   //     >> Set the profile value on controllers <<
                   //                 ---------
@@ -189,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           //     }).toList(),
                           //   ),
                           // ),
-                         
+
                           _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
                           _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
                           _profileTextField(controller: eduDegreeController, label: "سابقه تحصیلی"),
@@ -242,10 +245,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   );
+                } else {
+                  // if the snapshot.status was != active
+                  // this will be render on screen
+                  return Center(child: CircularProgressIndicator());
                 }
-                // if the snapshot.status was != active
-                // this will be render on screen
-                return Center(child: CircularProgressIndicator());
               }),
         ],
       ),

@@ -197,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("قبلا ثبت نام کردید"),
+                              Text("قبلا ثبت نام کردید",style: TextStyle(fontSize: 12),),
                               SizedBox(
                                 width: 5,
                               ),
