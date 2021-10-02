@@ -42,10 +42,14 @@ dependencies:
     line_icons: ^2.0.1
     states_rebuilder: ^4.4.0
     logger: ^1.1.0
+    hive: ^2.0.4
+    hive_flutter: ^1.1.0
+
 dev_dependencies:
     flutter_test:
         sdk: flutter
-        
+    hive_generator: ^1.1.1
+    build_runner: ^2.1.4
     mockito: ^5.0.14
     
     lint: ^1.0.0
