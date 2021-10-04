@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
-  RxString userUid = ''.obs;
+  RxInt pageIndex = 2.obs;
 
-  void increment(uid) => this.userUid = uid;
+  void bottomNavigateTrigger(int index) {
+    this.pageIndex = RxInt(index);
+    update();
+  }
 }

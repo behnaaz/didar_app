@@ -7,6 +7,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
 
@@ -40,8 +41,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // NOTE - try Firebase SignUp Service
         try {
           await authService.signUp(fullName: fullNameController.text, email: emailController.text, password: passwordController.text);
-
+          Hive.box('status').put('accountState', 0);
           Get.snackbar("خوش آمدید", "ثبت نام موفقیت آمیز بود!", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
+
           Get.toNamed(routeLogin);
         } on FirebaseAuthException catch (e) {
           Get.snackbar("bad connection", "Can't connect to the server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
@@ -197,7 +199,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("قبلا ثبت نام کردید",style: TextStyle(fontSize: 12),),
+                              Text(
+                                "قبلا ثبت نام کردید",
+                                style: TextStyle(fontSize: 12),
+                              ),
                               SizedBox(
                                 width: 5,
                               ),

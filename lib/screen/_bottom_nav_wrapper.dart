@@ -1,4 +1,5 @@
 import 'package:didar_app/constants/them_conf.dart';
+import 'package:didar_app/controller/MainStore.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/screen/profile/profile_screen.dart';
 import 'package:didar_app/screen/sessions_screen.dart';
@@ -13,17 +14,16 @@ import 'package:didar_app/screen/calendar_weekly_screen.dart';
 import 'package:didar_app/screen/home_screen.dart';
 
 class BottomNavigationWrapper extends StatefulWidget {
-  const BottomNavigationWrapper({Key? key,}) : super(key: key);
- 
+  const BottomNavigationWrapper({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-
-  int _selectedIndex = 4; 
-  
+  late int _selectedIndex;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -36,10 +36,11 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
     CalendarWeeklyScreen(),
     SettingScreen(),
   ];
+   final RegisterController _controller = Get.put(RegisterController());
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index ) {
     setState(() {
-      _selectedIndex = index;
+       _controller.bottomNavigateTrigger(index);
     });
   }
 
@@ -166,41 +167,54 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
             fit: BoxFit.cover,
           )),
           // NOTE : this is a body Injection screen Widget
-          _widgetOptions[_selectedIndex],
+
+          GetBuilder<RegisterController>(
+            init: RegisterController(),
+            initState: (_) {},
+            builder: (controller) {
+              return _widgetOptions[controller.pageIndex.toInt()];
+            },
+          )
         ],
       ),
-      bottomNavigationBar: SnakeNavigationBar.color(
-        snakeShape: SnakeShape.rectangle,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        backgroundColor: Colors.grey[200],
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey[900],
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            label: "Profile",
-            icon: Icon(Icons.person),
-          ),
-          BottomNavigationBarItem(
-            label: "sessions",
-            icon: Icon(Icons.chair_rounded),
-          ),
-          BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(Icons.home),
-          ),
-          BottomNavigationBarItem(
-            label: "calendar",
-            icon: Icon(Icons.calendar_today),
-          ),
-          BottomNavigationBarItem(
-            label: "Setting",
-            icon: Icon(
-              Icons.settings,
-            ),
-          ),
-        ],
+      bottomNavigationBar: GetBuilder<RegisterController>(
+        init: RegisterController(),
+        initState: (_) {},
+        builder: (controller) {
+          return SnakeNavigationBar.color(
+            snakeShape: SnakeShape.rectangle,
+            currentIndex: controller.pageIndex.toInt(),
+            onTap: _onItemTapped,
+            backgroundColor: Colors.grey[200],
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.grey[900],
+            showUnselectedLabels: false,
+            items: [
+              BottomNavigationBarItem(
+                label: "Profile",
+                icon: Icon(Icons.person),
+              ),
+              BottomNavigationBarItem(
+                label: "sessions",
+                icon: Icon(Icons.chair_rounded),
+              ),
+              BottomNavigationBarItem(
+                label: "Home",
+                icon: Icon(Icons.home),
+              ),
+              BottomNavigationBarItem(
+                label: "calendar",
+                icon: Icon(Icons.calendar_today),
+              ),
+              BottomNavigationBarItem(
+                label: "Setting",
+                icon: Icon(
+                  Icons.settings,
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
