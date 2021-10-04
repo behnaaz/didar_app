@@ -1,7 +1,6 @@
-import 'package:didar_app/controller/MainStore.dart';
 import 'package:flutter/material.dart';
 import 'package:didar_app/constants/them_conf.dart';
-import 'package:get/get.dart';
+
 
 class SettingItem {
   final String icon;
