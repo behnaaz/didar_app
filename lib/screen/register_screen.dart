@@ -1,13 +1,14 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:didar_app/constants/them_conf.dart';
-import 'package:didar_app/routes/routes.dart';
+import 'package:didar_app/routes/routeController.dart';
+
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
 
@@ -29,11 +30,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // Create Account button Function
   void createAccount(authService) async {
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
-
     // REVIEW - Internet connection check -- ![ Need to check the internet service status]
     if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
       // we have internet connection
-
       //NOTE - Form Validation Check
       if (_formKey.currentState!.validate()) {
         setState(() => _registerButtonIsActive = false);
@@ -41,10 +40,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // NOTE - try Firebase SignUp Service
         try {
           await authService.signUp(fullName: fullNameController.text, email: emailController.text, password: passwordController.text);
-          Hive.box('status').put('accountState', 0);
-          Get.snackbar("خوش آمدید", "ثبت نام موفقیت آمیز بود!", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
-
-          Get.toNamed(routeLogin);
+          // ---------------------
+          routeController();
+          // ---------------------
         } on FirebaseAuthException catch (e) {
           Get.snackbar("bad connection", "Can't connect to the server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
           setState(() => _registerButtonIsActive = true);

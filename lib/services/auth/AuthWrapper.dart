@@ -9,20 +9,18 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // NOTE : AuthService Provider
-     AuthenticationService authService =
-        Provider.of<AuthenticationService>(context);
-        
+    AuthenticationService authService = Provider.of<AuthenticationService>(context);
+
     return StreamBuilder<User?>(
       stream: authService.user,
       builder: (_, AsyncSnapshot<User?> snapshot) {
+        // logger.i(Hive.box('status').get('accountState'));
         if (snapshot.connectionState == ConnectionState.active) {
-           User? user = snapshot.data;
+          User? user = snapshot.data;
           print(user.toString()); // LOG : USER is Exist or not
-          if (user != null)
-            print(
-                "uni ID:" + user.uid.toString()); // LOG : USER is Exist or not
+          if (user != null) print("uni ID:" + user.uid.toString()); // LOG : USER is Exist or not
 
-          return user == null ? LoginScreen() : BottomNavigationWrapper();//TODO behnaz
+          return user == null ? LoginScreen() : BottomNavigationWrapper(); //TODO behnaz
         }
         // NOTE :  IF Snapshot ConnectionState is Not ACTIVE
         return Scaffold(

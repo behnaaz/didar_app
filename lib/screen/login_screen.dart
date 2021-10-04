@@ -2,7 +2,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/routes/routes.dart';
 
-import 'package:didar_app/screen/register_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,8 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
         
           //TODO Farsi
           Get.snackbar("You are login successfully", "Have fun", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
-          Get.toNamed(routeHome);
-          Navigator.pushNamed(context, routeHome);
+          Get.toNamed(RoutesName.homeNavigationWrapper);
+          
 
           //BottomNavigationWrapper(routeHome);
         } on FirebaseAuthException catch (e) {
@@ -152,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 OutlinedButton(
                                   onPressed: () {
-                                    Get.to(() => RegisterScreen());
+                                    Get.toNamed(RoutesName.register);
                                   },
                                   child: Text(
                                     "همین الان ثبت نام کن",

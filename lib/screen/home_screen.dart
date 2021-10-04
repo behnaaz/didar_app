@@ -1,11 +1,11 @@
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/status_item_model.dart';
-import 'package:didar_app/routes/routes.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Get.toNamed(routeSessions); // TODO  bad way to doing that
+                        
                           print('session clicked');
                         },
                         child: Text('ثبت جلسه'),
@@ -194,7 +194,7 @@ class HomeEventDetails extends StatelessWidget {
             ),Container(color: Colors.blueAccent,height: 180,),
             ElevatedButton(
               onPressed: () {
-                Get.toNamed(routeSessions); // TODO  bad way to doing that
+              
                 print('session clicked');
               },
               child: Text(

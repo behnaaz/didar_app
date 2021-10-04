@@ -32,9 +32,8 @@ class DidarApp extends StatelessWidget {
           appBarTheme: AppBarTheme(color: Colors.white, iconTheme: IconThemeData(color: ColorPallet.grayBg)),
           // primaryColor: Colors.blue[900],
         ),
-        onGenerateRoute: getRoute,
-        initialRoute: routeHome,
-        routes: didarRoutes,
+       initialRoute: '/',
+        getPages: routPage,
       ),
     );
   }

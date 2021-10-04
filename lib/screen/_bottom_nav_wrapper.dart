@@ -23,7 +23,7 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  late int _selectedIndex;
+  
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -128,7 +128,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
             onTap: () {
               // this is Simpler way , I Use GETx package for navigate and stateManaging
               // Checkout https://pub.dev/packages/get for more Information.
-              Get.toNamed(routeMessages);
+              Get.toNamed(RoutesName.messages);
               // Navigator.pushNamed(context, routeMessages);
               print('message button clicked');
             },
