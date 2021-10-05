@@ -21,7 +21,7 @@ var fakeData = {
   '2021-9-30|01:00-02:00': 'پیانو',
   '2021-10-2|01:00-02:00': 'پیانو',
   '2021-10-4|01:00-02:00': 'پیانو و ساز های زهی',
-  '2021-10-4|03:00-04:00': 'یککلمهخیلیبزرگ چطوری اخه ها ها ها',
+  
 };
 
 class CalendarWeeklyScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class CalendarWeeklyScreen extends StatefulWidget {
 class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
   // instance of my solar calendar
   SolarCalendar cal = new SolarCalendar();
-  //TODO - initial page must be implement
+
   int _currentIndex = 999;
   late PageController _pageViewController = PageController(initialPage: _currentIndex);
   late Jalali now;

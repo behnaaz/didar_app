@@ -14,11 +14,10 @@ class CalendarScreen extends StatefulWidget {
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
- //TODO important one to set the default calendar to Weekly
 class _CalendarScreenState extends State<CalendarScreen> {
   PageController _pageViewController = PageController(initialPage: 1);
   final Jalali today = Jalali.now();
-  Jalali _date = Jalali(1400);//TODO Not a priority for now, but later this number should be read from a property defined in firebase.
+  Jalali _date = Jalali(1400);
 
 // _____________________________________________________________________________
 //                        >>-- Init state --<<
@@ -37,7 +36,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO unused variable, please delete if not needed dynamic t = today.weekDay;
+ 
     //dynamic tt = today.monthLength;
     return Container(
       child: Column(
@@ -61,7 +60,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               onPageChanged: (int index) {
                 print(index);
                 setState(() {
-                  _date = Jalali(1400, index + 1);//TODO: replace 1400 and other values as a constant on top of the file
+                  _date = Jalali(1400, index + 1);
                   //For example CURRENT_YEAR = 1400 FONT_SIZE=16 LEFT_WIDTH=?? ...
                 });
               },

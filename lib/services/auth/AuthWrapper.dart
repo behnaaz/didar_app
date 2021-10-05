@@ -20,7 +20,7 @@ class AuthWrapper extends StatelessWidget {
           print(user.toString()); // LOG : USER is Exist or not
           if (user != null) print("uni ID:" + user.uid.toString()); // LOG : USER is Exist or not
 
-          return user == null ? LoginScreen() : BottomNavigationWrapper(); //TODO behnaz
+          return user == null ? LoginScreen() : BottomNavigationWrapper(); 
         }
         // NOTE :  IF Snapshot ConnectionState is Not ACTIVE
         return Scaffold(

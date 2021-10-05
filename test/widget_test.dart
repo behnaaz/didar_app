@@ -20,7 +20,7 @@ void main() {
       // Verify that our counter starts at 0.
       //final hello = find.text('hello');
       // expect
-          // TODO test is failing  expect(hello, findsOneWidget);
+         
     });
     testWidgets('If User is Exist then go to bottom_navigation_wrapper',
         (WidgetTester tester) async {
@@ -30,7 +30,7 @@ void main() {
       // Verify that our counter starts at 0.
       //final hello = find.text('hello');
       // expect
-      //TODO test is failing expect(hello, findsOneWidget);
+    
     });
   });
 }

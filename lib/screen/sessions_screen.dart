@@ -27,8 +27,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
       // floatingActionButton: FloatingActionButton(
       //     child: Icon(Icons.add),
       //     onPressed: () {
-      //       // TODO : this is temporary it should navigate this to New Session Screen
-      //       Get.to(() => SessionEditBS());
+      //      
       //     }),
       body: Container(
         // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),

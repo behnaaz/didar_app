@@ -362,7 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //NOTE | save the info before User Dispose the !Screen
   @override
   void dispose() {
-    // save();  //FIXME - If you like to save after dispose //
+    // save();  
     super.dispose();
   }
 
