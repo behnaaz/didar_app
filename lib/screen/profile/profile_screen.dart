@@ -83,12 +83,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     print(_box.get(_userStatus));
     return Scaffold(
-      floatingActionButton: _box.get(_userStatus) == 'Passed'
-          ? FloatingActionButton(
+      floatingActionButton: _box.get(_userStatus) == 'Profile'
+          ? null
+          : FloatingActionButton(
               onPressed: () => save(),
               child: Text("save"),
-            )
-          : null,
+            ),
       body: Stack(
         children: [
           Center(
@@ -274,7 +274,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                      Row(
+                    _box.get(_userStatus) == 'Profile'?   Row(
                         children: [
                           Expanded(
                             child: Material(
@@ -299,7 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           )
                         ],
-                      ),
+                      ) : SizedBox() ,
                     ],
                   );
                 } else {
