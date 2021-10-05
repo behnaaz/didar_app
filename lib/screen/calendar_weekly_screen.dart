@@ -1,9 +1,12 @@
 import 'package:didar_app/constants/them_conf.dart';
+import 'package:didar_app/routes/routeController.dart';
 import 'package:didar_app/services/calendar/solar_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shamsi_date/extensions.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 var fakeData = {
   '2021-9-25|02:00-03:00': 'پیانو',
@@ -43,6 +46,8 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
     super.initState();
   }
 
+  Box _box = Hive.box('status');
+  final String _userUid = auth.FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {
     logger.i(now.toDateTime());
@@ -241,11 +246,15 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                         child: InkWell(
                           splashColor: Colors.blue[400],
                           // highlightColor: Colors.green ,
-                          onTap: () {},
+                          onTap: _box.get(_userUid) == 'Passed'
+                              ? () {}
+                              : () {
+                                  routeController('session');
+                                },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Text(
-                              'ذخیره',
+                              _box.get(_userUid) == 'Passed' ? 'ذخیره' : 'مرحله بعدی',
                               style: MyTextStyle.large.copyWith(
                                 color: Colors.white,
                               ),
@@ -261,37 +270,43 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
             ),
           ),
         ),
-        Positioned(
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: GestureDetector( onTap: (){
-           
-            },
-              child: Container(
-                color: Colors.black.withOpacity(.7),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35),
-                        child: Text(
-                          'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),SizedBox(height: 10,),
-                      Image.asset(
-                        AssetImages.calendarHint,
-                        height: 90,
+        _box.get(_userUid) == 'CalendarHint'
+            ? Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: () {
+                    routeController('Calendar');
+                  },
+                  child: Container(
+                    color: Colors.black.withOpacity(.7),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 35),
+                            child: Text(
+                              'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Image.asset(
+                            AssetImages.calendarHint,
+                            height: 90,
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ))
+                ))
+            : Center(),
       ],
     );
   }
