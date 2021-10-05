@@ -18,11 +18,11 @@ Box _box = Hive.box('status');
 final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 final RegisterController _controller = Get.put(RegisterController());
 //  --------------------------------------------
-void routeController() {
+void routeController(String state) {
   if (_firebaseAuth.currentUser != null) {
     String status = _firebaseAuth.currentUser!.uid;
-    if (_box.get(status) == null) {
-      Hive.box('status').put(status, 'Profile');
+    if (state == 'Profile') {
+      Hive.box('status').put(status, state);
       print(_box.get(status));
       _controller.bottomNavigateTrigger(0);
       print('bottom nav index: ${_controller.pageIndex}');
@@ -34,6 +34,13 @@ void routeController() {
         borderRadius: 10,
       );
       Get.offAllNamed(RoutesName.homeNavigationWrapper);
+    } else if (state == 'CalendarHint') {
+    } else if (state == 'Calendar') {
+    } else if (state == 'session') {
+    } else if (state == 'calendarSessionHint') {
+    } else if (state == 'Passed') {
+    } else {
+      print('Unnamed state');
     }
   }
 }

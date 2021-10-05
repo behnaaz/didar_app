@@ -41,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         try {
           await authService.signUp(fullName: fullNameController.text, email: emailController.text, password: passwordController.text);
           // ---------------------
-          routeController();
+          routeController('Profile');
           // ---------------------
         } on FirebaseAuthException catch (e) {
           Get.snackbar("bad connection", "Can't connect to the server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
@@ -56,10 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  //TODO For quick demo, please make the labels farsi
-  // after demo, please use international lang as explained in
-  // https://flutter.dev/docs/development/accessibility-and-localization/internationalization
-  // for both english and farsi (english is not important now but using the approach of
+
 
   // ANCHOR : UI Build Widget --------------------------------------------------
   @override
