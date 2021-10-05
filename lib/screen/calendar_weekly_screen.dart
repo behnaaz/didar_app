@@ -270,7 +270,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
             ),
           ),
         ),
-        _box.get(_userUid) == 'CalendarHint'
+        _box.get(_userUid) == 'CalendarHint' ||  _box.get(_userUid) == 'calendarSessionHint'
             ? Positioned(
                 top: 0,
                 bottom: 0,
@@ -278,7 +278,12 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                 right: 0,
                 child: GestureDetector(
                   onTap: () {
-                    routeController('Calendar');
+                    setState(() {
+                      
+                    _box.get(_userUid) == 'CalendarHint'?
+                    routeController('Calendar') : routeController('Passed');
+
+                    });
                   },
                   child: Container(
                     color: Colors.black.withOpacity(.7),
@@ -288,8 +293,9 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 35),
-                            child: Text(
-                              'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید',
+                            child: Text( _box.get(_userUid) == 'CalendarHint'?
+                              'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید':
+                              'برای مشخص کردن نوع جلسه بر روی زمان های انتخاب شده بر روی تقویم ضربه بزنید',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                             ),
