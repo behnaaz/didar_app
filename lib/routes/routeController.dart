@@ -4,7 +4,7 @@
 // Hive.box('status').put('accountState', 'Calendar');
 // Hive.box('status').put('accountState', 'session');
 // Hive.box('status').put('accountState', 'calendarSessionHint');
-// Hive.box('status').put('accountState', 'Passed');
+// Hive.box('status').put('accountState', 'Passed');  >> Final step
 
 import 'package:didar_app/controller/MainStore.dart';
 import 'package:didar_app/routes/routes.dart';

@@ -261,4 +261,13 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
       ),
     );
   }
+  
+// _____________________________________________________________________________
+//                        >>-- Dispose --<<
+// _____________________________________________________________________________
+  @override
+  void dispose() {
+    _pageViewController.dispose();
+    super.dispose();
+  }
 }
