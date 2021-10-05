@@ -73,6 +73,8 @@ class AssetImages {
   static const String iconFinancialStuff = "assets/images/d-icon-pay.png";
   /// Custom (Didar) statistic chart  Icon
   static const String iconChartStatistic = "assets/images/d-statistics-chart.png";
+
+  static const String calendarHint = "assets/images/finger_point.png";
 }
 
 // ::> TextStyle  --------------------------------------------------------------
