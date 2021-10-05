@@ -44,7 +44,10 @@ void routeController(String step) {
     } else if (step == 'session') {
       _controller.bottomNavigateTrigger(1);
     } else if (step == 'calendarSessionHint') {
+      _controller.bottomNavigateTrigger(3);
+
     } else if (step == 'Passed') {
+      _controller.bottomNavigateTrigger(3);
     } else {
       print('Unnamed state');
     }

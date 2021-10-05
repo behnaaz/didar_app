@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:didar_app/constants/them_conf.dart';
+import 'package:didar_app/routes/routeController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SessionsScreen extends StatefulWidget {
@@ -19,7 +21,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.grey[800],
       // floatingActionButton: FloatingActionButton(
       //     child: Icon(Icons.add),
       //     onPressed: () {
@@ -100,7 +102,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                       ),
                     ),
                     ...List.generate(
-                      5,
+                      3,
                       (index) => GestureDetector(
                         onTap: () {
                           // Get.bottomSheet(SessionEditBS(), isDismissible: true, isScrollControlled: true, useRootNavigator: true, backgroundColor: Colors.white, ignoreSafeArea: false);
@@ -133,12 +135,15 @@ class _SessionsScreenState extends State<SessionsScreen> {
                                   // ),
                                 ],
                               ),
-                              Row(children: [
-
-                              Icon(LineIcons.edit),
-                              SizedBox(width: 60,),
-                              Icon(LineIcons.trash),
-                              ],)
+                              Row(
+                                children: [
+                                  Icon(LineIcons.edit),
+                                  SizedBox(
+                                    width: 60,
+                                  ),
+                                  Icon(LineIcons.trash),
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -189,8 +194,94 @@ class _SessionsScreenState extends State<SessionsScreen> {
                     color: ColorPallet.blue,
                     child: InkWell(
                       splashColor: Colors.lightBlue[400],
-                      // highlightColor: Colors.green ,
-                      onTap: () {},
+                      onTap: () {
+                        Get.dialog(Dialog(
+                          alignment: AlignmentDirectional.center,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                          insetPadding: EdgeInsets.all(20),
+                          backgroundColor: Colors.white,
+                          child: Container(
+                            height: 250,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        icon: Container(
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.blue),
+                                          child: Icon(
+                                            LineIcons.times,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'با توجه به این که شما چند نوع جلسه دارید آیا می خواهید نوع جلسات خود را بر روی تقویم مشخص کنید؟',
+                                  textAlign: TextAlign.center,
+                                  style: MyTextStyle.small,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            routeController('calendarSessionHint');
+                                            Get.back();
+                                          },
+                                          child: Text('بله، مشخص میکنم', style: MyTextStyle.small.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+                                          style: ButtonStyle(
+                                              shape: MaterialStateProperty.resolveWith(
+                                                (states) => RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                              ),
+                                              padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.all(2)),
+                                              backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blue)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            routeController('Passed');
+                                            Get.back();
+                                          },
+                                          child: Text('خیر همه ی ساعت ها برای همه ی جلسات قابل ارائه هستند',
+                                              textAlign: TextAlign.center, style: MyTextStyle.small.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+                                          style: ButtonStyle(
+                                              shape: MaterialStateProperty.resolveWith(
+                                                (states) => RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                                              ),
+                                              padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.all(6)),
+                                              backgroundColor: MaterialStateColor.resolveWith((states) => Colors.red)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ));
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Text(
@@ -216,10 +307,12 @@ class _SessionsScreenState extends State<SessionsScreen> {
 // TODO : this is for test. Must remove latter.
 List<Color> _c = [
   ColorPallet.lightBlue,
-  ColorPallet.lightRed,
   ColorPallet.green,
-  ColorPallet.violet,
+  ColorPallet.yellow,
+  ColorPallet.cyan,
   ColorPallet.pink,
+  ColorPallet.violet,
+  ColorPallet.lightRed,
 ];
 
 //==============================================================================
@@ -548,6 +641,7 @@ class EditSessional extends StatefulWidget {
 }
 
 class _EditSessionalState extends State<EditSessional> {
+  int? selectedColorIndex;
   String? _dropDownCategory;
   String? _dropDownProperAge;
   String? _dropDownDuration;
@@ -617,7 +711,7 @@ class _EditSessionalState extends State<EditSessional> {
                         _dropDownProperAge = newValue!;
                       });
                     },
-                    items: <String>['تمامی سنین', 'کودکان', 'بزرگسالان'].map<DropdownMenuItem<String>>((String value) {
+                    items: <String>['کودکان', 'بزرگسالان'].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         onTap: () {
                           setState(() {
@@ -769,48 +863,45 @@ class _EditSessionalState extends State<EditSessional> {
                       Text(
                         'انتخاب رنگ',
                         style: MyTextStyle.base,
-                      ),SizedBox(width: 8,),
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
                       Expanded(
-                        child: Container(height: 20,
-                          child: ListView(scrollDirection: Axis.horizontal,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                width: 20,
-                                height: 20,
-                                color: ColorPallet.lightRed,
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                width: 20,
-                                height: 20,
-                                color: ColorPallet.violet,
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                width: 20,
-                                height: 20,
-                                color: ColorPallet.pink,
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                width: 20,
-                                height: 20,
-                                color: ColorPallet.yellow,
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                width: 20,
-                                height: 20,
-                                color: ColorPallet.green,
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                width: 20,
-                                height: 20,
-                                color: ColorPallet.lightBlue,
-                              )
-                            ],
+                        child: Container(
+                          height: 30,
+                          child: Center(
+                            child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: List.generate(
+                                  _c.length,
+                                  (index) => GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedColorIndex = index;
+                                      });
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        color: _c[index],
+                                        border: selectedColorIndex == index ? Border.all(width: 1, color: Colors.white) : null,
+                                        boxShadow: selectedColorIndex == index
+                                            ? [
+                                                BoxShadow(
+                                                  color: Colors.grey.withOpacity(0.5),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 2,
+                                                  offset: Offset(0, 3), // changes position of shadow
+                                                ),
+                                              ]
+                                            : null,
+                                      ),
+                                    ),
+                                  ),
+                                )),
                           ),
                         ),
                       )
