@@ -10,6 +10,8 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
+List<String> _samplesession = ['موسیقی', 'آواز کودکان', 'یوگا'];
+
 class SessionsScreen extends StatefulWidget {
   @override
   State<SessionsScreen> createState() => _SessionsScreenState();
@@ -116,7 +118,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                             children: [
                               Row(
                                 children: [
-                                  Text('موسیقی',
+                                  Text(_samplesession[index],
                                       style: MyTextStyle.base.copyWith(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.grey[900],
@@ -779,12 +781,7 @@ class _EditSessionalState extends State<EditSessional> {
                     },
                     items: <String>[
                       '1 جلسه',
-                      '2 جلسه',
-                      '3 جلسه',
                       '4 جلسه',
-                      '5 جلسه',
-                      '6 جلسه',
-                      '7 جلسه',
                       '8 جلسه',
                     ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
@@ -836,6 +833,7 @@ class _EditSessionalState extends State<EditSessional> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         label: Text('قیمت دوره'),
+                        hintText: '20 دلار',
                         // prefix: Container(
                         //   padding: EdgeInsets.only(left: 20),
                         //   child: Text('قیمت دوره'),
