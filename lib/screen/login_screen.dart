@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         
           //TODO Farsi
           Get.snackbar("You are login successfully", "Have fun", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
-          Get.toNamed(RoutesName.homeNavigationWrapper);
+          Get.offAllNamed(RoutesName.homeNavigationWrapper);
           
 
           //BottomNavigationWrapper(routeHome);
