@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/status_item_model.dart';
 
@@ -5,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
-
+import 'package:flutter/widgets.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,7 +18,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   /// TODO  this is temp
   bool home2 = false;
-
+  final List<StatusItemModel> _statusList = [
+    StatusItemModel(title: 'درآمد ماه آینده', badgeAddress: AssetImages.badgeDidarCoin, status: '80', statusIcon: false),
+    StatusItemModel(title: 'رضایت مشتری', badgeAddress: AssetImages.badgeRate, status: '3', statusIcon: true),
+    StatusItemModel(title: 'فروش ماه گذشته', badgeAddress: AssetImages.badgeDidarCoin, status: '0', statusIcon: false),
+    StatusItemModel(title: 'تعداد مشتری تا امروز', badgeAddress: AssetImages.badgeStudent, status: '2', statusIcon: false),
+  ];
   @override
   Widget build(BuildContext context) {
     // final authService = Provider.of<AuthenticationService>(context);
@@ -40,6 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           AssetImages.homeHeader,
                         ),
                       ),
+                      SizedBox(
+                        height: 200,
+                      ),
                       Positioned(
                         width: widthOfScreen,
                         child: Image.asset(
@@ -53,7 +64,68 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Text(
                                 'جمعه 1 مرداد ماه 1400 | 2021 Friday 21 July',
                                 style: MyTextStyle.base.copyWith(color: Colors.white),
-                              )))
+                              ))),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(
+                            _statusList.length,
+                            (index) => Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: ColorPallet.grayBg),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          _statusList[index].statusIcon
+                                              ? Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: List.generate(
+                                                      5,
+                                                      (i) => Icon(
+                                                            Icons.star,
+                                                            size: 14,
+                                                            color: int.parse(_statusList[index].status) >= i + 1 ? Colors.grey : Colors.amber,
+                                                          )),
+                                                )
+                                              : Text(_statusList[index].status),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Image.asset(
+                                            _statusList[index].badgeAddress,
+                                            height: 30,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      _statusList[index].title,
+                                      style: MyTextStyle.xSmall,
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -69,7 +141,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                        
                           print('session clicked');
                         },
                         child: Text('ثبت جلسه'),
@@ -113,88 +184,81 @@ class _HomeScreenState extends State<HomeScreen> {
 //              This will render when user Event details is not empty
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class HomeEventDetails extends StatelessWidget {
-  final List<StatusItemModel> _statusList = [
-    StatusItemModel(title: 'درآمد ماه آینده', badgeAddress: AssetImages.badgeDidarCoin, status: '80', statusIcon: false),
-    StatusItemModel(title: 'رضایت مشتری', badgeAddress: AssetImages.badgeRate, status: '3', statusIcon: true),
-    StatusItemModel(title: 'فروش ماه گذشته', badgeAddress: AssetImages.badgeDidarCoin, status: '0', statusIcon: false),
-    StatusItemModel(title: 'تعداد مشتری تا امروز', badgeAddress: AssetImages.badgeStudent, status: '2', statusIcon: false),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SingleChildScrollView(
+      child: Container(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(children: [SizedBox(height: 4,),
-            Row(crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(
-                _statusList.length,
-                (index) => Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: ColorPallet.grayBg),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              _statusList[index].statusIcon
-                                  ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: List.generate(
-                                          5,
-                                          (i) => Icon(
-                                                Icons.star,
-                                                size: 14,
-                                                color: int.parse(_statusList[index].status) >= i + 1 ? Colors.grey : Colors.amber,
-                                              )),
-                                    )
-                                  : Text(_statusList[index].status),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Image.asset(
-                                _statusList[index].badgeAddress,
-                                height: 30,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          _statusList[index].title,
-                          style: MyTextStyle.xSmall,
-                          textAlign: TextAlign.center,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+          child: Column(children: [
+            SizedBox(
+              height: 4,
             ),
             SizedBox(
-              height: 30,
+              height: 15,
             ),
             Text(
               'جلسات آنلاین پیش رو',
               style: MyTextStyle.large.copyWith(fontWeight: FontWeight.bold),
             ),
-            SizedBox(
-              height: 10,
-            ),Container(color: Colors.blueAccent,height: 180,),
+            Flexible(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                // color: Colors.blueAccent,
+
+                child: Swiper(
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22.0),
+                        ),
+                        color: Colors.blue[700],
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    AssetImages.avatarWhite,
+                                    height: 70,
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        'بهاره محمدی',
+                                        style: MyTextStyle.base.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        'آواز - 1 ساعت',
+                                        style: MyTextStyle.small.copyWith(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),Row(children:[Text('زمان باقیمانده',style: MyTextStyle.small.copyWith(color: Colors.white),)])
+                            ],
+                          ),
+                        ));
+                  },
+                  itemCount: 3,
+                  layout: SwiperLayout.STACK,
+                  itemWidth: MediaQuery.of(context).size.width,
+                  itemHeight: 200,
+                  scrollDirection: Axis.vertical,
+                ),
+              ),
+            ),
             ElevatedButton(
               onPressed: () {
-              
                 print('session clicked');
               },
               child: Text(
@@ -210,12 +274,13 @@ class HomeEventDetails extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ]),
         ),
       ),
     );
   }
+  
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -75,6 +75,7 @@ class AssetImages {
   static const String iconChartStatistic = "assets/images/d-statistics-chart.png";
 
   static const String calendarHint = "assets/images/finger_point.png";
+  static const String avatarWhite = "assets/images/avatar-white.png";
 }
 
 // ::> TextStyle  --------------------------------------------------------------
