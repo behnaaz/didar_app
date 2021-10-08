@@ -1,4 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
+
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/status_item_model.dart';
 
@@ -7,8 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:line_icons/line_icons.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -215,7 +215,8 @@ class HomeEventDetails extends StatelessWidget {
                         color: Colors.blue[700],
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
-                          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
@@ -244,7 +245,14 @@ class HomeEventDetails extends StatelessWidget {
                                     ],
                                   )
                                 ],
-                              ),Row(children:[Text('زمان باقیمانده',style: MyTextStyle.small.copyWith(color: Colors.white),)])
+                              ),
+                              Row(children: [
+                                Text(
+                                  'زمان باقیمانده',
+                                  style: MyTextStyle.small.copyWith(color: Colors.white),
+                                ),
+                               
+                              ])
                             ],
                           ),
                         ));
@@ -280,7 +288,6 @@ class HomeEventDetails extends StatelessWidget {
       ),
     );
   }
-  
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
