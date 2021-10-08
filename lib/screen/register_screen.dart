@@ -39,7 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         // NOTE - try Firebase SignUp Service
         try {
-          await authService.signUp(fullName: fullNameController.text, email: emailController.text, password: passwordController.text);
+          await authService.signUp( email: emailController.text, password: passwordController.text);
           // ---------------------
           routeController('Profile');
           // ---------------------
@@ -93,15 +93,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               height: 50,
                             ),
                           ),
-                          myTextFormField(
-                              controller: fullNameController,
-                              label: "نام کامل",
-                              icon: Icon(Icons.person),
-                              validator: (String? value) {
-                                if (value!.isEmpty) {
-                                  return "لطفا نام کامل خود را وارد کنید";
-                                }
-                              }),
+                          // myTextFormField(
+                          //     controller: fullNameController,
+                          //     label: "نام کامل",
+                          //     icon: Icon(Icons.person),
+                          //     validator: (String? value) {
+                          //       if (value!.isEmpty) {
+                          //         return "لطفا نام کامل خود را وارد کنید";
+                          //       }
+                          //     }),
                           myTextFormField(
                               controller: emailController,
                               label: "ایمیل",

@@ -23,25 +23,21 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
-    var credential = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
+    var credential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     return _userFromFirebase(credential.user);
   }
 
   Future<User?> signUp({
-    // FIXME : this should be first and last name and does't need for sign-up
-    required String fullName,
     required String email,
     required String password,
   }) async {
     // Create the Instance od user
-    var credential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+    var credential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 
     // TODO : init user profile doc for the first time
     UserProfile emptyUser = UserProfile(
-      firstName: fullName,
-      lastName: fullName,
+      firstName: '',
+      lastName: '',
       email: email,
       phoneNumber: '',
       bio: '',
@@ -52,8 +48,7 @@ class AuthenticationService {
     try {
       await FirestoreServiceDB().addUserProfileData(emptyUser.toJson());
     } catch (e) {
-      print(
-          "authenticateService : I the credential in null, userInstance has been not created");
+      print("authenticateService : I the credential in null, userInstance has been not created");
     }
 
     return _userFromFirebase(credential.user);
