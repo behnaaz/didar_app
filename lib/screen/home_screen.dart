@@ -9,7 +9,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -219,6 +218,7 @@ class HomeEventDetails extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Image.asset(
                                     AssetImages.avatarWhite,
@@ -246,12 +246,147 @@ class HomeEventDetails extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              Row(children: [
+                              Row( crossAxisAlignment: CrossAxisAlignment.center, children: [
                                 Text(
-                                  'زمان باقیمانده',
+                                  'زمان باقیمانده:',
                                   style: MyTextStyle.small.copyWith(color: Colors.white),
                                 ),
-                               
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(7),
+                                                border: Border.all(color: Colors.white),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '2',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 2,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(7),
+                                                border: Border.all(color: Colors.white),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '2',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),SizedBox(height: 4,),
+                                        Text(
+                                          'ثانیه',
+                                          style: MyTextStyle.xSmall.copyWith(color: Colors.white),
+                                        )
+                                      ],
+                                    ),SizedBox(width: 15,),
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(7),
+                                                border: Border.all(color: Colors.white),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '5',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 2,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(7),
+                                                border: Border.all(color: Colors.white),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '4',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          'دقیقه',
+                                          style: MyTextStyle.xSmall.copyWith(color: Colors.white),
+                                        )
+                                      ],
+                                    ),SizedBox(width: 15,),
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(7),
+                                                border: Border.all(color: Colors.white),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '2',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 2,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(7),
+                                                border: Border.all(color: Colors.white),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '0',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          'ساعت',
+                                          style: MyTextStyle.xSmall.copyWith(color: Colors.white),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                )
                               ])
                             ],
                           ),
