@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/routes/routeController.dart';
 import 'package:didar_app/screen/profile/b_sheet_new_social_link.dart';
+import 'package:didar_app/services/database/fb_all_session_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:didar_app/widgets/multiSelect.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,7 +81,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 // =================================================================
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  List<String> _selected = [];
   @override
   Widget build(BuildContext context) {
     print(_box.get(_userStatus));
@@ -177,16 +179,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ),
                               ),
-                              DropDownMultiSelect(
-                                onChanged: (List<String> x) {
-                                  setState(() {
-                                    _selected = x;
-                                  });
-                                },
-                                options: ['a', 'b', 'c', 'd'],
-                                selectedValues: _selected,
-                                whenEmpty: 'موضوع جلسات',
-                              ),
+
+                              _SessionSubject(),
                               // Container(
                               //   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
                               //   decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8)),
@@ -274,32 +268,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                    _box.get(_userStatus) == 'Profile'?   Row(
-                        children: [
-                          Expanded(
-                            child: Material(
-                              color: ColorPallet.blue,
-                              child: InkWell(
-                                splashColor: Colors.lightBlue[400],
-                                // highlightColor: Colors.green ,
-                                onTap: () {
-                                  nextStep();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 15),
-                                  child: Text(
-                                    'مرحله بعدی',
-                                    style: MyTextStyle.large.copyWith(
-                                      color: Colors.white,
+                      _box.get(_userStatus) == 'Profile'
+                          ? Row(
+                              children: [
+                                Expanded(
+                                  child: Material(
+                                    color: ColorPallet.blue,
+                                    child: InkWell(
+                                      splashColor: Colors.lightBlue[400],
+                                      // highlightColor: Colors.green ,
+                                      onTap: () {
+                                        nextStep();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 15),
+                                        child: Text(
+                                          'مرحله بعدی',
+                                          style: MyTextStyle.large.copyWith(
+                                            color: Colors.white,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ) : SizedBox() ,
+                                )
+                              ],
+                            )
+                          : SizedBox(),
                     ],
                   );
                 } else {
@@ -362,7 +358,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //NOTE | save the info before User Dispose the !Screen
   @override
   void dispose() {
-    // save();  
+    // save();
     super.dispose();
   }
 
@@ -371,5 +367,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
       save();
       routeController('CalendarHint');
     }
+  }
+}
+
+class _SessionSubject extends StatelessWidget {
+  final List<String> _options = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: FBAllSessionTypeService().sessionsTypeStream,
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Text("Sessions not Available");
+          }
+
+          if (snapshot.hasData && !snapshot.data!.exists) {
+            return Text("Document does not exist");
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+            List<dynamic> _o = data['type'];
+            _o.forEach((e) {
+              _options.add(e.toString());
+            });
+            return _DropDownSession(_options);
+          }
+
+          return Stack(
+            children: [
+              DropDownMultiSelect(
+                onChanged: (List<String> x) {},
+                options: _options,
+                selectedValues: [],
+                whenEmpty: 'موضوع جلسات',
+              ),
+              Positioned(
+                  top: 38,
+                  right: 110,
+                  child: Container(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                      )))
+            ],
+          );
+        });
+  }
+}
+
+class _DropDownSession extends StatefulWidget {
+  final List<String> options;
+  _DropDownSession(this.options);
+
+  @override
+  _DropDownSessionState createState() => _DropDownSessionState(this.options);
+}
+
+class _DropDownSessionState extends State<_DropDownSession> {
+  final List<String> _options;
+  List<String> _selected = [];
+  _DropDownSessionState(this._options);
+  @override
+  Widget build(BuildContext context) {
+    return DropDownMultiSelect(
+      onChanged: (List<String> x) {
+        setState(() {
+          _selected = x;
+        });
+      },
+      options: _options,
+      selectedValues: _selected,
+      whenEmpty: 'موضوع جلسات',
+    );
   }
 }
