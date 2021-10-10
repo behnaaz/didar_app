@@ -45,18 +45,4 @@ if(!edit){
     return _userProfilesCollection.doc(_firebaseAuth.currentUser!.uid).snapshots();
   }
 
-  // mock
-  // UserProfile mockU = UserProfile(
-  //     firstName: 'firstName',
-  //     lastName: 'lastName',
-  //     email: 'email',
-  //     phoneNumber: 'phoneNumber',
-  //     eduDegree: '',
-  //     bio: '',
-  //     socialLinks: [],
-  //     sessionTopics: []);
-  // Future mockUserData() async {
-  //   final String uid = _firebaseAuth.currentUser!.uid;
-  //   return await _userProfilesCollection.doc('uid').set(this.mockU.toJson());
-  // }
 }
