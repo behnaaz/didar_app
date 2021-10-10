@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/routes/routeController.dart';
@@ -179,43 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ),
                               ),
-
                               _SessionSubject(),
-                              // Container(
-                              //   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
-                              //   decoration: BoxDecoration(border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8)),
-                              //   child: DropdownButton<String>(
-                              //     borderRadius: BorderRadius.circular(10),
-                              //     value: _dropDownChooseSession,
-                              //     hint: Text('موضوع جلسات'),
-                              //     icon: Icon(LineIcons.angleDown),
-                              //     iconSize: 24,
-                              //     alignment: AlignmentDirectional.center,
-                              //     isExpanded: true,
-                              //     elevation: 16,
-                              //     style: const TextStyle(color: ColorPallet.textColor, fontWeight: FontWeight.bold),
-                              //     underline: Container(
-                              //       height: 0,
-                              //     ),
-                              //     onChanged: (String? newValue) {
-                              //       setState(() {
-                              //         _dropDownChooseSession = newValue!;
-                              //       });
-                              //     },
-                              //     items: <String>['طراحی', 'آواز', 'پیانو'].map<DropdownMenuItem<String>>((String value) {
-                              //       return DropdownMenuItem<String>(
-                              //         onTap: () {
-                              //           setState(() {
-                              //             _dropDownChooseSession = value;
-                              //           });
-                              //         },
-                              //         value: value,
-                              //         child: Text(value),
-                              //       );
-                              //     }).toList(),
-                              //   ),
-                              // ),
-
                               _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
                               _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
                               _profileTextField(controller: eduDegreeController, label: "سابقه تحصیلی"),
@@ -370,6 +332,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
+// =============================================================================
+// Session Type Future from DB --::--::--::--::--::--::--::--::--::--::--::--::-
+// =============================================================================
 class _SessionSubject extends StatelessWidget {
   final List<String> _options = [];
 
@@ -418,6 +383,9 @@ class _SessionSubject extends StatelessWidget {
   }
 }
 
+// =============================================================================
+// Session DropDown    --::--::--::--::--::--::--::--::--::--::--::--::--::--::-
+// =============================================================================
 class _DropDownSession extends StatefulWidget {
   final List<String> options;
   _DropDownSession(this.options);
