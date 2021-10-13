@@ -24,6 +24,8 @@ jobs:
           flutter-version: '2.5.1'
       - name: Install dependencies
         run: flutter pub get
+      - name: Build
+        run: flutter build web
       - name: Analyze
         run: flutter analyze
       - name: Run tests
