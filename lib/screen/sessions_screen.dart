@@ -146,7 +146,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                       onTap: () {
                         FBUserSessionService().sessionUpdate();
                         Get.dialog(Dialog(
-                          alignment: AlignmentDirectional.center,
+                         // remove this gives error  alignment: AlignmentDirectional.center,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
                           insetPadding: EdgeInsets.all(20),
                           backgroundColor: Colors.white,
