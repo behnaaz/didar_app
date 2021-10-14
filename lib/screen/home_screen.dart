@@ -23,13 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
     StatusItemModel(title: 'فروش ماه گذشته', badgeAddress: AssetImages.badgeDidarCoin, status: '0', statusIcon: false),
     StatusItemModel(title: 'تعداد مشتری تا امروز', badgeAddress: AssetImages.badgeStudent, status: '2', statusIcon: false),
   ];
+  GlobalKey _containerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     // final authService = Provider.of<AuthenticationService>(context);
     double widthOfScreen = MediaQuery.of(context).size.width;
     print(widthOfScreen);
-    return Container(
-      child: Center(
+    return Center(
+      child: Container(key: _containerKey,
+        constraints: BoxConstraints(maxWidth: 800),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,13 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 200,
                       ),
                       Positioned(
-                        width: widthOfScreen,
-                        child: Image.asset(
-                          AssetImages.homeHeader,
+                        // width: widthOfScreen,
+                        child: Container(constraints: BoxConstraints(maxWidth: 800),
+                          child: Image.asset(
+                            AssetImages.homeHeader,
+                          ),
                         ),
                       ),
                       Positioned(
-                          top: 46 * ((widthOfScreen) / 411),
+                          top: widthOfScreen < 800 ? 46 * ((widthOfScreen) / 411) : 100,
                           child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 15),
                               child: Text(
