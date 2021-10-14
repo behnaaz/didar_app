@@ -76,140 +76,145 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   height: 80,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30), border: Border.all(color: ColorPallet.grayBg)),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 30),
-                            child: Image.asset(
-                              AssetImages.logo,
-                              height: 50,
-                            ),
-                          ),
-                          // myTextFormField(
-                          //     controller: fullNameController,
-                          //     label: "نام کامل",
-                          //     icon: Icon(Icons.person),
-                          //     validator: (String? value) {
-                          //       if (value!.isEmpty) {
-                          //         return "لطفا نام کامل خود را وارد کنید";
-                          //       }
-                          //     }),
-                          myTextFormField(
-                              controller: emailController,
-                              label: "ایمیل",
-                              icon: Icon(Icons.email),
-                              validator: (String? value) {
-                                if (value != null) if (!EmailValidator.validate(value)) {
-                                  return "لطفا ایمیل خود را به درستی وارد کنید";
-                                }
-                              }),
-                          myTextFormField(
-                              controller: passwordController,
-                              label: "کلمه عبور",
-                              icon: Icon(Icons.lock),
-                              obscureText: true,
-                              onChange: (value) {
-                                setState(() {});
-                              },
-                              suffix: passwordStrength(),
-                              validator: (String? value) {
-                                if (value != null) if (estimatePasswordStrength(value) < 0.3) {
-                                  return 'کلمه عبور انتخابی ضعیف است!';
-                                }
-                              }),
-                          myTextFormField(
-                              controller: rePasswordController,
-                              label: "تکرار کلمه عبور",
-                              icon: Icon(Icons.lock),
-                              obscureText: true,
-                              validator: (String? value) {
-                                if (passwordController.text != value) {
-                                  return 'کلمه عبور با تکرار ان مطابقت ندارد!';
-                                }
-                              }),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                  child: Checkbox(
-                                      value: _acceptTheRules,
-                                      onChanged: (value) {
-                                        setState(() {});
-                                        _acceptTheRules = value!;
-                                      })),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(style: TextStyle(fontSize: 12, color: ColorPallet.textColor, fontWeight: FontWeight.w500, fontFamily: 'IranSans'), children: [
-                                    TextSpan(text: 'ضوابط و مقررات ', style: TextStyle(decoration: TextDecoration.underline, decorationStyle: TextDecorationStyle.dashed, color: ColorPallet.blue)),
-                                    TextSpan(
-                                      text: 'دیدار را مطالعه کرده و با آن موافقم.',
-                                    ),
-                                  ]),
-                                ),
-                              ),
-                            ],
-                          ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
+                Center(
+                  child: Container(constraints: BoxConstraints(maxWidth: 800),
+                    padding: const EdgeInsets.all(12.0),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30), border: Border.all(color: ColorPallet.grayBg)),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 30),
+                              child: Image.asset(
+                                AssetImages.logo,
+                                height: 50,
                               ),
                             ),
-                            onPressed: _acceptTheRules
-                                ? _registerButtonIsActive
-                                    ? () {
-                                        createAccount(authService);
-                                      }
-                                    : null
-                                : null,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: _registerButtonIsActive
-                                  ? Text("ثبت نام")
-                                  : Container(
-                                      height: 14,
-                                      width: 14,
-                                      child: CircularProgressIndicator(
-                                        color: ColorPallet.blue,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "قبلا ثبت نام کردید",
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              OutlinedButton(
-                                child: Text("وارد شوید"),
-                                onPressed: () {
-                                  Navigator.pop(context);
+                            // myTextFormField(
+                            //     controller: fullNameController,
+                            //     label: "نام کامل",
+                            //     icon: Icon(Icons.person),
+                            //     validator: (String? value) {
+                            //       if (value!.isEmpty) {
+                            //         return "لطفا نام کامل خود را وارد کنید";
+                            //       }
+                            //     }),
+                            myTextFormField(
+                                controller: emailController,
+                                label: "ایمیل",
+                                icon: Icon(Icons.email),
+                                validator: (String? value) {
+                                  if (value != null) if (!EmailValidator.validate(value)) {
+                                    return "لطفا ایمیل خود را به درستی وارد کنید";
+                                  }
+                                }),
+                            myTextFormField(
+                                controller: passwordController,
+                                label: "کلمه عبور",
+                                icon: Icon(Icons.lock),
+                                obscureText: true,
+                                onChange: (value) {
+                                  setState(() {});
                                 },
+                                suffix: passwordStrength(),
+                                validator: (String? value) {
+                                  if (value != null) if (estimatePasswordStrength(value) < 0.3) {
+                                    return 'کلمه عبور انتخابی ضعیف است!';
+                                  }
+                                }),
+                            myTextFormField(
+                                controller: rePasswordController,
+                                label: "تکرار کلمه عبور",
+                                icon: Icon(Icons.lock),
+                                obscureText: true,
+                                validator: (String? value) {
+                                  if (passwordController.text != value) {
+                                    return 'کلمه عبور با تکرار ان مطابقت ندارد!';
+                                  }
+                                }),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                    child: Checkbox(
+                                        value: _acceptTheRules,
+                                        onChanged: (value) {
+                                          setState(() {});
+                                          _acceptTheRules = value!;
+                                        })),
+                                Expanded(
+                                  child: RichText(
+                                    text: TextSpan(style: TextStyle(fontSize: 12, color: ColorPallet.textColor, fontWeight: FontWeight.w500, fontFamily: 'IranSans'), children: [
+                                      TextSpan(text: 'ضوابط و مقررات ', style: TextStyle(decoration: TextDecoration.underline, decorationStyle: TextDecorationStyle.dashed, color: ColorPallet.blue)),
+                                      TextSpan(
+                                        text: 'دیدار را مطالعه کرده و با آن موافقم.',
+                                      ),
+                                    ]),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
                               ),
-                            ],
-                          )
-                        ],
+                              onPressed: _acceptTheRules
+                                  ? _registerButtonIsActive
+                                      ? () {
+                                          createAccount(authService);
+                                        }
+                                      : null
+                                  : null,
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: _registerButtonIsActive
+                                    ? Text("ثبت نام")
+                                    : Container(
+                                        height: 14,
+                                        width: 14,
+                                        child: CircularProgressIndicator(
+                                          color: ColorPallet.blue,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "قبلا ثبت نام کردید",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                OutlinedButton(
+                                  child: Text("وارد شوید"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
