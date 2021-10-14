@@ -1,14 +1,12 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/routes/routeController.dart';
-
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:password_strength/password_strength.dart';
 import 'package:provider/provider.dart';
 
@@ -18,13 +16,16 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  // TextField Controllers
+  // TextField Controllers ::--::--::--::--::--::--::--::--::--::--::--::--::--:
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
   final TextEditingController fullNameController = TextEditingController();
+  // ::--::--::--::--::--::--::--::--::--::--::--::--::--::--::--::--::--::--::-
 
+  // For checking the Validations
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool _registerButtonIsActive = true;
   bool _acceptTheRules = false;
   // Create Account button Function
@@ -39,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         // NOTE - try Firebase SignUp Service
         try {
-          await authService.signUp( email: emailController.text, password: passwordController.text);
+          await authService.signUp(email: emailController.text, password: passwordController.text);
           // ---------------------
           routeController('Profile');
           // ---------------------
@@ -55,8 +56,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Get.snackbar("Connection Failed", "Check your internet Connection", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.grey, borderRadius: 10);
     }
   }
-
-
 
   // ANCHOR : UI Build Widget --------------------------------------------------
   @override
@@ -77,7 +76,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 80,
                 ),
                 Center(
-                  child: Container(constraints: BoxConstraints(maxWidth: 800),
+                  child: Container(
+                    constraints: BoxConstraints(maxWidth: 800),
                     padding: const EdgeInsets.all(12.0),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
