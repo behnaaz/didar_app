@@ -20,6 +20,11 @@ class FirestoreServiceDB {
      String uid = _firebaseAuth.currentUser!.uid;
     return await _userProfilesCollection.doc(uid).set(userData, SetOptions(merge: true));
   }
+  /// Update Session_topic
+  Future updateSessionTopic(List<String> sessionList) async {
+     String uid = _firebaseAuth.currentUser!.uid;
+    return await _userProfilesCollection.doc(uid).set({'session_topics' : sessionList }, SetOptions(merge: true));
+  }
 
   /// add new social links
   Future addNewSocialLink(String label, String link, List<dynamic> socialList) async {

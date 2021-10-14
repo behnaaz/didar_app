@@ -177,7 +177,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ],
                                 ),
                               ),
-                              _SessionSubject(),
+                              _SessionSubject(
+                                sessionsTopicSelected: userProfileDocument.sessionTopics,
+                              ),
                               _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
                               _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
                               _profileTextField(controller: eduDegreeController, label: "سابقه تحصیلی"),
@@ -337,7 +339,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 // =============================================================================
 class _SessionSubject extends StatelessWidget {
   final List<String> _options = [];
+  final List sessionsTopicSelected;
 
+  _SessionSubject({Key? key, required this.sessionsTopicSelected}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -357,13 +361,14 @@ class _SessionSubject extends StatelessWidget {
             _o.forEach((e) {
               _options.add(e.toString());
             });
-            return _DropDownSession(_options);
-          }
 
+            return _DropDownSession(_options, sessionsTopicSelected);
+          }
+          // this is empty Dropdown before data fetch from Firestore
           return Stack(
             children: [
               DropDownMultiSelect(
-                onChanged: (List<String> x) {},
+                onChanged: (List<String> list) {},
                 options: _options,
                 selectedValues: [],
                 whenEmpty: 'موضوع جلسات',
@@ -388,26 +393,47 @@ class _SessionSubject extends StatelessWidget {
 // =============================================================================
 class _DropDownSession extends StatefulWidget {
   final List<String> options;
-  _DropDownSession(this.options);
+  final List<dynamic> selected;
+  _DropDownSession(this.options, this.selected);
 
   @override
-  _DropDownSessionState createState() => _DropDownSessionState(this.options);
+  _DropDownSessionState createState() => _DropDownSessionState(this.options, this.selected);
 }
 
 class _DropDownSessionState extends State<_DropDownSession> {
   final List<String> _options;
-  List<String> _selected = [];
-  _DropDownSessionState(this._options);
+  final List<dynamic> selected;
+  List<String> selectedString = [];
+  _DropDownSessionState(this._options, this.selected);
+  List<String> listToString() {
+    List<String> stringList = [];
+    selected.forEach((element) {
+     
+      stringList.add(element.toString());
+    });
+
+    return stringList;
+  }
+
+  @override
+  void initState() {
+    print(selected);
+    selectedString = listToString();
+    print(selectedString);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DropDownMultiSelect(
-      onChanged: (List<String> x) {
+      onChanged: (List<String> list) {
         setState(() {
-          _selected = x;
+          selectedString = list;
+          FirestoreServiceDB().updateSessionTopic(list);
         });
       },
       options: _options,
-      selectedValues: _selected,
+      selectedValues: selectedString,
       whenEmpty: 'موضوع جلسات',
     );
   }
