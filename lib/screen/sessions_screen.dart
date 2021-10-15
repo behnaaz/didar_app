@@ -145,7 +145,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                     child: InkWell(
                       splashColor: Colors.lightBlue[400],
                       onTap: () {
-                        FBUserSessionService().fake();
+                        // FBUserSessionService().fake();
                         Get.dialog(Dialog(
                           // remove this gives error  alignment: AlignmentDirectional.center,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),

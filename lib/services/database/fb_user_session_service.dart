@@ -25,7 +25,7 @@ class FBUserSessionService {
     required String color,
   }) async {
     String uid = _firebaseAuth.currentUser!.uid;
-    return await _sessionOfUser.doc(uid).update({
+    return await _sessionOfUser.doc(uid).set({
       'sessionList': FieldValue.arrayUnion([
         {
           'session_type': type,
@@ -37,20 +37,9 @@ class FBUserSessionService {
           'color': color,
         },
       ])
-    });
+    },SetOptions(merge: true));
   }
 
-  /// Update UserDate
-  Future fake() async {
-    String uid = _firebaseAuth.currentUser!.uid;
-    try {
-      return await _sessionOfUser.doc(uid).set({
-        'sessionList': 'sdsd'
-      }, ).then((value) => print(""));
-    } catch (e) {
-      print(e);
-    }
-  }
 
   /// Get the stream snapshot of my user session List
   Stream<DocumentSnapshot<Object?>> get sessionList {
