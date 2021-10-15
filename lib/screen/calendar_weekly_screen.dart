@@ -148,9 +148,11 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                     stream: FBAvailableTimeService().availability,
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.active) {
-                        List _data = snapshot.data.data()['available_List'] ?? [];
-
-                        var _mapData = Map.fromIterable(_data, key: (e) => e['time_slot'], value: (e) => e['session_type']);
+                        var _mapData = {};
+                        if (snapshot.data.data() != null) {
+                          List _data = snapshot.data.data()['available_List'] ?? [];
+                          _mapData = Map.fromIterable(_data, key: (e) => e['time_slot'], value: (e) => e['session_type']);
+                        }
 
                         return Expanded(
                           //ANCHOR : pageView builder ---------------------
@@ -190,7 +192,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                     return Expanded(
                                                       child: GestureDetector(
                                                         onLongPress: () {
-                                                          FBAvailableTimeService().deleteAvailableTime(timeSlot: _thisTime ,type: _mapData[_thisTime]);
+                                                          FBAvailableTimeService().deleteAvailableTime(timeSlot: _thisTime, type: _mapData[_thisTime]);
                                                         },
                                                         onTap: () {
                                                           print(
@@ -316,6 +318,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                           onTap: _box.get(_userUid) == 'Passed'
                               ? () {}
                               : () {
+                                  print(_box.get(_userUid));
                                   routeController('session');
                                 },
                           child: Padding(

@@ -21,7 +21,7 @@ final RegisterController _controller = Get.put(RegisterController());
 void routeController(String step) {
   if (_firebaseAuth.currentUser != null) {
     String status = _firebaseAuth.currentUser!.uid;
-      _box.put(status, step);
+    _box.put(status, step);
     if (step == 'Profile') {
       print(_box.get(status));
       _controller.bottomNavigateTrigger(0);
@@ -35,17 +35,14 @@ void routeController(String step) {
       );
       Get.offAllNamed(RoutesName.homeNavigationWrapper);
     } else if (step == 'CalendarHint') {
-      
       _controller.bottomNavigateTrigger(3);
-
     } else if (step == 'Calendar') {
       print(_box.get(status));
-      
     } else if (step == 'session') {
+      print('i am here');
       _controller.bottomNavigateTrigger(1);
     } else if (step == 'calendarSessionHint') {
       _controller.bottomNavigateTrigger(3);
-
     } else if (step == 'Passed') {
       _controller.bottomNavigateTrigger(3);
     } else {
