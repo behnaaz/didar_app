@@ -13,21 +13,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:shamsi_date/extensions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-// var fakeData = {
-//   '2021-9-25|02:00-03:00': 'پیانو',
-//   '2021-9-25|04:00-05:00': 'پیانو',
-//   '2021-9-26|04:00-05:00': 'آواز',
-//   '2021-9-27|03:00-04:00': 'آواز',
-//   '2021-9-25|08:00-09:00': 'پیانو',
-//   '2021-9-24|08:00-09:00': 'پیانو',
-//   '2021-9-24|01:00-02:00': 'پیانو',
-//   '2021-9-28|01:00-02:00': 'پیانو',
-//   '2021-9-29|05:00-06:00': 'پیانو',
-//   '2021-9-30|01:00-02:00': 'پیانو',
-//   '2021-10-2|01:00-02:00': 'پیانو',
-//   '2021-10-4|01:00-02:00': 'پیانو و ساز های زهی',
-// };
-
 class CalendarWeeklyScreen extends StatefulWidget {
   const CalendarWeeklyScreen({Key? key}) : super(key: key);
 
@@ -204,6 +189,9 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                         '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}';
                                                     return Expanded(
                                                       child: GestureDetector(
+                                                        onLongPress: () {
+                                                          FBAvailableTimeService().deleteAvailableTime(timeSlot: _thisTime ,type: _mapData[_thisTime]);
+                                                        },
                                                         onTap: () {
                                                           print(
                                                             SolarCalendar.daysOfTheWeek[i] + ' | ' + 'from ' + SolarCalendar.clockTime[index] + ' to ' + SolarCalendar.clockTime[index + 1],
@@ -255,7 +243,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                                               onTap: () {
                                                                                 setState(() {
                                                                                   // _dropDownCategory = value;
-                                                                                   FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime,sessionType: value);
+                                                                                  FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime, sessionType: value);
                                                                                   Get.back();
                                                                                 });
                                                                               },
