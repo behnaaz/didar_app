@@ -1,6 +1,8 @@
 import 'package:didar_app/constants/them_conf.dart';
+import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/routes/routeController.dart';
 import 'package:didar_app/services/database/fb_user_session_service.dart';
+import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
@@ -357,6 +359,14 @@ class _EditSessionalState extends State<EditSessional> {
   String? _dropDownCapacity;
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _infoController = TextEditingController();
+// _____________________________________________________________________________
+//         >> Get the stream response and return UserProfile_model<<
+//                          ---------
+  UserProfile parseProfileInfo(Object responseBody) {
+    return UserProfile.fromJson(responseBody);
+  }
+
+// -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -371,37 +381,56 @@ class _EditSessionalState extends State<EditSessional> {
                   SizedBox(
                     height: 20,
                   ),
-                  DropdownButton<String>(
-                    borderRadius: BorderRadius.circular(10),
-                    value: _dropDownCategory,
-                    hint: Text('دسته بندی جلسه'),
-                    icon: Icon(LineIcons.angleDown),
-                    iconSize: 24,
-                    alignment: AlignmentDirectional.center,
-                    isExpanded: true,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
-                    underline: Container(
-                      height: 1,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _dropDownCategory = newValue;
-                      });
-                    },
-                    items: <String>['موسیقی', 'آواز', 'نقاشی', 'پیانو'].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        onTap: () {
-                          setState(() {
-                            _dropDownCategory = value;
-                          });
-                        },
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
+                  StreamBuilder<Object>(
+                      stream: FirestoreServiceDB().userProfile,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.active) {
+                          UserProfile userProfileDocument = parseProfileInfo(snapshot.data!);
+                          List<String> listToString(List list) {
+                            List<String> stringList = [];
+                            list.forEach((element) {
+                              stringList.add(element.toString());
+                            });
+
+                            return stringList;
+                          }
+
+                          List<String> items = listToString(userProfileDocument.sessionTopics);
+                          return DropdownButton<String>(
+                            borderRadius: BorderRadius.circular(10),
+                            value: _dropDownCategory,
+                            hint: Text('دسته بندی جلسه'),
+                            icon: Icon(LineIcons.angleDown),
+                            iconSize: 24,
+                            alignment: AlignmentDirectional.center,
+                            isExpanded: true,
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                            underline: Container(
+                              height: 1,
+                              color: Colors.deepPurpleAccent,
+                            ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _dropDownCategory = newValue;
+                              });
+                            },
+                            items: items.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                onTap: () {
+                                  setState(() {
+                                    _dropDownCategory = value;
+                                  });
+                                },
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          );
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      }),
                   DropdownButton<String>(
                     borderRadius: BorderRadius.circular(10),
                     value: _dropDownProperAge,
@@ -661,8 +690,13 @@ class _EditSessionalState extends State<EditSessional> {
     _priceController.text = '';
     _infoController.text = '';
     _selectedColorIndex = null;
-    setState(() {
-      
-    });
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _infoController.dispose();
+    _priceController.dispose();
+    super.dispose();
   }
 }
