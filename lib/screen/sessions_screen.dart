@@ -272,10 +272,11 @@ class MySessionList extends StatelessWidget {
             return Text("Sessions not Available");
           }
 
-          if (snapshot.connectionState == ConnectionState.active && snapshot.data.data()!=null) {
-            
+          if (snapshot.connectionState == ConnectionState.active ) {
+            if(snapshot.data.data() != null){
+
             Map _data = snapshot.data.data();
-            if (!_data.containsKey('sessionList')) {
+            if (!_data.containsKey('sessionList') && snapshot.data.data() != null) {
               return Center(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -284,6 +285,7 @@ class MySessionList extends StatelessWidget {
                       color: Colors.white,
                     )),
               ));
+            }
             } else if (snapshot.hasData && !snapshot.data!.exists || snapshot.data['sessionList'].length == 0) {
               return Center(
                   child: Padding(
