@@ -145,7 +145,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                     child: InkWell(
                       splashColor: Colors.lightBlue[400],
                       onTap: () {
-                        // FBUserSessionService().sessionUpdate();
+                        FBUserSessionService().fake();
                         Get.dialog(Dialog(
                           // remove this gives error  alignment: AlignmentDirectional.center,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -271,8 +271,7 @@ class MySessionList extends StatelessWidget {
           if (snapshot.hasError) {
             return Text("Sessions not Available");
           }
-
-          if (snapshot.connectionState == ConnectionState.active ) {
+           if (snapshot.connectionState == ConnectionState.active ) {
             if(snapshot.data.data() != null){
 
             Map _data = snapshot.data.data();
@@ -286,7 +285,7 @@ class MySessionList extends StatelessWidget {
                     )),
               ));
             }
-            } else if (snapshot.hasData && !snapshot.data!.exists || snapshot.data['sessionList'].length == 0) {
+            }  if (snapshot.hasData && !snapshot.data!.exists || snapshot.data['sessionList'].length == 0) {
               return Center(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
