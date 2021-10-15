@@ -1,28 +1,32 @@
 import 'package:didar_app/constants/them_conf.dart';
+import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/routes/routeController.dart';
 import 'package:didar_app/services/calendar/solar_calendar.dart';
+import 'package:didar_app/services/database/fb_availability%20_service.dart';
+import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:shamsi_date/extensions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-var fakeData = {
-  '2021-9-25|02:00-03:00': 'پیانو',
-  '2021-9-25|04:00-05:00': 'پیانو',
-  '2021-9-26|04:00-05:00': 'آواز',
-  '2021-9-27|03:00-04:00': 'آواز',
-  '2021-9-25|08:00-09:00': 'پیانو',
-  '2021-9-24|08:00-09:00': 'پیانو',
-  '2021-9-24|01:00-02:00': 'پیانو',
-  '2021-9-28|01:00-02:00': 'پیانو',
-  '2021-9-29|05:00-06:00': 'پیانو',
-  '2021-9-30|01:00-02:00': 'پیانو',
-  '2021-10-2|01:00-02:00': 'پیانو',
-  '2021-10-4|01:00-02:00': 'پیانو و ساز های زهی',
-  
-};
+// var fakeData = {
+//   '2021-9-25|02:00-03:00': 'پیانو',
+//   '2021-9-25|04:00-05:00': 'پیانو',
+//   '2021-9-26|04:00-05:00': 'آواز',
+//   '2021-9-27|03:00-04:00': 'آواز',
+//   '2021-9-25|08:00-09:00': 'پیانو',
+//   '2021-9-24|08:00-09:00': 'پیانو',
+//   '2021-9-24|01:00-02:00': 'پیانو',
+//   '2021-9-28|01:00-02:00': 'پیانو',
+//   '2021-9-29|05:00-06:00': 'پیانو',
+//   '2021-9-30|01:00-02:00': 'پیانو',
+//   '2021-10-2|01:00-02:00': 'پیانو',
+//   '2021-10-4|01:00-02:00': 'پیانو و ساز های زهی',
+// };
 
 class CalendarWeeklyScreen extends StatefulWidget {
   const CalendarWeeklyScreen({Key? key}) : super(key: key);
@@ -32,6 +36,10 @@ class CalendarWeeklyScreen extends StatefulWidget {
 }
 
 class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
+  UserProfile parseProfileInfo(Object responseBody) {
+    return UserProfile.fromJson(responseBody);
+  }
+
   // instance of my solar calendar
   SolarCalendar cal = new SolarCalendar();
 
@@ -151,93 +159,164 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                     ),
                   ),
                 ),
-                Expanded(
-                  //ANCHOR : pageView builder ---------------------
-                  child: PageView.builder(
-                      controller: _pageViewController,
-                      onPageChanged: (index) {
-                        print('pageView page index : $index'); //REMOVE
-                        setState(() {
-                          _currentIndex < index ? date = date.addDays(7) : date = date.addDays(-7);
-                          _currentIndex = index;
-                          logger.d(date); //REMOVE
-                        });
-                      },
-                      // itemCount: 12,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          // color:ColorPallet.lightGrayBg,
-                          child: ListView(
-                            children: [
-                              ...List.generate(
-                                24,
-                                (index) => Container(
-                                  padding: EdgeInsets.only(right: 2),
-                                  height: 60,
-                                  child: Stack(
-                                    clipBehavior: Clip.none,
+                StreamBuilder<Object>(
+                    stream: FBAvailableTimeService().availability,
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.active) {
+                        List _data = snapshot.data.data()['available_List'] ?? [];
+
+                        var _mapData = Map.fromIterable(_data, key: (e) => e['time_slot'], value: (e) => e['session_type']);
+
+                        return Expanded(
+                          //ANCHOR : pageView builder ---------------------
+                          child: PageView.builder(
+                              controller: _pageViewController,
+                              onPageChanged: (index) {
+                                print('pageView page index : $index'); //REMOVE
+                                setState(() {
+                                  _currentIndex < index ? date = date.addDays(7) : date = date.addDays(-7);
+                                  _currentIndex = index;
+                                  logger.d(date); //REMOVE
+                                });
+                              },
+                              // itemCount: 12,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  // color:ColorPallet.lightGrayBg,
+                                  child: ListView(
                                     children: [
-                                      Positioned(top: 50, right: 5, child: Container(color: ColorPallet.lightGrayBg, child: index < 23 ? Text((SolarCalendar.clockTime[index + 1])) : null)),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(),
-                                          ),
-                                          ...List.generate(
-                                            7,
-                                            (i) => Expanded(
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  // print(
-                                                  //   SolarCalendar.daysOfTheWeek[i] + ' | ' + 'from ' + SolarCalendar.clockTime[index] + ' to ' + SolarCalendar.clockTime[index + 1],
-                                                  // );
-                                                  // print(date.addDays(i).toDateTime());
-                                                  print(
-                                                      '${date.toGregorian().year}-${date.toGregorian().month}-${date.toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}');
-                                                  print(fakeData[
-                                                      '${date.toGregorian().year}-${date.toGregorian().month}-${date.toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}']);
-                                                  print(fakeData['2021-9-25|02:00-03:00']);
-                                                  print(fakeData.containsKey('2021-9-25|02:00-03:00'));
-                                                },
-                                                child: AnimatedContainer(
-                                                  duration: Duration(milliseconds: 400),
-                                                  decoration: BoxDecoration(
-                                                      color: fakeData.containsKey(
-                                                                  '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}') ==
-                                                              true
-                                                          ? ColorPallet.blue
-                                                          : null,
-                                                      border: Border.all(
-                                                        color: Colors.white,
-                                                      )),
-                                                  child: Center(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(2.0),
-                                                      child: RichText(
-                                                        overflow: TextOverflow.ellipsis,
-                                                        text: TextSpan(
-                                                            style: TextStyle(color: Colors.black, fontSize: 12),
-                                                            text: fakeData[
-                                                                    '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}'] ??
-                                                                ''),
-                                                      ),
-                                                    ),
+                                      ...List.generate(
+                                        24,
+                                        (index) => Container(
+                                          padding: EdgeInsets.only(right: 2),
+                                          height: 60,
+                                          child: Stack(
+                                            clipBehavior: Clip.none,
+                                            children: [
+                                              Positioned(top: 50, right: 5, child: Container(color: ColorPallet.lightGrayBg, child: index < 23 ? Text((SolarCalendar.clockTime[index + 1])) : null)),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(),
                                                   ),
-                                                ),
+                                                  ...List.generate(7, (i) {
+                                                    var _thisTime =
+                                                        '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}';
+                                                    return Expanded(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          print(
+                                                            SolarCalendar.daysOfTheWeek[i] + ' | ' + 'from ' + SolarCalendar.clockTime[index] + ' to ' + SolarCalendar.clockTime[index + 1],
+                                                          );
+
+                                                          if (_mapData.containsKey(
+                                                              '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}')) {
+                                                            Get.defaultDialog(
+                                                              title: 'ویرایش',
+                                                              middleText: '',
+                                                              confirm: StreamBuilder<Object>(
+                                                                  stream: FirestoreServiceDB().userProfile,
+                                                                  builder: (context, snapshot) {
+                                                                    if (snapshot.connectionState == ConnectionState.active) {
+                                                                      UserProfile userProfileDocument = parseProfileInfo(snapshot.data!);
+                                                                      List<String> listToString(List list) {
+                                                                        List<String> stringList = [];
+                                                                        list.forEach((element) {
+                                                                          stringList.add(element.toString());
+                                                                        });
+                                                                        return stringList;
+                                                                      }
+
+                                                                      List<String> items = listToString(userProfileDocument.sessionTopics);
+                                                                      String? _dropDownCategory;
+                                                                      return Container(
+                                                                        width: 150,
+                                                                        child: DropdownButton<String>(
+                                                                          borderRadius: BorderRadius.circular(10),
+                                                                          value: _dropDownCategory,
+                                                                          hint: Text('دسته بندی جلسه'),
+                                                                          icon: Icon(LineIcons.angleDown),
+                                                                          iconSize: 24,
+                                                                          alignment: AlignmentDirectional.center,
+                                                                          isExpanded: true,
+                                                                          elevation: 16,
+                                                                          style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                                                                          underline: Container(
+                                                                            height: 1,
+                                                                            color: Colors.deepPurpleAccent,
+                                                                          ),
+                                                                          onChanged: (String? newValue) {
+                                                                            setState(() {
+                                                                              _dropDownCategory = newValue;
+                                                                            });
+                                                                          },
+                                                                          items: items.map<DropdownMenuItem<String>>((String value) {
+                                                                            return DropdownMenuItem<String>(
+                                                                              onTap: () {
+                                                                                setState(() {
+                                                                                  // _dropDownCategory = value;
+                                                                                   FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime,sessionType: value);
+                                                                                  Get.back();
+                                                                                });
+                                                                              },
+                                                                              value: value,
+                                                                              child: Text(value),
+                                                                            );
+                                                                          }).toList(),
+                                                                        ),
+                                                                      );
+                                                                    } else {
+                                                                      return CircularProgressIndicator();
+                                                                    }
+                                                                  }),
+                                                            );
+                                                          } else {
+                                                            FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime);
+                                                            print('done');
+                                                          }
+                                                        },
+                                                        child: AnimatedContainer(
+                                                          duration: Duration(milliseconds: 400),
+                                                          decoration: BoxDecoration(
+                                                              color: _mapData.containsKey(
+                                                                          '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}') ==
+                                                                      true
+                                                                  ? ColorPallet.blue
+                                                                  : null,
+                                                              border: Border.all(
+                                                                color: Colors.white,
+                                                              )),
+                                                          child: Center(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.all(2.0),
+                                                              child: RichText(
+                                                                overflow: TextOverflow.ellipsis,
+                                                                text: TextSpan(
+                                                                    style: TextStyle(color: Colors.black, fontSize: 12),
+                                                                    text: _mapData[
+                                                                            '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}'] ??
+                                                                        ''),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }),
+                                                ],
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      )
                                     ],
                                   ),
-                                ),
-                              )
-                            ],
-                          ),
+                                );
+                              }),
                         );
-                      }),
-                ),
+                      }
+                      return Expanded(child: Center(child: CircularProgressIndicator()));
+                    }),
                 Row(
                   children: [
                     Expanded(
@@ -270,7 +349,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
             ),
           ),
         ),
-        _box.get(_userUid) == 'CalendarHint' ||  _box.get(_userUid) == 'calendarSessionHint'
+        _box.get(_userUid) == 'CalendarHint' || _box.get(_userUid) == 'calendarSessionHint'
             ? Positioned(
                 top: 0,
                 bottom: 0,
@@ -279,10 +358,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      
-                    _box.get(_userUid) == 'CalendarHint'?
-                    routeController('Calendar') : routeController('Passed');
-
+                      _box.get(_userUid) == 'CalendarHint' ? routeController('Calendar') : routeController('Passed');
                     });
                   },
                   child: Container(
@@ -293,9 +369,10 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 35),
-                            child: Text( _box.get(_userUid) == 'CalendarHint'?
-                              'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید':
-                              'برای مشخص کردن نوع جلسه بر روی زمان های انتخاب شده بر روی تقویم ضربه بزنید',
+                            child: Text(
+                              _box.get(_userUid) == 'CalendarHint'
+                                  ? 'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید'
+                                  : 'برای مشخص کردن نوع جلسه بر روی زمان های انتخاب شده بر روی تقویم ضربه بزنید',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                             ),

@@ -4,11 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 
 // session_type
-// time_slot_end
-// time_slot_start
+// time_slot
 // user_profile (ref)
 
-class FBUserSessionService {
+class FBAvailableTimeService {
   // NOTE : AuthService Provider
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
@@ -18,29 +17,20 @@ class FBUserSessionService {
   
   
   Future updateAvailableTime({
-    required String type,
-    required String audience,
-    required String duration,
-    required String cap,
-    required String price,
-    required String info,
-    required String color,
+    required String timeSlot,
+     String? sessionType ,
   }) async {
     String uid = _firebaseAuth.currentUser!.uid;
-    return await _sessionOfUser.doc(uid).update(
+    return await _sessionOfUser.doc(uid).set(
       {
-        'sessionList': FieldValue.arrayUnion([
+        'available_List': FieldValue.arrayUnion([
           {
-            'session_type': type,
-            'audience': audience,
-            'duration': duration,
-            'capacity': cap,
-            'price': price,
-            'info': info,
-            'color': color,
+            'time_slot': timeSlot,
+            'session_type': sessionType ?? '',
+            'user_profile': '/user_profile/${uid}',   
           },
         ])
-      },
+      },SetOptions(merge: true)
     );
   }
 
