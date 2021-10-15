@@ -272,8 +272,10 @@ class MySessionList extends StatelessWidget {
             return Text("Sessions not Available");
           }
 
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData && !snapshot.data!.exists || snapshot.data['sessionList'].length == 0) {
+          if (snapshot.connectionState == ConnectionState.active && snapshot.data.data()!=null) {
+            
+            Map _data = snapshot.data.data();
+            if (!_data.containsKey('sessionList')) {
               return Center(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -282,49 +284,58 @@ class MySessionList extends StatelessWidget {
                       color: Colors.white,
                     )),
               ));
-            }
+            } else if (snapshot.hasData && !snapshot.data!.exists || snapshot.data['sessionList'].length == 0) {
+              return Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("هیچ جلسه ای ثبت نشده",
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
+              ));
+            } else {
+              Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+              List<dynamic> _list = data['sessionList'];
 
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-            List<dynamic> _list = data['sessionList'];
-
-            return Column(
-              children: List.generate(
-                _list.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    // Get.bottomSheet(SessionEditBS(), isDismissible: true, isScrollControlled: true, useRootNavigator: true, backgroundColor: Colors.white, ignoreSafeArea: false);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                    decoration: BoxDecoration(color: _colors[int.parse(_list[index]['color'])], borderRadius: BorderRadius.circular(8)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Text(_list[index]['session_type'],
-                                style: MyTextStyle.base.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[900],
-                                )),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(LineIcons.edit),
-                            SizedBox(
-                              width: 60,
-                            ),
-                            Icon(LineIcons.trash),
-                          ],
-                        )
-                      ],
+              return Column(
+                children: List.generate(
+                  _list.length,
+                  (index) => GestureDetector(
+                    onTap: () {
+                      // Get.bottomSheet(SessionEditBS(), isDismissible: true, isScrollControlled: true, useRootNavigator: true, backgroundColor: Colors.white, ignoreSafeArea: false);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                      decoration: BoxDecoration(color: _colors[int.parse(_list[index]['color'])], borderRadius: BorderRadius.circular(8)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(_list[index]['session_type'],
+                                  style: MyTextStyle.base.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[900],
+                                  )),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(LineIcons.edit),
+                              SizedBox(
+                                width: 60,
+                              ),
+                              Icon(LineIcons.trash),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
+              );
+            }
           }
 
           return Center(child: CircularProgressIndicator());
@@ -391,7 +402,6 @@ class _EditSessionalState extends State<EditSessional> {
                             list.forEach((element) {
                               stringList.add(element.toString());
                             });
-
                             return stringList;
                           }
 

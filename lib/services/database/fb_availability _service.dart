@@ -1,22 +1,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:didar_app/model/availability_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-class FBAvailabilityServices {
+
+// session_type
+// time_slot_end
+// time_slot_start
+// user_profile (ref)
+
+class FBUserSessionService {
   // NOTE : AuthService Provider
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
-  /// Collection Reference of [availability] inside [Users_profile] collection
-  final CollectionReference _userProfilesCollection = FirebaseFirestore.instance.collection('user_profile');
+  /// Collection Reference
+  final CollectionReference _sessionOfUser = FirebaseFirestore.instance.collection('user_availability');
 
-  // Get the stream snapshot of user profile availability time
-  Stream<QuerySnapshot> get availability {
-    return _userProfilesCollection.doc(_firebaseAuth.currentUser!.uid).collection('availability').get().asStream();
+  
+  
+  Future updateAvailableTime({
+    required String type,
+    required String audience,
+    required String duration,
+    required String cap,
+    required String price,
+    required String info,
+    required String color,
+  }) async {
+    String uid = _firebaseAuth.currentUser!.uid;
+    return await _sessionOfUser.doc(uid).update(
+      {
+        'sessionList': FieldValue.arrayUnion([
+          {
+            'session_type': type,
+            'audience': audience,
+            'duration': duration,
+            'capacity': cap,
+            'price': price,
+            'info': info,
+            'color': color,
+          },
+        ])
+      },
+    );
   }
 
-  /// initial user profile data >> I use it in register >> AuthenticationService.signUp
-  Future initAvailability() async {
-    String uid = _firebaseAuth.currentUser!.uid;
-    return await _userProfilesCollection.doc(uid).collection('availability').doc().set({'alaki': 'asd'});
+  
+  Stream<DocumentSnapshot<Object?>> get availability {
+    return _sessionOfUser.doc(_firebaseAuth.currentUser!.uid).snapshots();
   }
 }
