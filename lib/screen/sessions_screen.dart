@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
-List<String> _samplesession = ['موسیقی', 'آواز کودکان', 'یوگا'];
-
 class SessionsScreen extends StatefulWidget {
   @override
   State<SessionsScreen> createState() => _SessionsScreenState();
@@ -15,6 +13,7 @@ class SessionsScreen extends StatefulWidget {
 class _SessionsScreenState extends State<SessionsScreen> {
   bool makeupClassSwitch = false;
   int _makeupSessionNum = 1;
+  bool _modifyIsActive = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +24,6 @@ class _SessionsScreenState extends State<SessionsScreen> {
       //
       //     }),
       body: Container(
-        // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           children: [
             Expanded(
@@ -112,12 +110,13 @@ class _SessionsScreenState extends State<SessionsScreen> {
                                     width: 2,
                                   ),
                                   Container(
+                                    padding: EdgeInsets.symmetric(vertical: 1, horizontal: 6),
                                     child: Center(
                                         child: Text(
-                                      '3',
+                                      _modifyIsActive ? '3' : 'جدید',
                                       style: MyTextStyle.small.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                                     )),
-                                    width: 22,
+                                    // width: 22,
                                     height: 22,
                                     decoration: BoxDecoration(
                                       color: ColorPallet.violet,
@@ -144,9 +143,9 @@ class _SessionsScreenState extends State<SessionsScreen> {
                     child: InkWell(
                       splashColor: Colors.lightBlue[400],
                       onTap: () {
-                        FBUserSessionService().sessionUpdate();
+                        // FBUserSessionService().sessionUpdate();
                         Get.dialog(Dialog(
-                         // remove this gives error  alignment: AlignmentDirectional.center,
+                          // remove this gives error  alignment: AlignmentDirectional.center,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
                           insetPadding: EdgeInsets.all(20),
                           backgroundColor: Colors.white,
@@ -271,15 +270,18 @@ class MySessionList extends StatelessWidget {
             return Text("Sessions not Available");
           }
 
-          if (snapshot.hasData && !snapshot.data!.exists) {
-            return Center(
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData && !snapshot.data!.exists || snapshot.data['sessionList'].length == 0) {
+              return Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text("هیچ جلسه ای ثبت نشده",
                     style: TextStyle(
                       color: Colors.white,
-                    )));
-          }
+                    )),
+              ));
+            }
 
-          if (snapshot.connectionState == ConnectionState.active) {
             Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
             List<dynamic> _list = data['sessionList'];
 
@@ -293,13 +295,13 @@ class MySessionList extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 8),
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-                    decoration: BoxDecoration(color: _c[index], borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(color: _colors[int.parse(_list[index]['color'])], borderRadius: BorderRadius.circular(8)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            Text(_list[index],
+                            Text(_list[index]['session_type'],
                                 style: MyTextStyle.base.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey[900],
@@ -328,8 +330,7 @@ class MySessionList extends StatelessWidget {
   }
 }
 
-// TODO : this is for test. Must remove latter.
-List<Color> _c = [
+List<Color> _colors = [
   ColorPallet.lightBlue,
   ColorPallet.green,
   ColorPallet.yellow,
@@ -348,12 +349,14 @@ class EditSessional extends StatefulWidget {
 }
 
 class _EditSessionalState extends State<EditSessional> {
-  int? selectedColorIndex;
+  int? _selectedColorIndex;
   String? _dropDownCategory;
   String? _dropDownProperAge;
   String? _dropDownDuration;
   String? _dropDownSessionNum;
   String? _dropDownCapacity;
+  final TextEditingController _priceController = TextEditingController();
+  final TextEditingController _infoController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -384,7 +387,7 @@ class _EditSessionalState extends State<EditSessional> {
                     ),
                     onChanged: (String? newValue) {
                       setState(() {
-                        _dropDownCategory = newValue!;
+                        _dropDownCategory = newValue;
                       });
                     },
                     items: <String>['موسیقی', 'آواز', 'نقاشی', 'پیانو'].map<DropdownMenuItem<String>>((String value) {
@@ -535,6 +538,7 @@ class _EditSessionalState extends State<EditSessional> {
                     }).toList(),
                   ),
                   TextField(
+                    controller: _priceController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         label: Text('قیمت دوره'),
@@ -546,6 +550,7 @@ class _EditSessionalState extends State<EditSessional> {
                         suffix: Text('دلار')),
                   ),
                   TextField(
+                    controller: _infoController,
                     keyboardType: TextInputType.multiline,
                     maxLines: 4,
                     minLines: 2,
@@ -577,11 +582,11 @@ class _EditSessionalState extends State<EditSessional> {
                             child: ListView(
                                 scrollDirection: Axis.horizontal,
                                 children: List.generate(
-                                  _c.length,
+                                  _colors.length,
                                   (index) => GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        selectedColorIndex = index;
+                                        _selectedColorIndex = index;
                                       });
                                     },
                                     child: Container(
@@ -589,9 +594,9 @@ class _EditSessionalState extends State<EditSessional> {
                                       width: 20,
                                       height: 20,
                                       decoration: BoxDecoration(
-                                        color: _c[index],
-                                        border: selectedColorIndex == index ? Border.all(width: 1, color: Colors.white) : null,
-                                        boxShadow: selectedColorIndex == index
+                                        color: _colors[index],
+                                        border: _selectedColorIndex == index ? Border.all(width: 1, color: Colors.white) : null,
+                                        boxShadow: _selectedColorIndex == index
                                             ? [
                                                 BoxShadow(
                                                   color: Colors.grey.withOpacity(0.5),
@@ -616,9 +621,48 @@ class _EditSessionalState extends State<EditSessional> {
           ),
           SizedBox(
             height: 20,
-          )
+          ),
+          Center(
+            child: GestureDetector(
+                onTap: () {
+                  if (_dropDownCategory != null &&
+                      _dropDownProperAge != null &&
+                      _dropDownDuration != null &&
+                      _dropDownCapacity != null &&
+                      _selectedColorIndex != null &&
+                      _priceController != '' &&
+                      _infoController != '') {
+                    FBUserSessionService().sessionUpdate(
+                        type: _dropDownCategory!,
+                        audience: _dropDownProperAge!,
+                        duration: _dropDownDuration!,
+                        cap: _dropDownCapacity!,
+                        price: _priceController.text,
+                        info: _infoController.text,
+                        color: _selectedColorIndex!.toString());
+                    reset();
+                  } else {
+                    Get.snackbar('لطفا اطلاعات جلسه کامل رو پر کنید', '', snackPosition: SnackPosition.TOP, backgroundColor: ColorPallet.red);
+                  }
+                },
+                child: CircleAvatar(child: Icon(Icons.add))),
+          ),
         ],
       ),
     );
+  }
+
+  void reset() {
+    _dropDownCategory = null;
+    _dropDownProperAge = null;
+    _dropDownDuration = null;
+    _dropDownCapacity = null;
+    _dropDownDuration = null;
+    _priceController.text = '';
+    _infoController.text = '';
+    _selectedColorIndex = null;
+    setState(() {
+      
+    });
   }
 }

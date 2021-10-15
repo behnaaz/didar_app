@@ -15,14 +15,31 @@ class FBUserSessionService {
   // }
 
   /// Update UserDate
-  Future sessionUpdate() async {
+  Future sessionUpdate({
+    required String type,
+    required String audience,
+    required String duration,
+    required String cap,
+    required String price,
+    required String info,
+    required String color,
+  }) async {
     String uid = _firebaseAuth.currentUser!.uid;
-    return await _sessionOfUser.doc(uid).set({
-      'sessionList': [
-        'موسیقی',
-        'روانشناسی',
-      ]
-    }, SetOptions(merge: true));
+    return await _sessionOfUser.doc(uid).update(
+      {
+        'sessionList': FieldValue.arrayUnion([
+          {
+            'session_type': type,
+            'audience': audience,
+            'duration': duration,
+            'capacity': cap,
+            'price': price,
+            'info': info,
+            'color': color,
+          },
+        ])
+      },
+    );
   }
 
   /// Get the stream snapshot of my user session List
