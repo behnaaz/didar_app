@@ -8,13 +8,7 @@ class FBUserSessionService {
   /// Collection Reference
   final CollectionReference _sessionOfUser = FirebaseFirestore.instance.collection('sessions_of_user');
 
-  /// initial user profile data >> I use it in register >> AuthenticationService.signUp
-  // Future addUserProfileData(userData) async {
-  //   String uid = _firebaseAuth.currentUser!.uid;
-  //   return await _userProfilesCollection.doc(uid).set(userData);
-  // }
-
-  /// Update UserDate
+  /// update the session document or create for the first time
   Future sessionUpdate({
     required String type,
     required String audience,
@@ -37,9 +31,8 @@ class FBUserSessionService {
           'color': color,
         },
       ])
-    },SetOptions(merge: true));
+    }, SetOptions(merge: true));
   }
-
 
   /// Get the stream snapshot of my user session List
   Stream<DocumentSnapshot<Object?>> get sessionList {
