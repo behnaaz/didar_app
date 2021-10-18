@@ -59,11 +59,13 @@ class AuthenticationService {
         return User(uid!, email!);
       } else {
         print('Request failed with status: ${response.statusCode}.');
+        return Future.error(
+            'Request failed with status: ${response.statusCode}.');
       }
     } on Exception catch (e) {
       logger.e("ERROR: ", e);
+      return Future.error(e);
     }
-    return null;
   }
 
   Future<User?> signUp({
