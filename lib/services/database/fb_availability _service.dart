@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:didar_app/model/availability_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 // session_type
