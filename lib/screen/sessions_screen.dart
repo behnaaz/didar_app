@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/controller/sessions_screen_controller.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/routes/routeController.dart';
-import 'package:didar_app/services/database/fb_all_session_service.dart';
 import 'package:didar_app/services/database/fb_user_session_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SessionsScreen extends StatefulWidget {
@@ -719,7 +715,6 @@ class _EditSessionalState extends State<EditSessional> {
                           _selectedColorIndex != null &&
                           _priceController != '' &&
                           _infoController != '') {
-                        
                         FBUserSessionService().deleteSession(_getController.session).then((value) => printInfo(info: 'Delete item'));
                         FBUserSessionService().sessionUpdate(
                             type: _dropDownCategory!,

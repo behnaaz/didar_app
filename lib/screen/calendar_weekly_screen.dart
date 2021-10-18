@@ -245,6 +245,9 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                                               onTap: () {
                                                                                 setState(() {
                                                                                   // _dropDownCategory = value;
+
+                                                                                  FBAvailableTimeService().deleteAvailableTime(timeSlot: _thisTime, type: _mapData[
+                                                                                          '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}']);
                                                                                   FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime, sessionType: value);
                                                                                   Get.back();
                                                                                 });
