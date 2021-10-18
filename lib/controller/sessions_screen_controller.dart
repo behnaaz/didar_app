@@ -2,16 +2,11 @@ import 'package:get/get.dart';
 
 class SessionsController extends GetxController {
   RxInt sessionIndexToModify = 0.obs;
-  RxBool addNewSession = false.obs ; 
-  RxBool modifySession = false.obs ; 
-  void activeIndexToModify(int index) {
+  Map session = {};
+  void activeIndexToModify(int index , Map session) {
     this.sessionIndexToModify = RxInt(index);
+    this.session = session;
     update();
-  }
-  void activeAddNew(){
-     
-  }
-  void activeModify(){
-
+    print(this.session);
   }
 }
