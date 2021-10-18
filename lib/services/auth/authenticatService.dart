@@ -78,6 +78,7 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
+    // Create the Instance od user
     var credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
