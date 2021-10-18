@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/routes/routeController.dart';
+import 'package:didar_app/services/database/fb_all_session_service.dart';
 import 'package:didar_app/services/database/fb_user_session_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -271,21 +274,21 @@ class MySessionList extends StatelessWidget {
           if (snapshot.hasError) {
             return Text("Sessions not Available");
           }
-           if (snapshot.connectionState == ConnectionState.active ) {
-            if(snapshot.data.data() != null){
-
-            Map _data = snapshot.data.data();
-            if (!_data.containsKey('sessionList') && snapshot.data.data() != null) {
-              return Center(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("هیچ جلسه ای ثبت نشده",
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-              ));
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.data.data() != null) {
+              Map _data = snapshot.data.data();
+              if (!_data.containsKey('sessionList') && snapshot.data.data() != null) {
+                return Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("هیچ جلسه ای ثبت نشده",
+                      style: TextStyle(
+                        color: Colors.white,
+                      )),
+                ));
+              }
             }
-            }  if (snapshot.hasData && !snapshot.data!.exists || snapshot.data['sessionList'].length == 0) {
+            if (snapshot.hasData && !snapshot.data!.exists || snapshot.data['sessionList'].length == 0) {
               return Center(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -327,7 +330,12 @@ class MySessionList extends StatelessWidget {
                               SizedBox(
                                 width: 60,
                               ),
-                              Icon(LineIcons.trash),
+                              GestureDetector(
+                                  onTap: () {
+                                    FBUserSessionService().deleteSession(_list[index]);
+                                    
+                                  },
+                                  child: Icon(LineIcons.trash)),
                             ],
                           )
                         ],
@@ -669,6 +677,7 @@ class _EditSessionalState extends State<EditSessional> {
                       _dropDownProperAge != null &&
                       _dropDownDuration != null &&
                       _dropDownCapacity != null &&
+                      _dropDownSessionNum != null &&
                       _selectedColorIndex != null &&
                       _priceController != '' &&
                       _infoController != '') {
@@ -676,6 +685,7 @@ class _EditSessionalState extends State<EditSessional> {
                         type: _dropDownCategory!,
                         audience: _dropDownProperAge!,
                         duration: _dropDownDuration!,
+                        sessionNum: _dropDownSessionNum!,
                         cap: _dropDownCapacity!,
                         price: _priceController.text,
                         info: _infoController.text,
@@ -683,6 +693,12 @@ class _EditSessionalState extends State<EditSessional> {
                     reset();
                   } else {
                     Get.snackbar('لطفا اطلاعات جلسه کامل رو پر کنید', '', snackPosition: SnackPosition.TOP, backgroundColor: ColorPallet.red);
+                  }
+                  // this will pop the keyboard onPress
+                  try {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  } catch (e) {
+                    print('there is no context, [keyboard] is already closed');
                   }
                 },
                 child: CircleAvatar(child: Icon(Icons.add))),
@@ -698,6 +714,7 @@ class _EditSessionalState extends State<EditSessional> {
     _dropDownDuration = null;
     _dropDownCapacity = null;
     _dropDownDuration = null;
+    _dropDownSessionNum = null;
     _priceController.text = '';
     _infoController.text = '';
     _selectedColorIndex = null;
