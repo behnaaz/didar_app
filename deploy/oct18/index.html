@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Didar</title>
+</head>
+
+<body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-auth.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+
+  apiKey: "AIzaSyCNVaOo2ALTqjazgpQWq1q0CIxLLdjh2hY",
+
+  authDomain: "didar-1bc25.firebaseapp.com",
+
+  projectId: "didar-1bc25",
+
+  storageBucket: "didar-1bc25.appspot.com",
+
+  messagingSenderId: "922756560415",
+
+  appId: "1:922756560415:web:6afddb7de69ce590a9c72a",
+
+  measurementId: "G-ET2YGB9XS0"
+
+};
+
+
+// Initialize Firebase
+//
+//const app = initializeApp(firebaseConfig);
+//
+//const analytics = getAnalytics(app);
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="main.dart.js" type="application/javascript"></script>
+
+</body>
+
+<!-- to here.
+<body>
+<script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js?v=2884565996');
+      });
+    }
+  </script>
+
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      // Replace this with your firebaseConfig
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+<script src="main.dart.js" type="application/javascript"></script>
+</body>
+ -->
+</html>
