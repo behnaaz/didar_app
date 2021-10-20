@@ -29,30 +29,41 @@ class _LoginScreenState extends State<LoginScreen> {
 
   ///Login Action Button
   void loginButton(authService) async {
-    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+    ConnectivityResult connectivityResult =
+        await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
       // we have internet connection
       if (_formKey.currentState!.validate()) {
         setState(() => _loginButtonIsActive = false);
         try {
-          await authService.signIn(email: emailController.text, password: passwordController.text);
-        
+          await authService.signIn(
+              email: emailController.text, password: passwordController.text);
+
           //TODO Farsi
-          Get.snackbar("You are login successfully", "Have fun", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.blue[200], borderRadius: 10);
-          Get.offAllNamed(RoutesName.homeNavigationWrapper);
-          
+          Get.snackbar("You are login successfully", "Have fun",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.blue[200],
+              borderRadius: 10);
+          Get.offAllNamed(RoutesName.home);
 
           //BottomNavigationWrapper(routeHome);
         } on FirebaseAuthException catch (e) {
           logger.d(e);
           //TODO Farsi
-          Get.snackbar("bad connection", "Can't connect to server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
+          Get.snackbar("bad connection", "Can't connect to server",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red[400],
+              borderRadius: 10);
           setState(() => _loginButtonIsActive = true);
         }
       }
     } else if (connectivityResult == ConnectivityResult.none) {
       // there is NO internet connection
-      Get.snackbar("Connection Failed", "Check your internet Connection", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.grey, borderRadius: 10);
+      Get.snackbar("Connection Failed", "Check your internet Connection",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.grey,
+          borderRadius: 10);
     }
   }
 
@@ -71,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
           SafeArea(
             child: Center(
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
                 constraints: BoxConstraints(maxWidth: 800),
                 child: Form(
                   key: _formKey,
@@ -82,7 +94,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30), border: Border.all(color: ColorPallet.grayBg)),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(color: ColorPallet.grayBg)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -117,15 +132,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             ElevatedButton(
                               style: ButtonStyle(
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                 ),
                               ),
-                              onPressed: _loginButtonIsActive ? () => loginButton(authService) : null,
+                              onPressed: _loginButtonIsActive
+                                  ? () => loginButton(authService)
+                                  : null,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15.0),
                                 child: _loginButtonIsActive
                                     ? Text(
                                         "ورود",
@@ -145,9 +164,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             Center(
                               child: Row(
-                                
                                 children: [
-                                  Text("اگه هنوز ثبت نام نکردی " ,textAlign: TextAlign.center,style: MyTextStyle.small,),
+                                  Text(
+                                    "اگه هنوز ثبت نام نکردی ",
+                                    textAlign: TextAlign.center,
+                                    style: MyTextStyle.small,
+                                  ),
                                   SizedBox(
                                     width: 5,
                                   ),

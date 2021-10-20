@@ -11,7 +11,8 @@ import 'package:flutter/services.dart';
 Future<void> main() async {
   // ---------- Landscape off
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   // ----------
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -33,11 +34,11 @@ class DidarApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'IranSans',
           scaffoldBackgroundColor: ColorPallet.lightGrayBg,
-          // primarySwatch: Colors.blue,
-          appBarTheme: AppBarTheme(color: Colors.white, iconTheme: IconThemeData(color: ColorPallet.grayBg)),
-          // primaryColor: Colors.blue[900],
+          appBarTheme: AppBarTheme(
+              color: Colors.white,
+              iconTheme: IconThemeData(color: ColorPallet.grayBg)),
         ),
-       initialRoute: '/',
+        initialRoute: RoutesName.home,
         getPages: routPage,
       ),
     );
