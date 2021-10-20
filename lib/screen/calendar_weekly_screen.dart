@@ -366,7 +366,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                             child: Text(
                               _box.get(_userUid) == 'CalendarHint'
                                   ? 'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید'
-                                  : 'برای مشخص کردن نوع جلسه بر روی زمان های انتخاب شده بر روی تقویم ضربه بزنید',
+                                  : 'برای مشخص کردن نوع جلسه بر روی زمان های انتخاب شده بر روی تقویم ضربه بزنید و برای حذف چند ثانیه نگه دارید',
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                             ),
