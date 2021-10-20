@@ -28,8 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
       if (_formKey.currentState!.validate()) {
         setState(() => _loginButtonIsActive = false);
         try {
+          String returnUrl = Get.parameters[RETURN_PARAM] ?? HOME_ROUTE;
+
           await authService.signIn(
               email: emailController.text, password: passwordController.text);
+
+          Get.offAllNamed(returnUrl);
         } on FirebaseAuthException catch (e) {
           logger.d(e);
           //TODO Farsi
