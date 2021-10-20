@@ -55,11 +55,24 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: ColorPallet.red,
           borderRadius: 10);
 
-      return;
-    }
+          await authService.signIn(
+              email: emailController.text, password: passwordController.text);
 
-    if (!_formKey.currentState!.validate()) {
-      Get.snackbar("An error occurred", "Please try again",
+          Get.offAllNamed(returnUrl);
+        } catch (e) {
+          logger.d(e);
+          //TODO Farsi
+          Get.snackbar("Error",
+              "Please check your username, password, network connection,...",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red[400],
+              borderRadius: 10);
+          setState(() => _loginButtonIsActive = true);
+        }
+      }
+    } else if (connectivityResult == ConnectivityResult.none) {
+      // there is NO internet connection
+      Get.snackbar("Connection Failed", "Check your internet Connection",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           borderRadius: 10);
@@ -197,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   OutlinedButton(
                                     onPressed: () {
-                                      Get.toNamed(REGISTER_ROUTE);
+                                      Get.toNamed(REGISTR_ROUTE);
                                     },
                                     child: Text(
                                       "همین الان ثبت نام کن",

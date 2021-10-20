@@ -32,7 +32,7 @@ List<GetPage<dynamic>>? routes = [
 class AuthAssure extends GetMiddleware {
   RouteSettings? redirect(String? route) {
     String returnUrl = Uri.encodeFull(route ?? HOME_ROUTE);
-    return AuthenticationService.authenticatedUser() == null
+    return AuthenticationService.instance.isAuthenticated()
         ? null
         : RouteSettings(name: loginWithRedirect(returnUrl));
   }

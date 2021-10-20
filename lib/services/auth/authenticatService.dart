@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 final Logger logger = Logger();
 
 class AuthenticationService {
+  static final AuthenticationService instance = AuthenticationService();
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
   final ProxyService _proxyService;
   final FirestoreServiceDB _firestoreService;
@@ -25,6 +26,7 @@ class AuthenticationService {
     return currentUser != null;
   }
 
+  //NOTE: check IF user is login or not
   User? _userFromFirebase(auth.User? user) {
     if (user == null) {
       return null;
@@ -60,7 +62,6 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
-    // Create the Instance od user
     var credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
