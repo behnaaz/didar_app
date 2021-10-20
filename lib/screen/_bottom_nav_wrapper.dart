@@ -2,10 +2,9 @@ import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/controller/MainStore.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/screen/profile/profile_screen.dart';
-import 'package:didar_app/screen/sessions_screen.dart';
+import 'package:didar_app/screen/session/sessions_screen.dart';
 import 'package:didar_app/screen/setting_screen.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:get/get.dart';
@@ -23,8 +22,6 @@ class BottomNavigationWrapper extends StatefulWidget {
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
-  
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // NOTE : Bottom navigation item widgetOptions
@@ -32,15 +29,14 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
     ProfileScreen(),
     SessionsScreen(),
     HomeScreen(),
-    // CalendarScreen(),
     CalendarWeeklyScreen(),
     SettingScreen(),
   ];
-   final RegisterController _controller = Get.put(RegisterController());
+  final RegisterController _controller = Get.put(RegisterController());
 
-  void _onItemTapped(int index ) {
+  void _onItemTapped(int index) {
     setState(() {
-       _controller.bottomNavigateTrigger(index);
+      _controller.bottomNavigateTrigger(index);
     });
   }
 

@@ -21,6 +21,16 @@ class ColorPallet {
 }
 
 // ::> Image Address  ----------------------------------------------------------
+const List<Color> sessionsColorList = [
+  ColorPallet.lightBlue,
+  ColorPallet.green,
+  ColorPallet.yellow,
+  ColorPallet.cyan,
+  ColorPallet.pink,
+  ColorPallet.violet,
+  ColorPallet.lightRed,
+];
+
 class AssetImages {
   AssetImages._();
 
