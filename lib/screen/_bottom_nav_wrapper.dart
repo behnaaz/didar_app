@@ -18,7 +18,8 @@ class BottomNavigationWrapper extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
+  State<BottomNavigationWrapper> createState() =>
+      _BottomNavigationWrapperState();
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
@@ -66,14 +67,16 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
               child: ListView(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     child: Text(
                       'درباره ما',
                       style: MyTextStyle.large.copyWith(color: Colors.white),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     child: Text(
                       'تماس با ما',
                       style: MyTextStyle.large.copyWith(color: Colors.white),
@@ -84,7 +87,8 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                       await authService.signOut();
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: Row(
                         children: [
                           Icon(
@@ -96,7 +100,8 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                           ),
                           Text(
                             'خروج',
-                            style: MyTextStyle.large.copyWith(color: Colors.white),
+                            style:
+                                MyTextStyle.large.copyWith(color: Colors.white),
                           ),
                         ],
                       ),
@@ -124,7 +129,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
             onTap: () {
               // this is Simpler way , I Use GETx package for navigate and stateManaging
               // Checkout https://pub.dev/packages/get for more Information.
-              Get.toNamed(RoutesName.messages);
+              Get.toNamed(MESSAGE_ROUTE);
               // Navigator.pushNamed(context, routeMessages);
               print('message button clicked');
             },
@@ -142,11 +147,14 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                     child: Container(
                       width: 18,
                       height: 18,
-                      decoration: BoxDecoration(color: ColorPallet.red, borderRadius: BorderRadiusDirectional.circular(50)),
+                      decoration: BoxDecoration(
+                          color: ColorPallet.red,
+                          borderRadius: BorderRadiusDirectional.circular(50)),
                       child: Center(
                         child: Text(
                           '2',
-                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 10, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),

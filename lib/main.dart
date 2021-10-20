@@ -38,8 +38,8 @@ class DidarApp extends StatelessWidget {
               color: Colors.white,
               iconTheme: IconThemeData(color: ColorPallet.grayBg)),
         ),
-        initialRoute: RoutesName.home,
-        getPages: routPage,
+        initialRoute: HOME_ROUTE,
+        getPages: routes,
       ),
     );
   }
