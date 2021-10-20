@@ -33,7 +33,7 @@ void routeController(String step) {
         backgroundColor: Colors.blue[200],
         borderRadius: 10,
       );
-      Get.offAllNamed(RoutesName.homeNavigationWrapper);
+      Get.offAllNamed(RoutesName.home);
     } else if (step == 'CalendarHint') {
       _controller.bottomNavigateTrigger(3);
     } else if (step == 'Calendar') {
