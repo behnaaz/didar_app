@@ -4,7 +4,12 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthenticationService {
+  static final AuthenticationService instance = AuthenticationService();
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+
+  bool isAuthenticated() {
+    return currentUser != null;
+  }
 
   //NOTE: check IF user is login or not
   User? _userFromFirebase(auth.User? user) {
@@ -14,16 +19,21 @@ class AuthenticationService {
     return User(user.uid, user.email);
   }
 
-// NOTE : user Instance
   Stream<User?>? get user {
+    //TODO delete this, our app is not reactive to auth state changes
     return _firebaseAuth.authStateChanges().map(_userFromFirebase);
+  }
+
+  User? get currentUser {
+    return _userFromFirebase(_firebaseAuth.currentUser);
   }
 
   Future<User?> signIn({
     required String email,
     required String password,
   }) async {
-    var credential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    var credential = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
     return _userFromFirebase(credential.user);
   }
 
@@ -31,8 +41,8 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
-    // Create the Instance od user
-    var credential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+    var credential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
 
     // TODO : init user profile doc for the first time
     UserProfile emptyUser = UserProfile(
@@ -48,7 +58,8 @@ class AuthenticationService {
     try {
       await FirestoreServiceDB().addUserProfileData(emptyUser.toJson());
     } catch (e) {
-      print("authenticateService : I the credential in null, userInstance has been not created");
+      print(
+          "authenticateService : I the credential in null, userInstance has been not created");
     }
 
     return _userFromFirebase(credential.user);

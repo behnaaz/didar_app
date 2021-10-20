@@ -33,7 +33,7 @@ void routeController(String step) {
         backgroundColor: Colors.blue[200],
         borderRadius: 10,
       );
-      Get.offAllNamed(RoutesName.home);
+      Get.offAllNamed(HOME_ROUTE);
     } else if (step == 'CalendarHint') {
       _controller.bottomNavigateTrigger(3);
     } else if (step == 'Calendar') {
@@ -50,3 +50,7 @@ void routeController(String step) {
     }
   }
 }
+//TODO This class is terrible!!!!! Delete it and use routes and parameters to pass the numbers
+// Do not use numbers (HAving magical numbers is a bad practice), 
+// use names you could create an array and names and use the index
+

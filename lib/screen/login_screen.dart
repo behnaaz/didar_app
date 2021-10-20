@@ -37,21 +37,17 @@ class _LoginScreenState extends State<LoginScreen> {
       if (_formKey.currentState!.validate()) {
         setState(() => _loginButtonIsActive = false);
         try {
+          String returnUrl = Get.parameters[RETURN_PARAM] ?? HOME_ROUTE;
+
           await authService.signIn(
               email: emailController.text, password: passwordController.text);
 
-          //TODO Farsi
-          Get.snackbar("You are login successfully", "Have fun",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.blue[200],
-              borderRadius: 10);
-          Get.offAllNamed(RoutesName.home);
-
-          //BottomNavigationWrapper(routeHome);
+          Get.offAllNamed(returnUrl);
         } on FirebaseAuthException catch (e) {
           logger.d(e);
           //TODO Farsi
-          Get.snackbar("bad connection", "Can't connect to server",
+          Get.snackbar("Error",
+              "Please check your username, password, network connection,...",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.red[400],
               borderRadius: 10);
@@ -175,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   OutlinedButton(
                                     onPressed: () {
-                                      Get.toNamed(RoutesName.register);
+                                      Get.toNamed(REGISTR_ROUTE);
                                     },
                                     child: Text(
                                       "همین الان ثبت نام کن",
