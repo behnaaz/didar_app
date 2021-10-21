@@ -9,7 +9,9 @@ import 'package:http/http.dart' as http;
 Logger logger = Logger();
 
 class AuthenticationService {
-  static final AuthenticationService instance = AuthenticationService();
+  AuthenticationService._privateConstructor();
+  static final AuthenticationService instance =
+      AuthenticationService._privateConstructor();
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
   bool isAuthenticated() {
@@ -22,11 +24,6 @@ class AuthenticationService {
       return null;
     }
     return User(user.uid, user.email);
-  }
-
-  Stream<User?>? get user {
-    //TODO delete this, our app is not reactive to auth state changes
-    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 
   User? get currentUser {
