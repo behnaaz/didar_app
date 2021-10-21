@@ -21,11 +21,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  //Unused String? _dropDownChooseSession;
   List<dynamic> _socialLinks = [];
 
-  /// This function is for saving the User profile info
-  /// it will save the info on firestore
   void save() async {
     try {
       await FirestoreServiceDB().updateUserData(
@@ -41,7 +38,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ).toJson(),
       );
     } catch (e) {
-      print('authenticateService : I the credential in null, userInstance has been not created');
+      print(
+          'authenticateService : I the credential in null, userInstance has been not created');
     }
     // this will pop the keyboard onPress
     try {
@@ -51,16 +49,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-// _____________________________________________________________________________
-//         >> Get the stream response and return UserProfile_model<<
-//                          ---------
   UserProfile parseProfileInfo(Object responseBody) {
     return UserProfile.fromJson(responseBody);
   }
-
-// _____________________________________________________________________________
-//               >> Profile TextField Controllers <<
-//                          ---------
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -71,12 +62,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController eduDegreeController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
 
-//______________________________________________________________________________
-
-// -----------------------------------------------------------------
   Box _box = Hive.box('status');
   final String _userStatus = auth.FirebaseAuth.instance.currentUser!.uid;
-// =================================================================
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -104,11 +91,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   return Center(
                     child: Icon(Icons.error_outline),
                   );
-                } else if (snapshot.connectionState == ConnectionState.active) {
-                  // ___________________________________________________________
-                  //     >> Set the profile value on controllers <<
-                  //                 ---------
-                  UserProfile userProfileDocument = parseProfileInfo(snapshot.data!);
+                }
+                if (snapshot.connectionState == ConnectionState.active) {
+                  UserProfile userProfileDocument =
+                      parseProfileInfo(snapshot.data!);
                   firstNameController.text = userProfileDocument.firstName;
                   lastNameController.text = userProfileDocument.lastName;
 
@@ -118,15 +104,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   bioController.text = userProfileDocument.bio;
                   eduDegreeController.text = userProfileDocument.eduDegree;
                   _socialLinks = userProfileDocument.socialLinks;
-                  // ___________________________________________________________
 
                   return Column(
                     children: [
                       Expanded(
                         child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: ColorPallet.grayBg)),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: ColorPallet.grayBg)),
                           child: ListView(
                             children: [
                               Center(
@@ -136,14 +126,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     CircleAvatar(
                                       radius: 40,
                                       backgroundColor: Colors.white,
-                                      child: Image.asset(AssetImages.userEmptyAvatar),
+                                      child: Image.asset(
+                                          AssetImages.userEmptyAvatar),
                                     ),
                                     Positioned(
                                         bottom: -6,
                                         right: -2,
                                         child: Container(
                                             padding: EdgeInsets.all(3),
-                                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
                                             child: Image.asset(
                                               AssetImages.editIcon,
                                               width: 18,
@@ -178,11 +172,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               _SessionSubject(
-                                sessionsTopicSelected: userProfileDocument.sessionTopics,
+                                sessionsTopicSelected:
+                                    userProfileDocument.sessionTopics,
                               ),
-                              _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
-                              _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
-                              _profileTextField(controller: eduDegreeController, label: "سابقه تحصیلی"),
+                              _profileTextField(
+                                  controller: emailController,
+                                  label: "ایمیل",
+                                  keyboardType: TextInputType.emailAddress),
+                              _profileTextField(
+                                  controller: phoneNumController,
+                                  label: "شماره موبایل",
+                                  keyboardType: TextInputType.phone),
+                              _profileTextField(
+                                  controller: eduDegreeController,
+                                  label: "سابقه تحصیلی"),
                               _profileTextField(
                                 label: 'درباره من',
                                 controller: bioController,
@@ -195,39 +198,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                ...List.generate(
-                                    userProfileDocument.socialLinks.length,
-                                    (index) => Material(
-                                          color: Colors.transparent,
-                                          child: InkWell(
-                                            onTap: null, //TODO | sajjad | it should be Delete or Edit
-                                            hoverColor: Colors.amber,
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(vertical: 5),
-                                              child: Row(
-                                                // Text(userProfileDocument.socialLinks[index].toString())
-                                                children: _socialListChild(userProfileDocument.socialLinks[index]),
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ...List.generate(
+                                        userProfileDocument.socialLinks.length,
+                                        (index) => Material(
+                                              color: Colors.transparent,
+                                              child: InkWell(
+                                                onTap:
+                                                    null, //TODO | sajjad | it should be Delete or Edit
+                                                hoverColor: Colors.amber,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 5),
+                                                  child: Row(
+                                                    // Text(userProfileDocument.socialLinks[index].toString())
+                                                    children: _socialListChild(
+                                                        userProfileDocument
+                                                                .socialLinks[
+                                                            index]),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        )),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(50), color: ColorPallet.blue),
-                                  child: IconButton(
-                                    color: Colors.white,
-                                    icon: Icon(Icons.add),
-                                    onPressed: () {
-                                      Get.bottomSheet(
-                                        AddNewSocialLinksBottomSheet(socialList: _socialLinks),
-                                        isDismissible: true,
-                                      );
-                                      // _socialList.add(value);
-                                    },
-                                  ),
-                                ),
-                              ]),
+                                            )),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadiusDirectional.circular(
+                                                  50),
+                                          color: ColorPallet.blue),
+                                      child: IconButton(
+                                        color: Colors.white,
+                                        icon: Icon(Icons.add),
+                                        onPressed: () {
+                                          Get.bottomSheet(
+                                            AddNewSocialLinksBottomSheet(
+                                                socialList: _socialLinks),
+                                            isDismissible: true,
+                                          );
+                                          // _socialList.add(value);
+                                        },
+                                      ),
+                                    ),
+                                  ]),
                             ],
                           ),
                         ),
@@ -245,7 +260,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         nextStep();
                                       },
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 15),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15),
                                         child: Text(
                                           'مرحله بعدی',
                                           style: MyTextStyle.large.copyWith(
@@ -293,7 +309,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.yellow, style: BorderStyle.solid, width: 2)),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(
+                  color: Colors.yellow, style: BorderStyle.solid, width: 2)),
         ),
       ),
     );
@@ -341,7 +360,8 @@ class _SessionSubject extends StatelessWidget {
   final List<String> _options = [];
   final List sessionsTopicSelected;
 
-  _SessionSubject({Key? key, required this.sessionsTopicSelected}) : super(key: key);
+  _SessionSubject({Key? key, required this.sessionsTopicSelected})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -356,7 +376,8 @@ class _SessionSubject extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
             List<dynamic> _o = data['type'];
             _o.forEach((e) {
               _options.add(e.toString());
@@ -397,7 +418,8 @@ class _DropDownSession extends StatefulWidget {
   _DropDownSession(this.options, this.selected);
 
   @override
-  _DropDownSessionState createState() => _DropDownSessionState(this.options, this.selected);
+  _DropDownSessionState createState() =>
+      _DropDownSessionState(this.options, this.selected);
 }
 
 class _DropDownSessionState extends State<_DropDownSession> {
@@ -408,7 +430,6 @@ class _DropDownSessionState extends State<_DropDownSession> {
   List<String> listToString() {
     List<String> stringList = [];
     selected.forEach((element) {
-     
       stringList.add(element.toString());
     });
 
