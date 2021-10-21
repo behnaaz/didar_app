@@ -9,7 +9,9 @@ import 'package:logger/logger.dart';
 final Logger logger = Logger();
 
 class AuthenticationService {
-  static final AuthenticationService instance = AuthenticationService();
+  AuthenticationService._privateConstructor();
+  static final AuthenticationService instance =
+      AuthenticationService._privateConstructor();
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
   final ProxyService _proxyService;
   final FirestoreServiceDB _firestoreService;
