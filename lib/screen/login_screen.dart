@@ -27,22 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _loginButtonIsActive = true;
 
-  ///Login Action Button
   void loginButton(authService) async {
     ConnectivityResult connectivityResult =
         await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi) {
-      // we have internet connection
       if (_formKey.currentState!.validate()) {
         setState(() => _loginButtonIsActive = false);
         try {
-          String returnUrl = Get.parameters[RETURN_PARAM] ?? HOME_ROUTE;
-
           await authService.signIn(
               email: emailController.text, password: passwordController.text);
-
-          Get.offAllNamed(returnUrl);
         } on FirebaseAuthException catch (e) {
           logger.d(e);
           //TODO Farsi
@@ -53,9 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: 10);
           setState(() => _loginButtonIsActive = true);
         }
+
+        String returnUrl = Get.parameters[RETURN_PARAM] ?? HOME_ROUTE;
+        Get.offAllNamed(returnUrl);
       }
     } else if (connectivityResult == ConnectivityResult.none) {
-      // there is NO internet connection
       Get.snackbar("Connection Failed", "Check your internet Connection",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.grey,
