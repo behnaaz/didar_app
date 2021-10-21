@@ -26,7 +26,8 @@ class DidarApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AuthenticationService>(create: (_) => AuthenticationService()),
+        Provider<AuthenticationService>(
+            create: (_) => AuthenticationService.instance),
       ],
       child: GetMaterialApp(
         locale: const Locale('fa', 'IR'),

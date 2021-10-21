@@ -4,7 +4,9 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthenticationService {
-  static final AuthenticationService instance = AuthenticationService();
+  AuthenticationService._privateConstructor();
+  static final AuthenticationService instance =
+      AuthenticationService._privateConstructor();
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
   bool isAuthenticated() {
@@ -17,11 +19,6 @@ class AuthenticationService {
       return null;
     }
     return User(user.uid, user.email);
-  }
-
-  Stream<User?>? get user {
-    //TODO delete this, our app is not reactive to auth state changes
-    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 
   User? get currentUser {
