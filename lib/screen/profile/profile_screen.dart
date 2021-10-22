@@ -365,7 +365,7 @@ class _SessionSubject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: FBAllSessionTypeService().sessionsTypeStream,
+        future: FBAllSessionTypeService().allSessionsType,
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Text("Sessions not Available");
