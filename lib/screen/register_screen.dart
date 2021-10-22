@@ -28,7 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _registerButtonIsActive = true;
   bool _acceptTheRules = false;
-  // Create Account button Function
+
   void createAccount(authService) async {
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
     // REVIEW - Internet connection check -- ![ Need to check the internet service status]
@@ -94,15 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: 50,
                               ),
                             ),
-                            // myTextFormField(
-                            //     controller: fullNameController,
-                            //     label: "نام کامل",
-                            //     icon: Icon(Icons.person),
-                            //     validator: (String? value) {
-                            //       if (value!.isEmpty) {
-                            //         return "لطفا نام کامل خود را وارد کنید";
-                            //       }
-                            //     }),
+                           
                             myTextFormField(
                                 controller: emailController,
                                 label: "ایمیل",

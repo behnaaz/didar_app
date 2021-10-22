@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-// session_type
-// time_slot
-// user_profile (ref)
 
 class FBAvailableTimeService {
   // NOTE : AuthService Provider
