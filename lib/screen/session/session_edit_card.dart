@@ -17,14 +17,6 @@ class EditSession extends StatefulWidget {
 }
 
 class _EditSessionState extends State<EditSession> {
-  int? _selectedColorIndex;
-  String? _dropDownCategory;
-  String? _dropDownProperAge;
-  String? _dropDownDuration;
-  String? _dropDownSessionNum;
-  String? _dropDownCapacity;
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _infoController = TextEditingController();
 // _____________________________________________________________________________
 //         >> Get the stream response and return UserProfile_model<<
 //                          ---------
@@ -35,21 +27,6 @@ class _EditSessionState extends State<EditSession> {
 // -----------------------------------------------------------------------------
 
   final SessionsController _getController = Get.put(SessionsController());
-  @override
-  void initState() {
-    if (_getController.sessionIndexToModify != 0) {
-      _dropDownProperAge = _getController.session['audience'];
-      _dropDownDuration = _getController.session['duration'];
-      _dropDownSessionNum = _getController.session['session_num'];
-      _dropDownCapacity = _getController.session['capacity'];
-      _priceController.text = _getController.session['price'];
-      _infoController.text = _getController.session['info'];
-      _selectedColorIndex = int.parse(_getController.session['color']);
-      _dropDownCategory = _getController.session['session_type'];
-    }
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +60,9 @@ class _EditSessionState extends State<EditSession> {
 
                               List<String> items = listToString(userProfileDocument.sessionTopics);
 
-                              // if (items.contains(_getController.session['session_type'])) {
-                              //   _dropDownCategory = _getController.session['session_type'];
-                              // }
                               return DropdownButton<String>(
                                 borderRadius: BorderRadius.circular(10),
-                                value: _dropDownCategory,
+                                value: items.contains(_.dropDownCategory.toString()) ? _.dropDownCategory.toString() : null,
                                 hint: Text('دسته بندی جلسه'),
                                 icon: Icon(LineIcons.angleDown),
                                 iconSize: 24,
@@ -102,16 +76,11 @@ class _EditSessionState extends State<EditSession> {
                                 ),
                                 onChanged: (String? newValue) {
                                   setState(() {
-                                    _dropDownCategory = newValue;
+                                    _.dropDownCategory = RxString(newValue!);
                                   });
                                 },
                                 items: items.map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
-                                    onTap: () {
-                                      setState(() {
-                                        _dropDownCategory = value;
-                                      });
-                                    },
                                     value: value,
                                     child: Text(value),
                                   );
@@ -123,7 +92,7 @@ class _EditSessionState extends State<EditSession> {
                           }),
                       DropdownButton<String>(
                         borderRadius: BorderRadius.circular(10),
-                        value: _dropDownProperAge,
+                        value: _.dropDownAudience.toString() != '' ? _.dropDownAudience.toString() : null,
                         hint: Text('مناسب برای'),
                         icon: Icon(LineIcons.angleDown),
                         iconSize: 24,
@@ -137,16 +106,11 @@ class _EditSessionState extends State<EditSession> {
                         ),
                         onChanged: (String? newValue) {
                           setState(() {
-                            _dropDownProperAge = newValue!;
+                            _.dropDownAudience = RxString(newValue!);
                           });
                         },
                         items: <String>['کودکان', 'بزرگسالان'].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
-                            onTap: () {
-                              setState(() {
-                                _dropDownProperAge = value;
-                              });
-                            },
                             value: value,
                             child: Text(value),
                           );
@@ -154,7 +118,7 @@ class _EditSessionState extends State<EditSession> {
                       ),
                       DropdownButton<String>(
                         borderRadius: BorderRadius.circular(10),
-                        value: _dropDownDuration,
+                        value: _.dropDownTimeDuration.toString() != '' ? _.dropDownTimeDuration.toString() : null,
                         hint: Text('مدت زمان'),
                         icon: Icon(LineIcons.angleDown),
                         iconSize: 24,
@@ -168,7 +132,7 @@ class _EditSessionState extends State<EditSession> {
                         ),
                         onChanged: (String? newValue) {
                           setState(() {
-                            _dropDownDuration = newValue!;
+                            _.dropDownTimeDuration = RxString(newValue!);
                           });
                         },
                         items: <String>[
@@ -177,11 +141,6 @@ class _EditSessionState extends State<EditSession> {
                           '45 دقیقه',
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
-                            onTap: () {
-                              setState(() {
-                                _dropDownDuration = value;
-                              });
-                            },
                             value: value,
                             child: Text(value),
                           );
@@ -189,7 +148,7 @@ class _EditSessionState extends State<EditSession> {
                       ),
                       DropdownButton<String>(
                         borderRadius: BorderRadius.circular(10),
-                        value: _dropDownSessionNum,
+                        value: _.dropDownNumOfSession.toString() != '' ? _.dropDownNumOfSession.toString() : null,
                         hint: Text('طول دوره'),
                         icon: Icon(LineIcons.angleDown),
                         iconSize: 24,
@@ -203,7 +162,7 @@ class _EditSessionState extends State<EditSession> {
                         ),
                         onChanged: (String? newValue) {
                           setState(() {
-                            _dropDownSessionNum = newValue!;
+                            _.dropDownNumOfSession = RxString(newValue!);
                           });
                         },
                         items: <String>[
@@ -212,11 +171,6 @@ class _EditSessionState extends State<EditSession> {
                           '8 جلسه',
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
-                            onTap: () {
-                              setState(() {
-                                _dropDownSessionNum = value;
-                              });
-                            },
                             value: value,
                             child: Text(value),
                           );
@@ -224,7 +178,7 @@ class _EditSessionState extends State<EditSession> {
                       ),
                       DropdownButton<String>(
                         borderRadius: BorderRadius.circular(10),
-                        value: _dropDownCapacity,
+                        value: _.dropDownCapacity.toString() != '' ? _.dropDownCapacity.toString() : null,
                         hint: Text('ظرفیت جلسه'),
                         icon: Icon(LineIcons.angleDown),
                         iconSize: 24,
@@ -238,7 +192,7 @@ class _EditSessionState extends State<EditSession> {
                         ),
                         onChanged: (String? newValue) {
                           setState(() {
-                            _dropDownCapacity = newValue!;
+                            _.dropDownCapacity = RxString(newValue!);
                           });
                         },
                         items: <String>[
@@ -246,39 +200,23 @@ class _EditSessionState extends State<EditSession> {
                           '2 نفر',
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
-                            onTap: () {
-                              setState(() {
-                                _dropDownCapacity = value;
-                              });
-                            },
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
                       ),
                       TextField(
-                        controller: _priceController,
+                        controller: _.priceController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                            label: Text('قیمت دوره'),
-                            hintText: '20 دلار',
-                            // prefix: Container(
-                            //   padding: EdgeInsets.only(left: 20),
-                            //   child: Text('قیمت دوره'),
-                            // ),
-                            suffix: Text('دلار')),
+                        decoration: InputDecoration(label: Text('قیمت دوره'), hintText: '20 دلار', suffix: Text('دلار')),
                       ),
                       TextField(
-                        controller: _infoController,
+                        controller: _.infoController,
                         keyboardType: TextInputType.multiline,
                         maxLines: 4,
                         minLines: 2,
                         decoration: InputDecoration(
                           label: Text('درباره جلسه'),
-                          // prefix: Container(
-                          //   padding: EdgeInsets.only(left: 20),
-                          //   child: Text('درباره جلسه'),
-                          // ),
                         ),
                       ),
                       SizedBox(
@@ -305,7 +243,7 @@ class _EditSessionState extends State<EditSession> {
                                       (index) => GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            _selectedColorIndex = index;
+                                            _.selectedColorIndex = RxInt(index);
                                           });
                                         },
                                         child: Container(
@@ -314,8 +252,8 @@ class _EditSessionState extends State<EditSession> {
                                           height: 20,
                                           decoration: BoxDecoration(
                                             color: sessionsColorList[index],
-                                            border: _selectedColorIndex == index ? Border.all(width: 1, color: Colors.white) : null,
-                                            boxShadow: _selectedColorIndex == index
+                                            border: _.selectedColorIndex == index ? Border.all(width: 1, color: Colors.white) : null,
+                                            boxShadow: _.selectedColorIndex == index
                                                 ? [
                                                     BoxShadow(
                                                       color: Colors.grey.withOpacity(0.5),
@@ -344,26 +282,29 @@ class _EditSessionState extends State<EditSession> {
               Center(
                 child: GestureDetector(
                     onTap: () {
-                      if (_dropDownCategory != null &&
-                          _dropDownProperAge != null &&
-                          _dropDownDuration != null &&
-                          _dropDownCapacity != null &&
-                          _dropDownSessionNum != null &&
-                          _selectedColorIndex != null &&
-                          _priceController != '' &&
-                          _infoController != '') {
+                      if (_.dropDownCategory.toString() != '' &&
+                          _.dropDownAudience.toString() != '' &&
+                          _.dropDownTimeDuration.toString() != '' &&
+                          _.dropDownCapacity.toString() != '' &&
+                          _.dropDownNumOfSession.toString() != '' &&
+                          _.selectedColorIndex != null &&
+                          _.priceController != '' &&
+                          _.infoController != '') {
                         FBUserSessionService().deleteSession(_getController.session).then((value) => printInfo(info: 'Delete item'));
                         SessionModel session = SessionModel(
-                            type: _dropDownCategory!,
-                            audience: _dropDownProperAge!,
-                            durationTime: _dropDownDuration!,
-                            numOfSessions: _dropDownSessionNum!,
-                            capacity: _dropDownCapacity!,
-                            price: _priceController.text,
-                            info: _infoController.text,
-                            color: _selectedColorIndex!.toString());
+                            type: _.dropDownCategory.toString(),
+                            audience: _.dropDownAudience.toString(),
+                            durationTime: _.dropDownTimeDuration.toString(),
+                            numOfSessions: _.dropDownNumOfSession.toString(),
+                            capacity: _.dropDownCapacity.toString(),
+                            price: _.priceController.text,
+                            info: _.infoController.text,
+                            color: _.selectedColorIndex.toString());
                         FBUserSessionService().sessionUpdate(session);
-                        reset();
+                        _.emptyTheFields();
+                        setState(() {
+                          
+                        });
                       } else {
                         Get.snackbar('لطفا اطلاعات جلسه کامل رو پر کنید', '', snackPosition: SnackPosition.TOP, backgroundColor: ColorPallet.red);
                       }
@@ -391,24 +332,5 @@ class _EditSessionState extends State<EditSession> {
         },
       ),
     );
-  }
-
-  void reset() {
-    _dropDownCategory = null;
-    _dropDownProperAge = null;
-    _dropDownDuration = null;
-    _dropDownCapacity = null;
-    _dropDownSessionNum = null;
-    _priceController.text = '';
-    _infoController.text = '';
-    _selectedColorIndex = null;
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    _infoController.dispose();
-    _priceController.dispose();
-    super.dispose();
   }
 }
