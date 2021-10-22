@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:didar_app/model/session_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class FBUserSessionService {
@@ -14,29 +15,15 @@ class FBUserSessionService {
   }
 
   /// update the session document or create for the first time
-  Future sessionUpdate({
-    required String type,
-    required String audience,
-    required String duration,
-    required String cap,
-    required String price,
-    required String info,
-    required String color,
-    required String sessionNum,
-  }) async {
+  Future sessionUpdate(
+    SessionModel session
+  ) async {
     String uid = _firebaseAuth.currentUser!.uid;
     return await _sessionOfUser.doc(uid).set({
       'sessionList': FieldValue.arrayUnion([
-        {
-          'session_type': type,
-          'audience': audience,
-          'duration': duration,
-          'session_num': sessionNum,
-          'capacity': cap,
-          'price': price,
-          'info': info,
-          'color': color,
-        },
+        session.toJson()
+          
+        ,
       ])
     }, SetOptions(merge: true));
   }
