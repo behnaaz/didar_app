@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class RegisterController extends GetxController {
+class BottomNavigationController extends GetxController {
   RxInt pageIndex = 2.obs;
 
   void bottomNavigateTrigger(int index) {
