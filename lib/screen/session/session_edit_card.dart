@@ -3,6 +3,7 @@
 //==============================================================================
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/controller/sessions_screen_controller.dart';
+import 'package:didar_app/model/session_model.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/fb_user_session_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
@@ -352,15 +353,16 @@ class _EditSessionState extends State<EditSession> {
                           _priceController != '' &&
                           _infoController != '') {
                         FBUserSessionService().deleteSession(_getController.session).then((value) => printInfo(info: 'Delete item'));
-                        FBUserSessionService().sessionUpdate(
+                        SessionModel session = SessionModel(
                             type: _dropDownCategory!,
                             audience: _dropDownProperAge!,
-                            duration: _dropDownDuration!,
-                            sessionNum: _dropDownSessionNum!,
-                            cap: _dropDownCapacity!,
+                            durationTime: _dropDownDuration!,
+                            numOfSessions: _dropDownSessionNum!,
+                            capacity: _dropDownCapacity!,
                             price: _priceController.text,
                             info: _infoController.text,
                             color: _selectedColorIndex!.toString());
+                        FBUserSessionService().sessionUpdate(session);
                         reset();
                       } else {
                         Get.snackbar('لطفا اطلاعات جلسه کامل رو پر کنید', '', snackPosition: SnackPosition.TOP, backgroundColor: ColorPallet.red);
