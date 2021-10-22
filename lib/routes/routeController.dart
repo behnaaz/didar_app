@@ -6,7 +6,8 @@
 // Hive.box('status').put('accountState', 'calendarSessionHint');
 // Hive.box('status').put('accountState', 'Passed');  >> Final step
 
-import 'package:didar_app/controller/MainStore.dart';
+
+import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,14 +17,14 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 //  --------------------------------------------
 Box _box = Hive.box('status');
 final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
-final RegisterController _controller = Get.put(RegisterController());
+final BottomNavigationController _controller = Get.put(BottomNavigationController());
 //  --------------------------------------------
 void routeController(String step) {
   if (_firebaseAuth.currentUser != null) {
-    String status = _firebaseAuth.currentUser!.uid;
-    _box.put(status, step);
+    String userId = _firebaseAuth.currentUser!.uid;
+    _box.put(userId, step);
     if (step == 'Profile') {
-      print(_box.get(status));
+      print(_box.get(userId));
       _controller.bottomNavigateTrigger(0);
       print('bottom nav index: ${_controller.pageIndex}');
       Get.snackbar(
@@ -37,7 +38,7 @@ void routeController(String step) {
     } else if (step == 'CalendarHint') {
       _controller.bottomNavigateTrigger(3);
     } else if (step == 'Calendar') {
-      print(_box.get(status));
+      print(_box.get(userId));
     } else if (step == 'session') {
       print('i am here');
       _controller.bottomNavigateTrigger(1);

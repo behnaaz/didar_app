@@ -1,5 +1,5 @@
 import 'package:didar_app/constants/them_conf.dart';
-import 'package:didar_app/controller/MainStore.dart';
+import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/screen/profile/profile_screen.dart';
 import 'package:didar_app/screen/session/sessions_screen.dart';
@@ -33,7 +33,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
     CalendarWeeklyScreen(),
     SettingScreen(),
   ];
-  final RegisterController _controller = Get.put(RegisterController());
+  final BottomNavigationController _controller = Get.put(BottomNavigationController());
 
   void _onItemTapped(int index) {
     setState(() {
@@ -172,8 +172,8 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
           )),
           // NOTE : this is a body Injection screen Widget
 
-          GetBuilder<RegisterController>(
-            init: RegisterController(),
+          GetBuilder<BottomNavigationController>(
+            init: BottomNavigationController(),
             initState: (_) {},
             builder: (controller) {
               return _widgetOptions[controller.pageIndex.toInt()];
@@ -181,8 +181,8 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
           )
         ],
       ),
-      bottomNavigationBar: GetBuilder<RegisterController>(
-        init: RegisterController(),
+      bottomNavigationBar: GetBuilder<BottomNavigationController>(
+        init: BottomNavigationController(),
         initState: (_) {},
         builder: (controller) {
           return SnakeNavigationBar.color(
