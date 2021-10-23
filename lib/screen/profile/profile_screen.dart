@@ -79,207 +79,211 @@ class _ProfileScreenState extends State<ProfileScreen> {
             AssetImages.patternAuthBg,
             fit: BoxFit.cover,
           )),
-          StreamBuilder(
-              stream: FirestoreServiceDB().userProfile,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  logger.d(snapshot.error);
-                  return Center(
-                    child: Icon(Icons.error_outline),
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.active) {
-                  UserProfile userProfileDocument =
-                      parseProfileInfo(snapshot.data!);
-                  firstNameController.text = userProfileDocument.firstName;
-                  lastNameController.text = userProfileDocument.lastName;
+          Center(
+            child: Container(constraints: BoxConstraints(maxWidth: 800),
+              child: StreamBuilder(
+                  stream: FirestoreServiceDB().userProfile,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      logger.d(snapshot.error);
+                      return Center(
+                        child: Icon(Icons.error_outline),
+                      );
+                    }
+                    if (snapshot.connectionState == ConnectionState.active) {
+                      UserProfile userProfileDocument =
+                          parseProfileInfo(snapshot.data!);
+                      firstNameController.text = userProfileDocument.firstName;
+                      lastNameController.text = userProfileDocument.lastName;
 
-                  emailController.text = userProfileDocument.email;
-                  phoneNumController.text = userProfileDocument.phoneNumber;
+                      emailController.text = userProfileDocument.email;
+                      phoneNumController.text = userProfileDocument.phoneNumber;
 
-                  bioController.text = userProfileDocument.bio;
-                  eduDegreeController.text = userProfileDocument.eduDegree;
-                  _socialLinks = userProfileDocument.socialLinks;
+                      bioController.text = userProfileDocument.bio;
+                      eduDegreeController.text = userProfileDocument.eduDegree;
+                      _socialLinks = userProfileDocument.socialLinks;
 
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 10),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: ColorPallet.grayBg)),
-                          child: ListView(
-                            children: [
-                              Center(
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 40,
-                                      backgroundColor: Colors.white,
-                                      child: Image.asset(
-                                          AssetImages.userEmptyAvatar),
-                                    ),
-                                    Positioned(
-                                        bottom: -6,
-                                        right: -2,
-                                        child: Container(
-                                            padding: EdgeInsets.all(3),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
-                                            child: Image.asset(
-                                              AssetImages.editIcon,
-                                              width: 18,
-                                            )))
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: [
-                                    _profileTextField(
-                                        controller: firstNameController,
-                                        label: "نام *",
-                                        validator: (String? value) {
-                                          if (value!.isEmpty) {
-                                            return "لطفا نام  خود را وارد کنید";
-                                          }
-                                        }),
-                                    _profileTextField(
-                                        controller: lastNameController,
-                                        label: "نام خانوادگی *",
-                                        validator: (String? value) {
-                                          if (value!.isEmpty) {
-                                            return "لطفا نام خانوادگی خود را وارد کنید";
-                                          }
-                                        }),
-                                  ],
-                                ),
-                              ),
-                              _SessionSubject(
-                                sessionsTopicSelected:
-                                    userProfileDocument.sessionTopics,
-                              ),
-                              _profileTextField(
-                                  controller: emailController,
-                                  label: "ایمیل",
-                                  keyboardType: TextInputType.emailAddress),
-                              _profileTextField(
-                                  controller: phoneNumController,
-                                  label: "شماره موبایل",
-                                  keyboardType: TextInputType.phone),
-                              _profileTextField(
-                                  controller: eduDegreeController,
-                                  label: "سابقه تحصیلی"),
-                              _profileTextField(
-                                label: 'درباره من',
-                                controller: bioController,
-                                minLines: 3,
-                                maxLines: 5,
-                                maxLength: 500,
-                                keyboardType: TextInputType.multiline,
-                              ),
-                              Text('راه های ارتباطی من'),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ...List.generate(
-                                        userProfileDocument.socialLinks.length,
-                                        (index) => Material(
-                                              color: Colors.transparent,
-                                              child: InkWell(
-                                                onTap:
-                                                    null, //TODO | sajjad | it should be Delete or Edit
-                                                hoverColor: Colors.amber,
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 5),
-                                                  child: Row(
-                                                    // Text(userProfileDocument.socialLinks[index].toString())
-                                                    children: _socialListChild(
-                                                        userProfileDocument
-                                                                .socialLinks[
-                                                            index]),
-                                                  ),
-                                                ),
-                                              ),
-                                            )),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadiusDirectional.circular(
-                                                  50),
-                                          color: ColorPallet.blue),
-                                      child: IconButton(
-                                        color: Colors.white,
-                                        icon: Icon(Icons.add),
-                                        onPressed: () {
-                                          Get.bottomSheet(
-                                            AddNewSocialLinksBottomSheet(
-                                                socialList: _socialLinks),
-                                            isDismissible: true,
-                                          );
-                                          // _socialList.add(value);
-                                        },
-                                      ),
-                                    ),
-                                  ]),
-                            ],
-                          ),
-                        ),
-                      ),
-                      _box.get(_userStatus) == 'Profile'
-                          ? Row(
-                              children: [
-                                Expanded(
-                                  child: Material(
-                                    color: ColorPallet.blue,
-                                    child: InkWell(
-                                      splashColor: Colors.lightBlue[400],
-                                      // highlightColor: Colors.green ,
-                                      onTap: () {
-                                        nextStep();
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 15),
-                                        child: Text(
-                                          'مرحله بعدی',
-                                          style: MyTextStyle.large.copyWith(
-                                            color: Colors.white,
-                                          ),
-                                          textAlign: TextAlign.center,
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(color: ColorPallet.grayBg)),
+                              child: ListView(
+                                children: [
+                                  Center(
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 40,
+                                          backgroundColor: Colors.white,
+                                          child: Image.asset(
+                                              AssetImages.userEmptyAvatar),
                                         ),
-                                      ),
+                                        Positioned(
+                                            bottom: -6,
+                                            right: -2,
+                                            child: Container(
+                                                padding: EdgeInsets.all(3),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(8)),
+                                                child: Image.asset(
+                                                  AssetImages.editIcon,
+                                                  width: 18,
+                                                )))
+                                      ],
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      children: [
+                                        _profileTextField(
+                                            controller: firstNameController,
+                                            label: "نام *",
+                                            validator: (String? value) {
+                                              if (value!.isEmpty) {
+                                                return "لطفا نام  خود را وارد کنید";
+                                              }
+                                            }),
+                                        _profileTextField(
+                                            controller: lastNameController,
+                                            label: "نام خانوادگی *",
+                                            validator: (String? value) {
+                                              if (value!.isEmpty) {
+                                                return "لطفا نام خانوادگی خود را وارد کنید";
+                                              }
+                                            }),
+                                      ],
+                                    ),
+                                  ),
+                                  _SessionSubject(
+                                    sessionsTopicSelected:
+                                        userProfileDocument.sessionTopics,
+                                  ),
+                                  _profileTextField(
+                                      controller: emailController,
+                                      label: "ایمیل",
+                                      keyboardType: TextInputType.emailAddress),
+                                  _profileTextField(
+                                      controller: phoneNumController,
+                                      label: "شماره موبایل",
+                                      keyboardType: TextInputType.phone),
+                                  _profileTextField(
+                                      controller: eduDegreeController,
+                                      label: "سابقه تحصیلی"),
+                                  _profileTextField(
+                                    label: 'درباره من',
+                                    controller: bioController,
+                                    minLines: 3,
+                                    maxLines: 5,
+                                    maxLength: 500,
+                                    keyboardType: TextInputType.multiline,
+                                  ),
+                                  Text('راه های ارتباطی من'),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        ...List.generate(
+                                            userProfileDocument.socialLinks.length,
+                                            (index) => Material(
+                                                  color: Colors.transparent,
+                                                  child: InkWell(
+                                                    onTap:
+                                                        null, //TODO | sajjad | it should be Delete or Edit
+                                                    hoverColor: Colors.amber,
+                                                    child: Container(
+                                                      padding: EdgeInsets.symmetric(
+                                                          vertical: 5),
+                                                      child: Row(
+                                                        // Text(userProfileDocument.socialLinks[index].toString())
+                                                        children: _socialListChild(
+                                                            userProfileDocument
+                                                                    .socialLinks[
+                                                                index]),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadiusDirectional.circular(
+                                                      50),
+                                              color: ColorPallet.blue),
+                                          child: IconButton(
+                                            color: Colors.white,
+                                            icon: Icon(Icons.add),
+                                            onPressed: () {
+                                              Get.bottomSheet(
+                                                AddNewSocialLinksBottomSheet(
+                                                    socialList: _socialLinks),
+                                                isDismissible: true,
+                                              );
+                                              // _socialList.add(value);
+                                            },
+                                          ),
+                                        ),
+                                      ]),
+                                ],
+                              ),
+                            ),
+                          ),
+                          _box.get(_userStatus) == 'Profile'
+                              ? Row(
+                                  children: [
+                                    Expanded(
+                                      child: Material(
+                                        color: ColorPallet.blue,
+                                        child: InkWell(
+                                          splashColor: Colors.lightBlue[400],
+                                          // highlightColor: Colors.green ,
+                                          onTap: () {
+                                            nextStep();
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 15),
+                                            child: Text(
+                                              'مرحله بعدی',
+                                              style: MyTextStyle.large.copyWith(
+                                                color: Colors.white,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
-                          : SizedBox(),
-                    ],
-                  );
-                } else {
-                  // if the snapshot.status was != active
-                  // this will be render on screen
-                  return Center(child: CircularProgressIndicator());
-                }
-              }),
+                              : SizedBox(),
+                        ],
+                      );
+                    } else {
+                      // if the snapshot.status was != active
+                      // this will be render on screen
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }),
+            ),
+          ),
         ],
       ),
     );
