@@ -8,7 +8,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 
 const String HOME_ROUTE = '/';
 const String MESSAGE_ROUTE = '/messages';
-const String REGISTR_ROUTE = '/register';
+const String REGISTER_ROUTE = '/register';
 const String LOGIN_ROUTE = '/login';
 
 const String RETURN_PARAM = 'return';
@@ -17,7 +17,7 @@ String loginWithRedirect(String returnUrl) =>
     LOGIN_ROUTE + '?' + RETURN_PARAM + '=' + returnUrl;
 
 List<GetPage<dynamic>>? routes = [
-  GetPage(name: REGISTR_ROUTE, page: () => RegisterScreen()),
+  GetPage(name: REGISTER_ROUTE, page: () => RegisterScreen()),
   GetPage(name: LOGIN_ROUTE, page: () => LoginScreen()),
   GetPage(
       name: HOME_ROUTE,

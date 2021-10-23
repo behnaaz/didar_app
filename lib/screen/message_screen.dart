@@ -1,7 +1,5 @@
 import 'package:didar_app/constants/them_conf.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:line_icons/line_icons.dart';
 
 class MessageScreen extends StatelessWidget {
@@ -266,7 +264,7 @@ class MessageScreen extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    'به دیدار خوش امدید',
+                                    'به دیدار خوش آمدید',
                                     style: MyTextStyle.base,
                                   ),
                                   SizedBox(

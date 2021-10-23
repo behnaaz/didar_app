@@ -115,7 +115,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                                       initState: (_) {},
                                       builder: (_) {
                                         return Text(
-                                          _getController.sessionIndexToModify != 0 ? _getController.sessionIndexToModify.toString() : 'جدید', // TODO
+                                          _getController.sessionIndexToModify != 0 ? _getController.sessionIndexToModify.toString() : 'جدید', 
                                           style: MyTextStyle.small.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                                         );
                                       },
