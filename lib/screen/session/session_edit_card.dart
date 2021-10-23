@@ -302,18 +302,11 @@ class _EditSessionState extends State<EditSession> {
                             color: _.selectedColorIndex.toString());
                         FBUserSessionService().sessionUpdate(session);
                         _.emptyTheFields();
-                        setState(() {
-                          
-                        });
+                        setState(() {});
                       } else {
                         Get.snackbar('لطفا اطلاعات جلسه کامل رو پر کنید', '', snackPosition: SnackPosition.TOP, backgroundColor: ColorPallet.red);
                       }
-                      // this will pop the keyboard onPress
-                      try {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                      } catch (e) {
-                        print('there is no context, [keyboard] is already closed');
-                      }
+                    
                     },
                     child: _getController.sessionIndexToModify != 0
                         ? Container(
