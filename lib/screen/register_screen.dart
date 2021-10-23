@@ -1,4 +1,4 @@
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/routes/routeController.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
