@@ -81,7 +81,7 @@ class AuthenticationService {
     var credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    // TODO : init user profile doc for the first time
+    
     UserProfile emptyUser = UserProfile(
       firstName: '',
       lastName: '',

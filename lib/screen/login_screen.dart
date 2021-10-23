@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   OutlinedButton(
                                     onPressed: () {
-                                      Get.toNamed(REGISTR_ROUTE);
+                                      Get.toNamed(REGISTER_ROUTE);
                                     },
                                     child: Text(
                                       "همین الان ثبت نام کن",
