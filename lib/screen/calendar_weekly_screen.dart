@@ -37,7 +37,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
     super.initState();
   }
 
-  Box _box = Hive.box('status');
+  Box _box = Hive.box(statusBox);
   final String _userUid = auth.FirebaseAuth.instance.currentUser!.uid;
   @override
   Widget build(BuildContext context) {

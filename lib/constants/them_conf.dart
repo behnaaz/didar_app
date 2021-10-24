@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
+const String statusBox = 'status';
+
 Logger logger = Logger();
+
 // ::> Colors  -----------------------------------------------------------------
 class ColorPallet {
   ColorPallet._();
@@ -50,25 +53,25 @@ class AssetImages {
   static const String emailIcon = "assets/images/email.png";
 
   /// Calendar png that used as placeholder when sessions list is empty
-  static const String sessionPlaceholder =
-      "assets/images/empty-session-placeholder.png";
+  static const String sessionPlaceholder = "assets/images/empty-session-placeholder.png";
+
   /// Calendar png that used as placeholder second version
-  static const String sessionPlaceholder2 =
-      "assets/images/home-empty-session.png";
+  static const String sessionPlaceholder2 = "assets/images/home-empty-session.png";
 
   /// Nice PNG header for Home page
   static const String homeHeader = "assets/images/home-header.png";
 
   /// Rate badge icon
   static const String badgeRate = "assets/images/rate-badge.png";
+
   /// Didar coin badge icon
   static const String badgeDidarCoin = "assets/images/didar-coin-badge.png";
+
   /// student badge icon
   static const String badgeStudent = "assets/images/student-badge.png";
 
   /// Custom (Didar) payment card Icon
-  static const String iconSessionSetting =
-      "assets/images/d-icon-session-setting.png";
+  static const String iconSessionSetting = "assets/images/d-icon-session-setting.png";
 
   /// Custom (Didar) Work Calendar Icon
   static const String iconWorkCalendar = "assets/images/d-icon-calendar.png";
@@ -81,6 +84,7 @@ class AssetImages {
 
   /// Custom (Didar) Pay Card Icon
   static const String iconFinancialStuff = "assets/images/d-icon-pay.png";
+
   /// Custom (Didar) statistic chart  Icon
   static const String iconChartStatistic = "assets/images/d-statistics-chart.png";
 
@@ -97,9 +101,8 @@ class AssetImages {
 /// [pageTile]  | 20
 class MyTextStyle {
   MyTextStyle._();
-  
-  static final TextStyle base = const TextStyle(
-      fontFamily: "IranSans", color: ColorPallet.textColor, fontSize: 14);
+
+  static final TextStyle base = const TextStyle(fontFamily: "IranSans", color: ColorPallet.textColor, fontSize: 14);
 
   /// FontSize is '10'
   static final TextStyle xSmall = base.copyWith(fontSize: 10);

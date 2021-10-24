@@ -7,6 +7,7 @@
 // Hive.box('status').put('accountState', 'Passed');  >> Final step
 
 
+import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 //  --------------------------------------------
-Box _box = Hive.box('status');
+Box _box = Hive.box(statusBox);
 final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 final BottomNavigationController _controller = Get.put(BottomNavigationController());
 //  --------------------------------------------
