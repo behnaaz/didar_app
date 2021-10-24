@@ -39,7 +39,7 @@ class UserProfile {
     );
   }
 
-  Map<String, Object?> toJson() {
+  Map<String, Object?> toMap() {
     return {
      'first_name': firstName,
      'last_name': lastName,

@@ -1,25 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:shamsi_date/extensions.dart';
-
-class Availability {
-  //TODO this class represents a free time slot in the calendar
-
-  List<TimeSlot> availableTimeSlotList;
-  Availability({
-    required this.availableTimeSlotList,
+class AvailabilityModel {
+  String timeSlot;
+  String sessionType;
+  String userProfileRef;
+  AvailabilityModel({
+    required this.timeSlot,
+    required this.sessionType,
+    required this.userProfileRef,
   });
-}
 
-  /// List of my free time slot [Date] of the Day +
-  /// starting time: [From_Time] +
-  /// End time duration: [To_Time]
-class TimeSlot {
-  Jalali date;
-  TimeOfDay timeFrom;
-  TimeOfDay timeTo;
-  TimeSlot({
-    required this.date,
-    required this.timeFrom,
-    required this.timeTo,
-  });
+  Map<String, dynamic> toMap() {
+    return {
+      'time_slot': timeSlot,
+      'session_type': sessionType,
+      'user_profile': userProfileRef,
+    };
+  }
+
+  factory AvailabilityModel.fromMap(Map<String, dynamic> map) {
+    return AvailabilityModel(
+      timeSlot: map['time_slot'],
+      sessionType: map['session_type'],
+      userProfileRef: map['user_profile'],
+    );
+  }
 }
