@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:didar_app/model/availability_model.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-
 
 class FBAvailableTimeService {
   // NOTE : AuthService Provider
@@ -14,29 +14,27 @@ class FBAvailableTimeService {
     String? sessionType,
   }) async {
     String uid = _firebaseAuth.currentUser!.uid;
+    AvailabilityModel item = AvailabilityModel(
+      timeSlot: timeSlot,
+      sessionType: sessionType ?? '',
+      userProfileRef: '/user_profile/${uid}',
+    );
     return await _sessionOfUser.doc(uid).set({
-      'available_List': FieldValue.arrayUnion([
-        {
-          'time_slot': timeSlot,
-          'session_type': sessionType ?? '',
-          'user_profile': '/user_profile/${uid}',
-        },
-      ])
+      'available_List': FieldValue.arrayUnion([item.toMap()])
     }, SetOptions(merge: true));
   }
 
   Future deleteAvailableTime({required String timeSlot, required String type}) async {
     String uid = _firebaseAuth.currentUser!.uid;
+    AvailabilityModel item = AvailabilityModel(
+      timeSlot: timeSlot,
+      sessionType: type,
+      userProfileRef: '/user_profile/${uid}',
+    );
     try {
       return await _sessionOfUser.doc(uid).update(
         {
-          'available_List': FieldValue.arrayRemove([
-            {
-              'time_slot': timeSlot,
-              'session_type': type,
-              'user_profile': '/user_profile/${uid}',
-            },
-          ])
+          'available_List': FieldValue.arrayRemove([item.toMap()])
         },
       );
     } catch (e) {

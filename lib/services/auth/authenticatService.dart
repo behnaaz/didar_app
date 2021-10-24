@@ -53,7 +53,7 @@ class AuthenticationService {
       socialLinks: [],
     );
     try {
-      await FirestoreServiceDB().addUserProfileData(emptyUser.toJson());
+      await FirestoreServiceDB().addUserProfileData(emptyUser.toMap());
     } catch (e) {
       print(
           "authenticateService : I the credential in null, userInstance has been not created");

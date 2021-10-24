@@ -33,7 +33,7 @@ class SessionModel {
     );
   }
 
-  Map<String, Object?> toJson() {
+  Map<String, Object?> toMap() {
   return {
     'session_type': type,
     'audience': audience,

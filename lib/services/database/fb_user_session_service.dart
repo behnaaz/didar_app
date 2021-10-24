@@ -21,7 +21,7 @@ class FBUserSessionService {
     String uid = _firebaseAuth.currentUser!.uid;
     return await _sessionOfUser.doc(uid).set({
       'sessionList': FieldValue.arrayUnion([
-        session.toJson()
+        session.toMap()
           
         ,
       ])

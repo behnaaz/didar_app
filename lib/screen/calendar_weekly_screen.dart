@@ -148,6 +148,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                       if (snapshot.connectionState == ConnectionState.active) {
                         var _mapData = {};
                         if (snapshot.data.data() != null) {
+
                           List _data = snapshot.data.data()['available_List'] ?? [];
                           _mapData = Map.fromIterable(_data, key: (e) => e['time_slot'], value: (e) => e['session_type']);
                         }

@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           eduDegree: eduDegreeController.text,
           sessionTopics: [],
           socialLinks: _socialLinks,
-        ).toJson(),
+        ).toMap(),
       );
     } catch (e) {
       print(
