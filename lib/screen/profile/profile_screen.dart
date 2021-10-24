@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController eduDegreeController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
 
-  Box _box = Hive.box('status');
+  Box _box = Hive.box(statusBox);
   final String _userStatus = auth.FirebaseAuth.instance.currentUser!.uid;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
