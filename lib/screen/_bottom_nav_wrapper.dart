@@ -18,8 +18,7 @@ class BottomNavigationWrapper extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<BottomNavigationWrapper> createState() =>
-      _BottomNavigationWrapperState();
+  State<BottomNavigationWrapper> createState() => _BottomNavigationWrapperState();
 }
 
 class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
@@ -39,6 +38,15 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
     setState(() {
       _controller.bottomNavigateTrigger(index);
     });
+  }
+
+  @override
+  void initState() {
+    if (Get.arguments == 'HintActive') {
+      _controller.bottomNavigateTrigger(0);
+      _controller.toggleHint();
+    }
+    super.initState();
   }
 
   @override
@@ -67,16 +75,14 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
               child: ListView(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Text(
                       'درباره ما',
                       style: MyTextStyle.large.copyWith(color: Colors.white),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Text(
                       'تماس با ما',
                       style: MyTextStyle.large.copyWith(color: Colors.white),
@@ -87,8 +93,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                       await authService.signOut();
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Row(
                         children: [
                           Icon(
@@ -100,8 +105,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                           ),
                           Text(
                             'خروج',
-                            style:
-                                MyTextStyle.large.copyWith(color: Colors.white),
+                            style: MyTextStyle.large.copyWith(color: Colors.white),
                           ),
                         ],
                       ),
@@ -147,14 +151,11 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                     child: Container(
                       width: 18,
                       height: 18,
-                      decoration: BoxDecoration(
-                          color: ColorPallet.red,
-                          borderRadius: BorderRadiusDirectional.circular(50)),
+                      decoration: BoxDecoration(color: ColorPallet.red, borderRadius: BorderRadiusDirectional.circular(50)),
                       child: Center(
                         child: Text(
                           '2',
-                          style: TextStyle(
-                              fontSize: 10, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -184,11 +185,11 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
       bottomNavigationBar: GetBuilder<BottomNavigationController>(
         init: BottomNavigationController(),
         initState: (_) {},
-        builder: (controller) {
+        builder: (_) {
           return SnakeNavigationBar.color(
             snakeShape: SnakeShape.rectangle,
-            currentIndex: controller.pageIndex.toInt(),
-            onTap: _onItemTapped,
+            currentIndex: _.pageIndex.toInt(),
+            onTap:  _onItemTapped,
             backgroundColor: Colors.grey[200],
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.grey[900],

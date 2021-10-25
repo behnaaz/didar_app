@@ -1,6 +1,6 @@
 import 'package:didar_app/constants/them_conf.dart';
+import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/controller/sessions_screen_controller.dart';
-import 'package:didar_app/routes/routeController.dart';
 import 'package:didar_app/screen/session/session_edit_card.dart';
 import 'package:didar_app/screen/session/session_list.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +16,14 @@ class _SessionsScreenState extends State<SessionsScreen> {
   bool makeupClassSwitch = false;
   int _makeupSessionNum = 1;
 
-  final SessionsController _getController = Get.put(SessionsController());
+  final BottomNavigationController _controller = Get.put(BottomNavigationController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
       body: Center(
-        child: Container(constraints: BoxConstraints(maxWidth: 800),
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 800),
           child: Column(
             children: [
               Expanded(
@@ -116,7 +117,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                                         initState: (_) {},
                                         builder: (_) {
                                           return Text(
-                                            _getController.sessionIndexToModify != 0 ? _getController.sessionIndexToModify.toString() : 'جدید', 
+                                            _.sessionIndexToModify != 0 ? _.sessionIndexToModify.toString() : 'جدید',
                                             style: MyTextStyle.small.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                                           );
                                         },
@@ -193,7 +194,8 @@ class _SessionsScreenState extends State<SessionsScreen> {
                                         Expanded(
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              routeController('calendarSessionHint');
+                                              _controller.CheckHintStage(HintStages.CalHowModifyAvailability);
+                                              _controller.toggleHint();
                                               Get.back();
                                             },
                                             child: Text('بله، مشخص میکنم', style: MyTextStyle.small.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -215,7 +217,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
                                         Expanded(
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              routeController('Passed');
+                                              _controller.toggleHint();
                                               Get.back();
                                             },
                                             child: Text('خیر همه ی ساعت ها برای همه ی جلسات قابل ارائه هستند',

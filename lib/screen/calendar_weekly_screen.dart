@@ -1,15 +1,13 @@
 import 'package:didar_app/constants/them_conf.dart';
+import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/model/user_profile_model.dart';
-import 'package:didar_app/routes/routeController.dart';
 import 'package:didar_app/services/calendar/solar_calendar.dart';
 import 'package:didar_app/services/database/fb_availability%20_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:shamsi_date/extensions.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class CalendarWeeklyScreen extends StatefulWidget {
   const CalendarWeeklyScreen({Key? key}) : super(key: key);
@@ -37,15 +35,12 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
     super.initState();
   }
 
-  Box _box = Hive.box(statusBox);
-  final String _userUid = auth.FirebaseAuth.instance.currentUser!.uid;
+  final BottomNavigationController _controller = Get.put(BottomNavigationController());
+
   @override
   Widget build(BuildContext context) {
     logger.i(now.toDateTime());
-    // logger.i(now.weekDay);
-    // double numberToRound = 5.3;
-    // print(numberToRound.round());
-    // print( roundedX);
+
     return Stack(
       children: [
         Container(
@@ -148,7 +143,6 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                       if (snapshot.connectionState == ConnectionState.active) {
                         var _mapData = {};
                         if (snapshot.data.data() != null) {
-
                           List _data = snapshot.data.data()['available_List'] ?? [];
                           _mapData = Map.fromIterable(_data, key: (e) => e['time_slot'], value: (e) => e['session_type']);
                         }
@@ -245,7 +239,9 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                                                 setState(() {
                                                                                   // _dropDownCategory = value;
 
-                                                                                  FBAvailableTimeService().deleteAvailableTime(timeSlot: _thisTime, type: _mapData[
+                                                                                  FBAvailableTimeService().deleteAvailableTime(
+                                                                                      timeSlot: _thisTime,
+                                                                                      type: _mapData[
                                                                                           '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}']);
                                                                                   FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime, sessionType: value);
                                                                                   Get.back();
@@ -317,16 +313,15 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                         child: InkWell(
                           splashColor: Colors.blue[400],
                           // highlightColor: Colors.green ,
-                          onTap: _box.get(_userUid) == 'Passed'
-                              ? () {}
-                              : () {
-                                  print(_box.get(_userUid));
-                                  routeController('session');
-                                },
+                          onTap: _controller.hint.value
+                              ? () {
+                                  _controller.CheckHintStage(HintStages.SessionHint);
+                                }
+                              : () {},
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Text(
-                              _box.get(_userUid) == 'Passed' ? 'ذخیره' : 'مرحله بعدی',
+                              _controller.hint.value ? 'مرحله بعدی' : 'ذخیره',
                               style: MyTextStyle.large.copyWith(
                                 color: Colors.white,
                               ),
@@ -342,7 +337,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
             ),
           ),
         ),
-        _box.get(_userUid) == 'CalendarHint' || _box.get(_userUid) == 'calendarSessionHint'
+        _controller.hintStage.value == HintStages.CalHowModifyAvailability || _controller.hintStage.value == HintStages.CalHintHowAddAvailability
             ? Positioned(
                 top: 0,
                 bottom: 0,
@@ -351,7 +346,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      _box.get(_userUid) == 'CalendarHint' ? routeController('Calendar') : routeController('Passed');
+                      _controller.CheckHintStage(HintStages.NoHint);
                     });
                   },
                   child: Container(
@@ -363,7 +358,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 35),
                             child: Text(
-                              _box.get(_userUid) == 'CalendarHint'
+                              _controller.hintStage.value == HintStages.CalHintHowAddAvailability
                                   ? 'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید'
                                   : 'برای مشخص کردن نوع جلسه بر روی زمان های انتخاب شده بر روی تقویم ضربه بزنید و برای حذف چند ثانیه نگه دارید',
                               textAlign: TextAlign.center,

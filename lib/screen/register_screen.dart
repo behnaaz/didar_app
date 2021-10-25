@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:didar_app/constants/them_conf.dart';
-import 'package:didar_app/routes/routeController.dart';
+import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
@@ -42,7 +42,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         try {
           await authService.signUp(email: emailController.text, password: passwordController.text);
           // ---------------------
-          routeController('Profile');
+
+          Get.snackbar(
+            "خوش آمدید",
+            "ثبت نام موفقیت آمیز بود!",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.blue[200],
+            borderRadius: 10,
+          );
+          Get.offAllNamed(HOME_ROUTE, arguments: 'HintActive');
           // ---------------------
         } on FirebaseAuthException catch (e) {
           Get.snackbar("bad connection", "Can't connect to the server", snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.red[400], borderRadius: 10);
@@ -94,7 +102,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: 50,
                               ),
                             ),
-                           
                             myTextFormField(
                                 controller: emailController,
                                 label: "ایمیل",
