@@ -91,6 +91,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
                   GestureDetector(
                     onTap: () async {
                       await authService.signOut();
+                      Get.offAllNamed(LOGIN_ROUTE);
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -189,7 +190,7 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
           return SnakeNavigationBar.color(
             snakeShape: SnakeShape.rectangle,
             currentIndex: _.pageIndex.toInt(),
-            onTap:  _onItemTapped,
+            onTap: _onItemTapped,
             backgroundColor: Colors.grey[200],
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.grey[900],
