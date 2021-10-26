@@ -55,12 +55,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController eduDegreeController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
 
-
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       floatingActionButton: _controller.hint.value
           ? null
@@ -118,15 +116,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           child: Image.asset(AssetImages.userEmptyAvatar),
                                         ),
                                         Positioned(
-                                            bottom: -6,
-                                            right: -2,
-                                            child: Container(
-                                                padding: EdgeInsets.all(3),
-                                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-                                                child: Image.asset(
-                                                  AssetImages.editIcon,
-                                                  width: 18,
-                                                )))
+                                          bottom: -6,
+                                          right: -2,
+                                          child: Container(
+                                            padding: EdgeInsets.all(3),
+                                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                                            child: Image.asset(
+                                              AssetImages.editIcon,
+                                              width: 18,
+                                            ),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -159,9 +159,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   _SessionSubject(
                                     sessionsTopicSelected: userProfileDocument.sessionTopics,
                                   ),
-                                  _profileTextField(controller: emailController, label: "ایمیل", keyboardType: TextInputType.emailAddress),
-                                  _profileTextField(controller: phoneNumController, label: "شماره موبایل", keyboardType: TextInputType.phone),
-                                  _profileTextField(controller: eduDegreeController, label: "سابقه تحصیلی"),
+                                  _profileTextField(
+                                    controller: emailController,
+                                    label: "ایمیل",
+                                    keyboardType: TextInputType.emailAddress,
+                                  ),
+                                  _profileTextField(
+                                    controller: phoneNumController,
+                                    label: "شماره موبایل",
+                                    keyboardType: TextInputType.phone,
+                                  ),
+                                  _profileTextField(
+                                    controller: eduDegreeController,
+                                    label: "سابقه تحصیلی",
+                                  ),
                                   _profileTextField(
                                     label: 'درباره من',
                                     controller: bioController,
@@ -179,13 +190,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         userProfileDocument.socialLinks.length,
                                         (index) => Material(
                                               color: Colors.transparent,
-                                              child: InkWell(
-                                                onTap: null, //TODO | sajjad | it should be Delete or Edit
-                                                hoverColor: Colors.amber,
+                                              child: Container(
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(vertical: 5),
                                                   child: Row(
-                                                    // Text(userProfileDocument.socialLinks[index].toString())
                                                     children: _socialListChild(userProfileDocument.socialLinks[index]),
                                                   ),
                                                 ),
@@ -202,7 +210,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             AddNewSocialLinksBottomSheet(socialList: _socialLinks),
                                             isDismissible: true,
                                           );
-                                          // _socialList.add(value);
                                         },
                                       ),
                                     ),
@@ -211,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
-                        _controller.hint.value
+                          _controller.hint.value
                               ? Row(
                                   children: [
                                     Expanded(
@@ -219,7 +226,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: ColorPallet.blue,
                                         child: InkWell(
                                           splashColor: Colors.lightBlue[400],
-                                          // highlightColor: Colors.green ,
                                           onTap: () {
                                             nextStep();
                                           },
@@ -312,7 +318,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (_formKey.currentState!.validate()) {
       save();
       _controller.CheckHintStage(HintStages.CalHintHowAddAvailability);
-      // routeController('CalendarHint');
     }
   }
 }
