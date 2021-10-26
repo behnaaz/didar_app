@@ -2,16 +2,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/routes/routes.dart';
-
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:logger/logger.dart';
-
-Logger logger = Logger();
 
 class LoginScreen extends StatefulWidget {
   @override

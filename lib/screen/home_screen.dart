@@ -3,7 +3,6 @@ import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/status_item_model.dart';
 import 'package:flutter/material.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -21,11 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   GlobalKey _containerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    // final authService = Provider.of<AuthenticationService>(context);
     double widthOfScreen = MediaQuery.of(context).size.width;
     print(widthOfScreen);
     return Center(
-      child: Container(key: _containerKey,
+      child: Container(
+        key: _containerKey,
         constraints: BoxConstraints(maxWidth: 800),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: widthOfScreen,
                   child: Stack(
                     children: [
-                      // for majoring the height of pic
                       Opacity(
                         opacity: 0,
                         child: Image.asset(
@@ -48,8 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 200,
                       ),
                       Positioned(
-                        // width: widthOfScreen,
-                        child: Container(constraints: BoxConstraints(maxWidth: 800),
+                        child: Container(
+                          constraints: BoxConstraints(maxWidth: 800),
                           child: Image.asset(
                             AssetImages.homeHeader,
                           ),
@@ -202,8 +200,6 @@ class HomeEventDetails extends StatelessWidget {
             Flexible(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                // color: Colors.blueAccent,
-
                 child: Swiper(
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
@@ -245,7 +241,7 @@ class HomeEventDetails extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              Row( crossAxisAlignment: CrossAxisAlignment.center, children: [
+                              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                                 Text(
                                   'زمان باقیمانده:',
                                   style: MyTextStyle.small.copyWith(color: Colors.white),
@@ -289,13 +285,19 @@ class HomeEventDetails extends StatelessWidget {
                                               ),
                                             ),
                                           ],
-                                        ),SizedBox(height: 4,),
+                                        ),
+                                        SizedBox(
+                                          height: 4,
+                                        ),
                                         Text(
                                           'ثانیه',
                                           style: MyTextStyle.xSmall.copyWith(color: Colors.white),
                                         )
                                       ],
-                                    ),SizedBox(width: 15,),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
                                     Column(
                                       children: [
                                         Row(
@@ -339,7 +341,10 @@ class HomeEventDetails extends StatelessWidget {
                                           style: MyTextStyle.xSmall.copyWith(color: Colors.white),
                                         )
                                       ],
-                                    ),SizedBox(width: 15,),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
                                     Column(
                                       children: [
                                         Row(
