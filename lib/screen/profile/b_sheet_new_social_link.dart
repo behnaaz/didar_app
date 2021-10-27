@@ -2,32 +2,42 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:line_icons/line_icons.dart';
-
+import 'package:provider/provider.dart';
 
 class AddNewSocialLinksBottomSheet extends StatefulWidget {
   final List<dynamic> socialList;
 
-  const AddNewSocialLinksBottomSheet({Key? key, required this.socialList}) : super(key: key);
+  const AddNewSocialLinksBottomSheet({Key? key, required this.socialList})
+      : super(key: key);
 
   @override
-  _AddNewSocialLinksBottomSheetState createState() => _AddNewSocialLinksBottomSheetState(socialList);
+  _AddNewSocialLinksBottomSheetState createState() =>
+      _AddNewSocialLinksBottomSheetState(socialList);
 }
 
-class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSheet> {
+class _AddNewSocialLinksBottomSheetState
+    extends State<AddNewSocialLinksBottomSheet> {
   final List<dynamic> socialList;
-  List<String> _socialDropDownAvailableValue = ['instagram', 'facebook', 'tweeter', 'LinkedIn'];
+  List<String> _socialDropDownAvailableValue = [
+    'instagram',
+    'facebook',
+    'tweeter',
+    'LinkedIn'
+  ];
   String _dropDownIconValue = 'instagram';
   TextEditingController linkController = TextEditingController();
-
   _AddNewSocialLinksBottomSheetState(this.socialList);
   @override
   Widget build(BuildContext context) {
-    
-    
+    FirestoreServiceDB? _firestoreService =
+        Provider.of<FirestoreServiceDB>(context);
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15), topRight: Radius.circular(15))),
       height: 200,
       child: Column(
         children: [
@@ -51,7 +61,8 @@ class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSh
                         _dropDownIconValue = newValue!;
                       });
                     },
-                    items:_socialDropDownAvailableValue.map<DropdownMenuItem<String>>((String value) {
+                    items: _socialDropDownAvailableValue
+                        .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         onTap: () {
                           setState(() {
@@ -69,7 +80,10 @@ class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSh
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Colors.yellow, style: BorderStyle.solid, width: 2),
+                      borderSide: BorderSide(
+                          color: Colors.yellow,
+                          style: BorderStyle.solid,
+                          width: 2),
                     ),
                   ),
                 ),
@@ -78,7 +92,8 @@ class _AddNewSocialLinksBottomSheetState extends State<AddNewSocialLinksBottomSh
           ),
           ElevatedButton(
               onPressed: () {
-                FirestoreServiceDB().addNewSocialLink(_dropDownIconValue, linkController.text, socialList);
+                _firestoreService.addNewSocialLink(
+                    _dropDownIconValue, linkController.text, socialList);
                 Get.back();
               },
               child: Text('اضافه کن'))

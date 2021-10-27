@@ -10,6 +10,7 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class EditSession extends StatefulWidget {
   @override
@@ -30,6 +31,8 @@ class _EditSessionState extends State<EditSession> {
 
   @override
   Widget build(BuildContext context) {
+    FirestoreServiceDB _firestoreService =
+        Provider.of<FirestoreServiceDB>(context);
     return Container(
       padding: EdgeInsets.symmetric(),
       child: GetBuilder<SessionsController>(
@@ -46,30 +49,31 @@ class _EditSessionState extends State<EditSession> {
                         height: 20,
                       ),
                       StreamBuilder<Object>(
-                          stream: FirestoreServiceDB().userProfile,
+                          stream: _firestoreService.userProfile.asStream(),
                           builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.active) {
-                              UserProfile userProfileDocument = parseProfileInfo(snapshot.data!);
-                              List<String> listToString(List list) {
-                                List<String> stringList = [];
-                                list.forEach((element) {
-                                  stringList.add(element.toString());
-                                });
-                                return stringList;
-                              }
-
-                              List<String> items = listToString(userProfileDocument.sessionTopics);
+                            if (snapshot.connectionState ==
+                                ConnectionState.active) {
+                              List<String> items =
+                                  parseProfileInfo(snapshot.data!)
+                                      .sessionTopics
+                                      .map((e) => e.toString())
+                                      .toList();
 
                               return DropdownButton<String>(
                                 borderRadius: BorderRadius.circular(10),
-                                value: items.contains(_.dropDownCategory.toString()) ? _.dropDownCategory.toString() : null,
+                                value: items
+                                        .contains(_.dropDownCategory.toString())
+                                    ? _.dropDownCategory.toString()
+                                    : null,
                                 hint: Text('دسته بندی جلسه'),
                                 icon: Icon(LineIcons.angleDown),
                                 iconSize: 24,
                                 alignment: AlignmentDirectional.center,
                                 isExpanded: true,
                                 elevation: 16,
-                                style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    color: Colors.deepPurple,
+                                    fontWeight: FontWeight.bold),
                                 underline: Container(
                                   height: 1,
                                   color: Colors.deepPurpleAccent,
@@ -79,7 +83,8 @@ class _EditSessionState extends State<EditSession> {
                                     _.dropDownCategory = RxString(newValue!);
                                   });
                                 },
-                                items: items.map<DropdownMenuItem<String>>((String value) {
+                                items: items.map<DropdownMenuItem<String>>(
+                                    (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(value),
@@ -92,14 +97,18 @@ class _EditSessionState extends State<EditSession> {
                           }),
                       DropdownButton<String>(
                         borderRadius: BorderRadius.circular(10),
-                        value: _.dropDownAudience.toString() != '' ? _.dropDownAudience.toString() : null,
+                        value: _.dropDownAudience.toString() != ''
+                            ? _.dropDownAudience.toString()
+                            : null,
                         hint: Text('مناسب برای'),
                         icon: Icon(LineIcons.angleDown),
                         iconSize: 24,
                         alignment: AlignmentDirectional.center,
                         isExpanded: true,
                         elevation: 16,
-                        style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.deepPurple,
+                            fontWeight: FontWeight.bold),
                         underline: Container(
                           height: 1,
                           color: Colors.deepPurpleAccent,
@@ -109,7 +118,8 @@ class _EditSessionState extends State<EditSession> {
                             _.dropDownAudience = RxString(newValue!);
                           });
                         },
-                        items: <String>['کودکان', 'بزرگسالان'].map<DropdownMenuItem<String>>((String value) {
+                        items: <String>['کودکان', 'بزرگسالان']
+                            .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -118,14 +128,18 @@ class _EditSessionState extends State<EditSession> {
                       ),
                       DropdownButton<String>(
                         borderRadius: BorderRadius.circular(10),
-                        value: _.dropDownTimeDuration.toString() != '' ? _.dropDownTimeDuration.toString() : null,
+                        value: _.dropDownTimeDuration.toString() != ''
+                            ? _.dropDownTimeDuration.toString()
+                            : null,
                         hint: Text('مدت زمان'),
                         icon: Icon(LineIcons.angleDown),
                         iconSize: 24,
                         alignment: AlignmentDirectional.center,
                         isExpanded: true,
                         elevation: 16,
-                        style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.deepPurple,
+                            fontWeight: FontWeight.bold),
                         underline: Container(
                           height: 1,
                           color: Colors.deepPurpleAccent,
@@ -148,14 +162,18 @@ class _EditSessionState extends State<EditSession> {
                       ),
                       DropdownButton<String>(
                         borderRadius: BorderRadius.circular(10),
-                        value: _.dropDownNumOfSession.toString() != '' ? _.dropDownNumOfSession.toString() : null,
+                        value: _.dropDownNumOfSession.toString() != ''
+                            ? _.dropDownNumOfSession.toString()
+                            : null,
                         hint: Text('طول دوره'),
                         icon: Icon(LineIcons.angleDown),
                         iconSize: 24,
                         alignment: AlignmentDirectional.center,
                         isExpanded: true,
                         elevation: 16,
-                        style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.deepPurple,
+                            fontWeight: FontWeight.bold),
                         underline: Container(
                           height: 1,
                           color: Colors.deepPurpleAccent,
@@ -178,14 +196,18 @@ class _EditSessionState extends State<EditSession> {
                       ),
                       DropdownButton<String>(
                         borderRadius: BorderRadius.circular(10),
-                        value: _.dropDownCapacity.toString() != '' ? _.dropDownCapacity.toString() : null,
+                        value: _.dropDownCapacity.toString() != ''
+                            ? _.dropDownCapacity.toString()
+                            : null,
                         hint: Text('ظرفیت جلسه'),
                         icon: Icon(LineIcons.angleDown),
                         iconSize: 24,
                         alignment: AlignmentDirectional.center,
                         isExpanded: true,
                         elevation: 16,
-                        style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.deepPurple,
+                            fontWeight: FontWeight.bold),
                         underline: Container(
                           height: 1,
                           color: Colors.deepPurpleAccent,
@@ -208,7 +230,10 @@ class _EditSessionState extends State<EditSession> {
                       TextField(
                         controller: _.priceController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(label: Text('قیمت دوره'), hintText: '20 دلار', suffix: Text('دلار')),
+                        decoration: InputDecoration(
+                            label: Text('قیمت دوره'),
+                            hintText: '20 دلار',
+                            suffix: Text('دلار')),
                       ),
                       TextField(
                         controller: _.infoController,
@@ -247,22 +272,31 @@ class _EditSessionState extends State<EditSession> {
                                           });
                                         },
                                         child: Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
                                           width: 20,
                                           height: 20,
                                           decoration: BoxDecoration(
                                             color: sessionsColorList[index],
-                                            border: _.selectedColorIndex == index ? Border.all(width: 1, color: Colors.white) : null,
-                                            boxShadow: _.selectedColorIndex == index
-                                                ? [
-                                                    BoxShadow(
-                                                      color: Colors.grey.withOpacity(0.5),
-                                                      spreadRadius: 1,
-                                                      blurRadius: 2,
-                                                      offset: Offset(0, 3), // changes position of shadow
-                                                    ),
-                                                  ]
-                                                : null,
+                                            border:
+                                                _.selectedColorIndex == index
+                                                    ? Border.all(
+                                                        width: 1,
+                                                        color: Colors.white)
+                                                    : null,
+                                            boxShadow:
+                                                _.selectedColorIndex == index
+                                                    ? [
+                                                        BoxShadow(
+                                                          color: Colors.grey
+                                                              .withOpacity(0.5),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 2,
+                                                          offset: Offset(0,
+                                                              3), // changes position of shadow
+                                                        ),
+                                                      ]
+                                                    : null,
                                           ),
                                         ),
                                       ),
@@ -290,7 +324,9 @@ class _EditSessionState extends State<EditSession> {
                           _.selectedColorIndex != null &&
                           _.priceController != '' &&
                           _.infoController != '') {
-                        FBUserSessionService().deleteSession(_getController.session).then((value) => printInfo(info: 'Delete item'));
+                        FBUserSessionService()
+                            .deleteSession(_getController.session)
+                            .then((value) => printInfo(info: 'Delete item'));
                         SessionModel session = SessionModel(
                             type: _.dropDownCategory.toString(),
                             audience: _.dropDownAudience.toString(),
@@ -304,18 +340,23 @@ class _EditSessionState extends State<EditSession> {
                         _.emptyTheFields();
                         setState(() {});
                       } else {
-                        Get.snackbar('لطفا اطلاعات جلسه کامل رو پر کنید', '', snackPosition: SnackPosition.TOP, backgroundColor: ColorPallet.red);
+                        Get.snackbar('لطفا اطلاعات جلسه کامل رو پر کنید', '',
+                            snackPosition: SnackPosition.TOP,
+                            backgroundColor: ColorPallet.red);
                       }
-                    
                     },
                     child: _getController.sessionIndexToModify != 0
                         ? Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: ColorPallet.blue),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: ColorPallet.blue),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
                                 'ذخیره تغییرات',
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ))
                         : CircleAvatar(child: Icon(Icons.add))),

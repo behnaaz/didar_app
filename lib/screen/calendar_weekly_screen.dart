@@ -7,6 +7,7 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:shamsi_date/extensions.dart';
 
 class CalendarWeeklyScreen extends StatefulWidget {
@@ -25,7 +26,8 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
   SolarCalendar cal = new SolarCalendar();
 
   int _currentIndex = 999;
-  late PageController _pageViewController = PageController(initialPage: _currentIndex);
+  late PageController _pageViewController =
+      PageController(initialPage: _currentIndex);
   late Jalali now;
   late Jalali date = now;
   @override
@@ -35,10 +37,14 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
     super.initState();
   }
 
-  final BottomNavigationController _controller = Get.put(BottomNavigationController());
+  final BottomNavigationController _controller =
+      Get.put(BottomNavigationController());
 
   @override
   Widget build(BuildContext context) {
+    FirestoreServiceDB _firestoreService =
+        Provider.of<FirestoreServiceDB>(context);
+
     logger.i(now.toDateTime());
 
     return Stack(
@@ -58,19 +64,25 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                         children: [
                           Text(
                             'تنظیم جلسات اصلی',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: ColorPallet.textColor),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: ColorPallet.textColor),
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10, top: 5),
+                            padding:
+                                EdgeInsets.only(left: 10, right: 10, top: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   //ANCHOR - Year and month of calendar
-                                  SolarCalendar.monthNameList[date.month - 1] + ' ' + date.year.toString(),
+                                  SolarCalendar.monthNameList[date.month - 1] +
+                                      ' ' +
+                                      date.year.toString(),
                                   style: TextStyle(fontSize: 14),
                                 ),
                                 Row(
@@ -85,7 +97,8 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                       ),
                                       child: Text(
                                         '15 دقیقه',
-                                        style: TextStyle(fontSize: 12, color: Colors.white),
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.white),
                                       ),
                                     )
                                   ],
@@ -121,12 +134,17 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                     child: Container(
                                   padding: EdgeInsets.symmetric(vertical: 6),
                                   margin: EdgeInsets.symmetric(horizontal: 12),
-                                  decoration: BoxDecoration(color: now == date.addDays(index) ? ColorPallet.blue.withOpacity(.6) : null, borderRadius: BorderRadius.circular(50)),
+                                  decoration: BoxDecoration(
+                                      color: now == date.addDays(index)
+                                          ? ColorPallet.blue.withOpacity(.6)
+                                          : null,
+                                      borderRadius: BorderRadius.circular(50)),
                                   child: Text(
                                     // ANCHOR : weekly days
                                     (date.addDays(index).day).toString(),
                                     textAlign: TextAlign.center,
-                                    style: MyTextStyle.small.copyWith(fontWeight: FontWeight.bold),
+                                    style: MyTextStyle.small
+                                        .copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 )),
                               ),
@@ -143,8 +161,11 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                       if (snapshot.connectionState == ConnectionState.active) {
                         var _mapData = {};
                         if (snapshot.data.data() != null) {
-                          List _data = snapshot.data.data()['available_List'] ?? [];
-                          _mapData = Map.fromIterable(_data, key: (e) => e['time_slot'], value: (e) => e['session_type']);
+                          List _data =
+                              snapshot.data.data()['available_List'] ?? [];
+                          _mapData = Map.fromIterable(_data,
+                              key: (e) => e['time_slot'],
+                              value: (e) => e['session_type']);
                         }
 
                         return Expanded(
@@ -154,7 +175,9 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                               onPageChanged: (index) {
                                 print('pageView page index : $index'); //REMOVE
                                 setState(() {
-                                  _currentIndex < index ? date = date.addDays(7) : date = date.addDays(-7);
+                                  _currentIndex < index
+                                      ? date = date.addDays(7)
+                                      : date = date.addDays(-7);
                                   _currentIndex = index;
                                   logger.d(date); //REMOVE
                                 });
@@ -173,7 +196,17 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                           child: Stack(
                                             clipBehavior: Clip.none,
                                             children: [
-                                              Positioned(top: 50, right: 5, child: Container(color: ColorPallet.lightGrayBg, child: index < 23 ? Text((SolarCalendar.clockTime[index + 1])) : null)),
+                                              Positioned(
+                                                  top: 50,
+                                                  right: 5,
+                                                  child: Container(
+                                                      color: ColorPallet
+                                                          .lightGrayBg,
+                                                      child: index < 23
+                                                          ? Text((SolarCalendar
+                                                                  .clockTime[
+                                                              index + 1]))
+                                                          : null)),
                                               Row(
                                                 children: [
                                                   Expanded(
@@ -185,11 +218,27 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                     return Expanded(
                                                       child: GestureDetector(
                                                         onLongPress: () {
-                                                          FBAvailableTimeService().deleteAvailableTime(timeSlot: _thisTime, type: _mapData[_thisTime]);
+                                                          FBAvailableTimeService()
+                                                              .deleteAvailableTime(
+                                                                  timeSlot:
+                                                                      _thisTime,
+                                                                  type: _mapData[
+                                                                      _thisTime]);
                                                         },
                                                         onTap: () {
                                                           print(
-                                                            SolarCalendar.daysOfTheWeek[i] + ' | ' + 'from ' + SolarCalendar.clockTime[index] + ' to ' + SolarCalendar.clockTime[index + 1],
+                                                            SolarCalendar
+                                                                        .daysOfTheWeek[
+                                                                    i] +
+                                                                ' | ' +
+                                                                'from ' +
+                                                                SolarCalendar
+                                                                        .clockTime[
+                                                                    index] +
+                                                                ' to ' +
+                                                                SolarCalendar
+                                                                        .clockTime[
+                                                                    index + 1],
                                                           );
 
                                                           if (_mapData.containsKey(
@@ -197,52 +246,86 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                             Get.defaultDialog(
                                                               title: 'ویرایش',
                                                               middleText: '',
-                                                              confirm: StreamBuilder<Object>(
-                                                                  stream: FirestoreServiceDB().userProfile,
-                                                                  builder: (context, snapshot) {
-                                                                    if (snapshot.connectionState == ConnectionState.active) {
-                                                                      UserProfile userProfileDocument = parseProfileInfo(snapshot.data!);
-                                                                      List<String> listToString(List list) {
-                                                                        List<String> stringList = [];
-                                                                        list.forEach((element) {
-                                                                          stringList.add(element.toString());
+                                                              confirm: StreamBuilder<
+                                                                      Object>(
+                                                                  stream: Stream.value(
+                                                                      _firestoreService
+                                                                          .userProfile), //TODO don't use stream builder
+                                                                  builder: (context,
+                                                                      snapshot) {
+                                                                    if (snapshot
+                                                                            .connectionState ==
+                                                                        ConnectionState
+                                                                            .active) {
+                                                                      UserProfile
+                                                                          userProfileDocument =
+                                                                          parseProfileInfo(
+                                                                              snapshot.data!);
+                                                                      List<String>
+                                                                          listToString(
+                                                                              List list) {
+                                                                        List<String>
+                                                                            stringList =
+                                                                            [];
+                                                                        list.forEach(
+                                                                            (element) {
+                                                                          stringList
+                                                                              .add(element.toString());
                                                                         });
                                                                         return stringList;
                                                                       }
 
-                                                                      List<String> items = listToString(userProfileDocument.sessionTopics);
-                                                                      String? _dropDownCategory;
+                                                                      List<String>
+                                                                          items =
+                                                                          listToString(
+                                                                              userProfileDocument.sessionTopics);
+                                                                      String?
+                                                                          _dropDownCategory;
                                                                       return Container(
-                                                                        width: 150,
-                                                                        child: DropdownButton<String>(
-                                                                          borderRadius: BorderRadius.circular(10),
-                                                                          value: _dropDownCategory,
-                                                                          hint: Text('دسته بندی جلسه'),
-                                                                          icon: Icon(LineIcons.angleDown),
-                                                                          iconSize: 24,
-                                                                          alignment: AlignmentDirectional.center,
-                                                                          isExpanded: true,
-                                                                          elevation: 16,
-                                                                          style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
-                                                                          underline: Container(
-                                                                            height: 1,
-                                                                            color: Colors.deepPurpleAccent,
+                                                                        width:
+                                                                            150,
+                                                                        child: DropdownButton<
+                                                                            String>(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(10),
+                                                                          value:
+                                                                              _dropDownCategory,
+                                                                          hint:
+                                                                              Text('دسته بندی جلسه'),
+                                                                          icon:
+                                                                              Icon(LineIcons.angleDown),
+                                                                          iconSize:
+                                                                              24,
+                                                                          alignment:
+                                                                              AlignmentDirectional.center,
+                                                                          isExpanded:
+                                                                              true,
+                                                                          elevation:
+                                                                              16,
+                                                                          style: const TextStyle(
+                                                                              color: Colors.deepPurple,
+                                                                              fontWeight: FontWeight.bold),
+                                                                          underline:
+                                                                              Container(
+                                                                            height:
+                                                                                1,
+                                                                            color:
+                                                                                Colors.deepPurpleAccent,
                                                                           ),
-                                                                          onChanged: (String? newValue) {
+                                                                          onChanged:
+                                                                              (String? newValue) {
                                                                             setState(() {
                                                                               _dropDownCategory = newValue;
                                                                             });
                                                                           },
-                                                                          items: items.map<DropdownMenuItem<String>>((String value) {
+                                                                          items:
+                                                                              items.map<DropdownMenuItem<String>>((String value) {
                                                                             return DropdownMenuItem<String>(
                                                                               onTap: () {
                                                                                 setState(() {
                                                                                   // _dropDownCategory = value;
 
-                                                                                  FBAvailableTimeService().deleteAvailableTime(
-                                                                                      timeSlot: _thisTime,
-                                                                                      type: _mapData[
-                                                                                          '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}']);
+                                                                                  FBAvailableTimeService().deleteAvailableTime(timeSlot: _thisTime, type: _mapData['${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}']);
                                                                                   FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime, sessionType: value);
                                                                                   Get.back();
                                                                                 });
@@ -259,28 +342,46 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                                   }),
                                                             );
                                                           } else {
-                                                            FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime);
+                                                            FBAvailableTimeService()
+                                                                .updateAvailableTime(
+                                                                    timeSlot:
+                                                                        _thisTime);
                                                             print('done');
                                                           }
                                                         },
-                                                        child: AnimatedContainer(
-                                                          duration: Duration(milliseconds: 400),
-                                                          decoration: BoxDecoration(
-                                                              color: _mapData.containsKey(
-                                                                          '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}') ==
-                                                                      true
-                                                                  ? ColorPallet.blue
-                                                                  : null,
-                                                              border: Border.all(
-                                                                color: Colors.white,
-                                                              )),
+                                                        child:
+                                                            AnimatedContainer(
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  400),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  color: _mapData.containsKey(
+                                                                              '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}') ==
+                                                                          true
+                                                                      ? ColorPallet
+                                                                          .blue
+                                                                      : null,
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Colors
+                                                                        .white,
+                                                                  )),
                                                           child: Center(
                                                             child: Padding(
-                                                              padding: const EdgeInsets.all(2.0),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(2.0),
                                                               child: RichText(
-                                                                overflow: TextOverflow.ellipsis,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 text: TextSpan(
-                                                                    style: TextStyle(color: Colors.black, fontSize: 12),
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            12),
                                                                     text: _mapData[
                                                                             '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}'] ??
                                                                         ''),
@@ -303,7 +404,8 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                               }),
                         );
                       }
-                      return Expanded(child: Center(child: CircularProgressIndicator()));
+                      return Expanded(
+                          child: Center(child: CircularProgressIndicator()));
                     }),
                 Row(
                   children: [
@@ -315,7 +417,8 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                           // highlightColor: Colors.green ,
                           onTap: _controller.hint.value
                               ? () {
-                                  _controller.CheckHintStage(HintStages.SessionHint);
+                                  _controller.CheckHintStage(
+                                      HintStages.SessionHint);
                                 }
                               : () {},
                           child: Padding(
@@ -337,7 +440,9 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
             ),
           ),
         ),
-        _controller.hintStage.value == HintStages.CalHowModifyAvailability || _controller.hintStage.value == HintStages.CalHintHowAddAvailability
+        _controller.hintStage.value == HintStages.CalHowModifyAvailability ||
+                _controller.hintStage.value ==
+                    HintStages.CalHintHowAddAvailability
             ? Positioned(
                 top: 0,
                 bottom: 0,
@@ -358,11 +463,14 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 35),
                             child: Text(
-                              _controller.hintStage.value == HintStages.CalHintHowAddAvailability
+                              _controller.hintStage.value ==
+                                      HintStages.CalHintHowAddAvailability
                                   ? 'با ضربه زدن بر روی خانه های تقویم روز و ساعت جلسات خود را مشخص کنید'
                                   : 'برای مشخص کردن نوع جلسه بر روی زمان های انتخاب شده بر روی تقویم ضربه بزنید و برای حذف چند ثانیه نگه دارید',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           SizedBox(
