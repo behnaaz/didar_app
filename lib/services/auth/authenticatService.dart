@@ -1,6 +1,7 @@
 import 'package:didar_app/model/user_model.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
+import 'package:didar_app/services/proxy/proxy_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:logger/logger.dart';
 import 'dart:convert' as convert;
@@ -9,16 +10,23 @@ import 'package:http/http.dart' as http;
 Logger logger = Logger();
 
 class AuthenticationService {
-  AuthenticationService._privateConstructor();
-  static final AuthenticationService instance =
-      AuthenticationService._privateConstructor();
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+  ProxyService? _proxyService;
+  FirestoreServiceDB? _firestoreService;
+
+  bool _fallback = false;
+  static User? _currentUser;
+
+  static User? authenticatedUser() {
+    return _currentUser;
+  }
+
+  AuthenticationService(this._proxyService, this._firestoreService);
 
   bool isAuthenticated() {
     return currentUser != null;
   }
 
-  //NOTE: check IF user is login or not
   User? _userFromFirebase(auth.User? user) {
     if (user == null) {
       return null;
@@ -26,8 +34,13 @@ class AuthenticationService {
     return User(user.uid, user.email);
   }
 
+  bool get isFallback {
+    return _fallback;
+  }
+
   User? get currentUser {
-    return _userFromFirebase(_firebaseAuth.currentUser);
+    _currentUser ??= _userFromFirebase(_firebaseAuth.currentUser);
+    return _currentUser;
   }
 
   Future<User?> signIn({
@@ -82,7 +95,6 @@ class AuthenticationService {
     var credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    
     UserProfile emptyUser = UserProfile(
       firstName: '',
       lastName: '',
@@ -94,7 +106,7 @@ class AuthenticationService {
       socialLinks: [],
     );
     try {
-      await FirestoreServiceDB().addUserProfileData(emptyUser.toMap());
+      await _firestoreService!.addUserProfileData(emptyUser.toMap());
     } catch (e) {
       print(
           "authenticateService : I the credential in null, userInstance has been not created");
@@ -104,6 +116,7 @@ class AuthenticationService {
   }
 
   Future<void> signOut() async {
+    _currentUser = null;
     return await _firebaseAuth.signOut();
   }
 }

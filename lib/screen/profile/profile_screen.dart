@@ -2,12 +2,15 @@ import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/screen/profile/b_sheet_new_social_link.dart';
+import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/services/database/fb_all_session_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
+import 'package:didar_app/services/proxy/proxy_service.dart';
 import 'package:didar_app/widgets/multiSelect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -17,9 +20,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   List<dynamic> _socialLinks = [];
 
-  void save() async {
+  void save(BuildContext context) async {
     try {
-      await FirestoreServiceDB().updateUserData(
+      await Provider.of<FirestoreServiceDB>(context).updateUserData(
         UserProfile(
           firstName: firstNameController.text,
           lastName: lastNameController.text,
@@ -32,7 +35,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ).toMap(),
       );
     } catch (e) {
-      print('authenticateService : I the credential in null, userInstance has been not created');
+      print(
+          'authenticateService : I the credential in null, userInstance has been not created');
     }
     // this will pop the keyboard onPress
     try {
@@ -54,16 +58,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final TextEditingController eduDegreeController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
+  ProxyService? _proxyService;
+  AuthenticationService? _authService;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    _authService = Provider.of<AuthenticationService>(context);
+    _proxyService = Provider.of<ProxyService>(context);
+
     return Scaffold(
       floatingActionButton: _controller.hint.value
           ? null
           : FloatingActionButton(
-              onPressed: () => save(),
+              onPressed: () => save(context),
               child: Text("save"),
             ),
       body: Stack(
@@ -77,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Container(
               constraints: BoxConstraints(maxWidth: 800),
               child: StreamBuilder(
-                  stream: FirestoreServiceDB().userProfile,
+                  stream: fetchUserProfile(context).asStream(), //TODO change
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       logger.d(snapshot.error);
@@ -86,7 +95,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       );
                     }
                     if (snapshot.connectionState == ConnectionState.active) {
-                      UserProfile userProfileDocument = parseProfileInfo(snapshot.data!);
+                      UserProfile userProfileDocument =
+                          parseProfileInfo(snapshot.data!);
                       firstNameController.text = userProfileDocument.firstName;
                       lastNameController.text = userProfileDocument.lastName;
 
@@ -101,9 +111,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Expanded(
                             child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: ColorPallet.grayBg)),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border:
+                                      Border.all(color: ColorPallet.grayBg)),
                               child: ListView(
                                 children: [
                                   Center(
@@ -113,14 +129,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         CircleAvatar(
                                           radius: 40,
                                           backgroundColor: Colors.white,
-                                          child: Image.asset(AssetImages.userEmptyAvatar),
+                                          child: Image.asset(
+                                              AssetImages.userEmptyAvatar),
                                         ),
                                         Positioned(
                                           bottom: -6,
                                           right: -2,
                                           child: Container(
                                             padding: EdgeInsets.all(3),
-                                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
                                             child: Image.asset(
                                               AssetImages.editIcon,
                                               width: 18,
@@ -157,7 +177,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   _SessionSubject(
-                                    sessionsTopicSelected: userProfileDocument.sessionTopics,
+                                    sessionsTopicSelected:
+                                        userProfileDocument.sessionTopics,
                                   ),
                                   _profileTextField(
                                     controller: emailController,
@@ -185,35 +206,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                    ...List.generate(
-                                        userProfileDocument.socialLinks.length,
-                                        (index) => Material(
-                                              color: Colors.transparent,
-                                              child: Container(
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(vertical: 5),
-                                                  child: Row(
-                                                    children: _socialListChild(userProfileDocument.socialLinks[index]),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ...List.generate(
+                                            userProfileDocument
+                                                .socialLinks.length,
+                                            (index) => Material(
+                                                  color: Colors.transparent,
+                                                  child: Container(
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 5),
+                                                      child: Row(
+                                                        children: _socialListChild(
+                                                            userProfileDocument
+                                                                    .socialLinks[
+                                                                index]),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            )),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 10),
-                                      decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(50), color: ColorPallet.blue),
-                                      child: IconButton(
-                                        color: Colors.white,
-                                        icon: Icon(Icons.add),
-                                        onPressed: () {
-                                          Get.bottomSheet(
-                                            AddNewSocialLinksBottomSheet(socialList: _socialLinks),
-                                            isDismissible: true,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ]),
+                                                )),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadiusDirectional
+                                                      .circular(50),
+                                              color: ColorPallet.blue),
+                                          child: IconButton(
+                                            color: Colors.white,
+                                            icon: Icon(Icons.add),
+                                            onPressed: () {
+                                              Get.bottomSheet(
+                                                AddNewSocialLinksBottomSheet(
+                                                    socialList: _socialLinks),
+                                                isDismissible: true,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ]),
                                 ],
                               ),
                             ),
@@ -230,7 +265,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             nextStep();
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 15),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 15),
                                             child: Text(
                                               'مرحله بعدی',
                                               style: MyTextStyle.large.copyWith(
@@ -260,6 +296,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Future<UserProfile> fetchUserProfile(BuildContext context) {
+    if (_authService!.isFallback) {
+      return _proxyService!.userProfile(_authService!.currentUser!.email!);
+    }
+    return Provider.of<FirestoreServiceDB>(context).userProfile;
+  }
+
   Padding _profileTextField({
     required TextEditingController controller,
     required String label,
@@ -280,7 +323,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.yellow, style: BorderStyle.solid, width: 2)),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(
+                  color: Colors.yellow, style: BorderStyle.solid, width: 2)),
         ),
       ),
     );
@@ -313,10 +359,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
-  final BottomNavigationController _controller = Get.put(BottomNavigationController());
+  final BottomNavigationController _controller =
+      Get.put(BottomNavigationController());
   void nextStep() {
     if (_formKey.currentState!.validate()) {
-      save();
+      save(context);
       _controller.CheckHintStage(HintStages.CalHintHowAddAvailability);
     }
   }
@@ -329,7 +376,8 @@ class _SessionSubject extends StatelessWidget {
   final List<String> _options = [];
   final List sessionsTopicSelected;
 
-  _SessionSubject({Key? key, required this.sessionsTopicSelected}) : super(key: key);
+  _SessionSubject({Key? key, required this.sessionsTopicSelected})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -344,7 +392,8 @@ class _SessionSubject extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
             List<dynamic> _o = data['type'];
             _o.forEach((e) {
               _options.add(e.toString());
@@ -385,7 +434,8 @@ class _DropDownSession extends StatefulWidget {
   _DropDownSession(this.options, this.selected);
 
   @override
-  _DropDownSessionState createState() => _DropDownSessionState(this.options, this.selected);
+  _DropDownSessionState createState() =>
+      _DropDownSessionState(this.options, this.selected);
 }
 
 class _DropDownSessionState extends State<_DropDownSession> {
@@ -410,13 +460,15 @@ class _DropDownSessionState extends State<_DropDownSession> {
     super.initState();
   }
 
+  FirestoreServiceDB? _firestoreService;
   @override
   Widget build(BuildContext context) {
+    _firestoreService = Provider.of<FirestoreServiceDB>(context);
     return DropDownMultiSelect(
       onChanged: (List<String> list) {
         setState(() {
           selectedString = list;
-          FirestoreServiceDB().updateSessionTopic(list);
+          _firestoreService!.updateSessionTopic(list);
         });
       },
       options: _options,

@@ -1,10 +1,8 @@
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _loginButtonIsActive = true;
 
-  void loginButton(authService) async {
+  void login(authService) async {
     ConnectivityResult connectivityResult =
         await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
@@ -51,8 +49,39 @@ class _LoginScreenState extends State<LoginScreen> {
     } else if (connectivityResult == ConnectivityResult.none) {
       Get.snackbar("Connection Failed", "Check your internet Connection",
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.grey,
+          backgroundColor: ColorPallet.red,
           borderRadius: 10);
+
+      return;
+    }
+
+    if (!_formKey.currentState!.validate()) {
+      Get.snackbar("An error occurred", "Please try again",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          borderRadius: 10);
+      return;
+    }
+
+    setState(() => _loginButtonIsActive = false);
+    try {
+      await authService.signIn(
+          email: emailController.text.trim(), password: passwordController.text);
+
+      String returnUrl = Get.parameters[RETURN_PARAM] ?? HOME_ROUTE;
+      Get.offAllNamed(returnUrl);
+    } catch (e) {
+      Get.snackbar("Error", e.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          duration: Duration(minutes: 5),
+          isDismissible: false,
+          borderRadius: 10);
+
+      logger.d(e);
+      //TODO Farsi
+
+      // setState(() => _loginButtonIsActive = true);
     }
   }
 
@@ -129,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               onPressed: _loginButtonIsActive
-                                  ? () => loginButton(authService)
+                                  ? () => login(authService)
                                   : null,
                               child: Padding(
                                 padding:
