@@ -2,16 +2,12 @@ import 'package:didar_app/model/user_model.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:didar_app/services/proxy/proxy_service.dart';
-
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:logger/logger.dart';
 
 final Logger logger = Logger();
 
 class AuthenticationService {
-  AuthenticationService._privateConstructor();
-  static final AuthenticationService instance =
-      AuthenticationService._privateConstructor();
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
   final ProxyService _proxyService;
   final FirestoreServiceDB _firestoreService;
@@ -28,7 +24,6 @@ class AuthenticationService {
     return currentUser != null;
   }
 
-  //NOTE: check IF user is login or not
   User? _userFromFirebase(auth.User? user) {
     if (user == null) {
       return null;
