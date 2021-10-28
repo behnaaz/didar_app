@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/model/user_profile_model.dart';
-import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class FirestoreServiceDB {
-  AuthenticationService? _authService;
-  FirestoreServiceDB(this._authService);
+  
 
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
@@ -56,7 +54,7 @@ class FirestoreServiceDB {
 
   Future<UserProfile> get userProfile {
     return _userProfilesCollection
-        .doc(_authService!.currentUser!.uid)
+        .doc(_firebaseAuth.currentUser!.uid)
         .get()
         .then((value) => UserProfile.fromJson(
             value.data())); //TODO if null TODO Options for get
