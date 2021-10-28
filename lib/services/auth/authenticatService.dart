@@ -1,17 +1,16 @@
+import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/user_model.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
-import 'package:didar_app/services/proxy/proxy_service.dart';
+
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:logger/logger.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
-Logger logger = Logger();
 
 class AuthenticationService {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
-  ProxyService? _proxyService;
+  // ProxyService? _proxyService; 
   FirestoreServiceDB? _firestoreService;
 
   bool _fallback = false;
@@ -21,7 +20,7 @@ class AuthenticationService {
     return _currentUser;
   }
 
-  AuthenticationService(this._proxyService, this._firestoreService);
+  
 
   bool isAuthenticated() {
     return currentUser != null;

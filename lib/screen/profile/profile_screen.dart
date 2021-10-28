@@ -22,7 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void save(BuildContext context) async {
     try {
-      await Provider.of<FirestoreServiceDB>(context).updateUserData(
+      await Provider.of<FirestoreServiceDB>(context ,listen: false).updateUserData(
         UserProfile(
           firstName: firstNameController.text,
           lastName: lastNameController.text,
@@ -65,8 +65,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _authService = Provider.of<AuthenticationService>(context);
-    _proxyService = Provider.of<ProxyService>(context);
+    _authService = Provider.of<AuthenticationService>(context ,listen: false);
+    _proxyService = Provider.of<ProxyService>(context ,listen: false);
 
     return Scaffold(
       floatingActionButton: _controller.hint.value

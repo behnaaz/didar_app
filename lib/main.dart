@@ -18,7 +18,8 @@ Future<void> main() async {
   // ---------- Landscape off
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
+  );
   // ----------
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -27,8 +28,7 @@ Future<void> main() async {
 
 class DidarApp extends StatelessWidget {
   Future<Config> loadConfigs(BuildContext context) async {
-    var yamlString =
-        await DefaultAssetBundle.of(context).loadString(configPath);
+    var yamlString = await DefaultAssetBundle.of(context).loadString(configPath);
     dynamic yamlMap = loadYaml(yamlString);
     return Future.value(new Config(yamlMap[proxyUrlKey]));
   }
@@ -38,29 +38,43 @@ class DidarApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<ProxyService>(
-            create: (_) => ProxyService(loadConfigs(context))),
-        Provider<AuthenticationService>(
-            create: (_) => AuthenticationService(
-                Provider.of<ProxyService>(context),
-                Provider.of<FirestoreServiceDB>(context))),
-        Provider<Future<Config>>(create: (_) => loadConfigs(context)),
-        Provider<FirestoreServiceDB>(
-            create: (_) =>
-                FirestoreServiceDB(Provider.of<AuthenticationService>(context)))
-      ],
-      child: GetMaterialApp(
-        locale: const Locale('fa', 'IR'),
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'IranSans',
-          scaffoldBackgroundColor: ColorPallet.lightGrayBg,
-          appBarTheme: AppBarTheme(
-              color: Colors.white,
-              iconTheme: IconThemeData(color: ColorPallet.grayBg)),
+          create: (_) => ProxyService(
+            loadConfigs(context),
+          ),
         ),
-        initialRoute: HOME_ROUTE,
-        getPages: routes,
-      ),
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(
+            
+        
+          ),
+        ),
+        Provider<Future<Config>>(
+          create: (_) => loadConfigs(context),
+        ),
+        Provider<FirestoreServiceDB>(
+          // ! YOU Can't Use Provider.of(context) Inside of the Provider. it's not Even Created yet. 
+          // we can only Create here and use in beneath widget tree
+          create: (_) => FirestoreServiceDB(
+            
+          ),
+        )
+      ],
+      builder: (context, child) {
+        return GetMaterialApp(
+          locale: const Locale('fa', 'IR'),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            fontFamily: 'IranSans',
+            scaffoldBackgroundColor: ColorPallet.lightGrayBg,
+            appBarTheme: AppBarTheme(
+              color: Colors.white,
+              iconTheme: IconThemeData(color: ColorPallet.grayBg),
+            ),
+          ),
+          initialRoute: HOME_ROUTE,
+          getPages: routes,
+        );
+      },
     );
   }
 }

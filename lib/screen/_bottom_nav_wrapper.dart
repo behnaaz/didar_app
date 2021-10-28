@@ -41,9 +41,11 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
     });
   }
 
+  late AuthenticationService authService;
   @override
   void initState() {
     if (Get.arguments == 'HintActive') {
+      authService = Provider.of<AuthenticationService>(context, listen: false);
       _controller.bottomNavigateTrigger(0);
       _controller.toggleHint();
     }
@@ -52,7 +54,6 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    var authService = Provider.of<AuthenticationService>(context);
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
