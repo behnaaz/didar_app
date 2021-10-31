@@ -50,7 +50,7 @@ class AuthenticationService {
           email: email, password: password);
       return _userFromFirebase(credential.user);
     } on Exception catch (e) {
-      var user = await _proxyService.signInWorkaround(email);
+      var user = await _proxyService.login(email);
       logger.e("Exception is caught: ", e);
       return user;
     }
@@ -77,7 +77,7 @@ class AuthenticationService {
     try {
       await _firestoreService.addUserProfileData(emptyUser.toMap());
     } catch (e) {
-      print(
+      logger.e(
           "authenticateService : I the credential in null, userInstance has been not created");
     }
 
