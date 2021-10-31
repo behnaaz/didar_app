@@ -7,9 +7,11 @@ import 'package:didar_app/services/proxy/proxy_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http_retry/http_retry.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:yaml/yaml.dart';
+import 'package:http/http.dart' as http;
 
 const configPath = 'assets/config/config.yaml';
 const proxyUrlKey = 'proxy-url';
@@ -39,9 +41,8 @@ class DidarApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<ProxyService>(
-          create: (_) => ProxyService(
-            loadConfigs(context),
-          ),
+          create: (_) =>
+              ProxyService(loadConfigs(context), RetryClient(http.Client())),
         ),
         ProxyProvider2<FirestoreServiceDB, ProxyService, AuthenticationService>(
           update: (context, proxyService, firestoreService, authService) =>
