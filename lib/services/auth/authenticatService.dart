@@ -1,17 +1,18 @@
-import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/user_model.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
+import 'package:didar_app/services/proxy/proxy_service.dart';
 
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
+final Logger logger = Logger();
 
 class AuthenticationService {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
-  // ProxyService? _proxyService; 
-  FirestoreServiceDB? _firestoreService;
+  final ProxyService _proxyService;
+  final FirestoreServiceDB _firestoreService;
+  AuthenticationService(this._firestoreService, this._proxyService);
 
   bool _fallback = false;
   static User? _currentUser;
@@ -19,8 +20,6 @@ class AuthenticationService {
   static User? authenticatedUser() {
     return _currentUser;
   }
-
-  
 
   bool isAuthenticated() {
     return currentUser != null;
@@ -51,38 +50,9 @@ class AuthenticationService {
           email: email, password: password);
       return _userFromFirebase(credential.user);
     } on Exception catch (e) {
-      var user = await signInWorkaround(email);
+      var user = await _proxyService.signInWorkaround(email);
       logger.e("Exception is caught: ", e);
       return user;
-    }
-  }
-
-  Future<User>? signInWorkaround(email) async {
-    var url = Uri.http('216.137.187.176:8080', '/login', {'key': email});
-    logger.d("Going to login via proxy " + email + " from " + url.path);
-
-    // Await the http get response, then decode the json-formatted response.
-    var response;
-
-    try {
-      response =
-          await http.get(url, headers: {'Access-Control-Allow-Origin': '*'});
-      logger.d("response:", response);
-      if (response.statusCode == 200) {
-        var jsonResponse =
-            convert.jsonDecode(response.body) as Map<String, String>;
-        var email = jsonResponse['Email'];
-        var uid = jsonResponse['UID'];
-        print('User: $email $uid.');
-        return User(uid!, email!);
-      } else {
-        print('Request failed with status: ${response.statusCode}.');
-        return Future.error(
-            'Request failed with status: ${response.statusCode}.');
-      }
-    } on Exception catch (e) {
-      logger.e("ERROR: ", e);
-      return Future.error(e);
     }
   }
 
@@ -105,7 +75,7 @@ class AuthenticationService {
       socialLinks: [],
     );
     try {
-      await _firestoreService!.addUserProfileData(emptyUser.toMap());
+      await _firestoreService.addUserProfileData(emptyUser.toMap());
     } catch (e) {
       print(
           "authenticateService : I the credential in null, userInstance has been not created");

@@ -43,11 +43,9 @@ class DidarApp extends StatelessWidget {
             loadConfigs(context),
           ),
         ),
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(),
-        ),
-        Provider<Future<Config>>(
-          create: (_) => loadConfigs(context),
+        ProxyProvider2<FirestoreServiceDB, ProxyService, AuthenticationService>(
+          update: (context, proxyService, firestoreService, authService) =>
+              AuthenticationService(proxyService, firestoreService),
         ),
         ProxyProvider<AuthenticationService, FirestoreServiceDB>(
           update: (context, authService, firestoreService) =>

@@ -10,6 +10,7 @@ import 'package:didar_app/widgets/multiSelect.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -22,7 +23,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void save(BuildContext context) async {
     try {
-      await Provider.of<FirestoreServiceDB>(context ,listen: false).updateUserData(
+      await Provider.of<FirestoreServiceDB>(context, listen: false)
+          .updateUserData(
         UserProfile(
           firstName: firstNameController.text,
           lastName: lastNameController.text,
@@ -65,9 +67,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _authService = Provider.of<AuthenticationService>(context ,listen: false);
-    _proxyService = Provider.of<ProxyService>(context ,listen: false);
-
+    _authService = Provider.of<AuthenticationService>(context, listen: false);
+    _proxyService = Provider.of<ProxyService>(context, listen: false);
+    Logger logger = Logger();
     return Scaffold(
       floatingActionButton: _controller.hint.value
           ? null
