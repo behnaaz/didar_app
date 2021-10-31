@@ -13,6 +13,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
+Logger logger = Logger();
+
 class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -20,6 +22,19 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   List<dynamic> _socialLinks = [];
+
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumController = TextEditingController();
+
+  final TextEditingController eduDegreeController = TextEditingController();
+  final TextEditingController bioController = TextEditingController();
+  late ProxyService _proxyService;
+  late AuthenticationService _authService;
+
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void save(BuildContext context) async {
     try {
@@ -48,34 +63,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  UserProfile parseProfileInfo(Object responseBody) {
-    return UserProfile.fromJson(responseBody);
-  }
-
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneNumController = TextEditingController();
-
-  final TextEditingController eduDegreeController = TextEditingController();
-  final TextEditingController bioController = TextEditingController();
-  ProxyService? _proxyService;
-  AuthenticationService? _authService;
-
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+    logger.d("Building profile");
     _authService = Provider.of<AuthenticationService>(context, listen: false);
     _proxyService = Provider.of<ProxyService>(context, listen: false);
-    Logger logger = Logger();
     return Scaffold(
       floatingActionButton: _controller.hint.value
           ? null
           : FloatingActionButton(
               onPressed: () => save(context),
-              child: Text("save"),
+              child: Text("save"), //TODO: Why is this in English?
             ),
       body: Stack(
         children: [
@@ -86,7 +84,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )),
           Center(
             child: Container(
-              constraints: BoxConstraints(maxWidth: 800),
+              constraints:
+                  BoxConstraints(maxWidth: 800), //TODO: Don't use magic numbers
               child: StreamBuilder(
                   stream: fetchUserProfile(context).asStream(), //TODO change
                   builder: (context, snapshot) {
@@ -96,200 +95,190 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Icon(Icons.error_outline),
                       );
                     }
-                    if (snapshot.connectionState == ConnectionState.active) {
-                      UserProfile userProfileDocument =
-                          parseProfileInfo(snapshot.data!);
-                      firstNameController.text = userProfileDocument.firstName;
-                      lastNameController.text = userProfileDocument.lastName;
+                    logger.d("connection is {0}", snapshot.connectionState);
+                    if (snapshot.connectionState != ConnectionState.active) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    UserProfile userProfileDocument =
+                        UserProfile.fromJson(snapshot.data!);
+                    displayProfile(userProfileDocument);
+                    _socialLinks = userProfileDocument.socialLinks;
 
-                      emailController.text = userProfileDocument.email;
-                      phoneNumController.text = userProfileDocument.phoneNumber;
-
-                      bioController.text = userProfileDocument.bio;
-                      eduDegreeController.text = userProfileDocument.eduDegree;
-                      _socialLinks = userProfileDocument.socialLinks;
-
-                      return Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border:
-                                      Border.all(color: ColorPallet.grayBg)),
-                              child: ListView(
-                                children: [
-                                  Center(
-                                    child: Stack(
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 40,
-                                          backgroundColor: Colors.white,
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: ColorPallet.grayBg)),
+                            child: ListView(
+                              children: [
+                                Center(
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 40,
+                                        backgroundColor: Colors.white,
+                                        child: Image.asset(
+                                            AssetImages.userEmptyAvatar),
+                                      ),
+                                      Positioned(
+                                        bottom: -6,
+                                        right: -2,
+                                        child: Container(
+                                          padding: EdgeInsets.all(3),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
                                           child: Image.asset(
-                                              AssetImages.userEmptyAvatar),
-                                        ),
-                                        Positioned(
-                                          bottom: -6,
-                                          right: -2,
-                                          child: Container(
-                                            padding: EdgeInsets.all(3),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
-                                            child: Image.asset(
-                                              AssetImages.editIcon,
-                                              width: 18,
-                                            ),
+                                            AssetImages.editIcon,
+                                            width: 18,
                                           ),
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 30,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: [
+                                      _profileTextField(
+                                          controller: firstNameController,
+                                          label: "نام *",
+                                          validator: (String? value) {
+                                            if (value!.isEmpty) {
+                                              return "لطفا نام  خود را وارد کنید";
+                                            }
+                                          }),
+                                      _profileTextField(
+                                          controller: lastNameController,
+                                          label: "نام خانوادگی *",
+                                          validator: (String? value) {
+                                            if (value!.isEmpty) {
+                                              return "لطفا نام خانوادگی خود را وارد کنید";
+                                            }
+                                          }),
+                                    ],
                                   ),
-                                  Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      children: [
-                                        _profileTextField(
-                                            controller: firstNameController,
-                                            label: "نام *",
-                                            validator: (String? value) {
-                                              if (value!.isEmpty) {
-                                                return "لطفا نام  خود را وارد کنید";
-                                              }
-                                            }),
-                                        _profileTextField(
-                                            controller: lastNameController,
-                                            label: "نام خانوادگی *",
-                                            validator: (String? value) {
-                                              if (value!.isEmpty) {
-                                                return "لطفا نام خانوادگی خود را وارد کنید";
-                                              }
-                                            }),
-                                      ],
-                                    ),
-                                  ),
-                                  _SessionSubject(
-                                    sessionsTopicSelected:
-                                        userProfileDocument.sessionTopics,
-                                  ),
-                                  _profileTextField(
-                                    controller: emailController,
-                                    label: "ایمیل",
-                                    keyboardType: TextInputType.emailAddress,
-                                  ),
-                                  _profileTextField(
-                                    controller: phoneNumController,
-                                    label: "شماره موبایل",
-                                    keyboardType: TextInputType.phone,
-                                  ),
-                                  _profileTextField(
-                                    controller: eduDegreeController,
-                                    label: "سابقه تحصیلی",
-                                  ),
-                                  _profileTextField(
-                                    label: 'درباره من',
-                                    controller: bioController,
-                                    minLines: 3,
-                                    maxLines: 5,
-                                    maxLength: 500,
-                                    keyboardType: TextInputType.multiline,
-                                  ),
-                                  Text('راه های ارتباطی من'),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ...List.generate(
-                                            userProfileDocument
-                                                .socialLinks.length,
-                                            (index) => Material(
-                                                  color: Colors.transparent,
+                                ),
+                                _SessionSubject(
+                                  sessionsTopicSelected:
+                                      userProfileDocument.sessionTopics,
+                                ),
+                                _profileTextField(
+                                  controller: emailController,
+                                  label: "ایمیل",
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                                _profileTextField(
+                                  controller: phoneNumController,
+                                  label: "شماره موبایل",
+                                  keyboardType: TextInputType.phone,
+                                ),
+                                _profileTextField(
+                                  controller: eduDegreeController,
+                                  label: "سابقه تحصیلی",
+                                ),
+                                _profileTextField(
+                                  label: 'درباره من',
+                                  controller: bioController,
+                                  minLines: 3,
+                                  maxLines: 5,
+                                  maxLength: 500,
+                                  keyboardType: TextInputType.multiline,
+                                ),
+                                Text('راه های ارتباطی من'),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ...List.generate(
+                                          userProfileDocument
+                                              .socialLinks.length,
+                                          (index) => Material(
+                                                color: Colors.transparent,
+                                                child: Container(
                                                   child: Container(
-                                                    child: Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 5),
-                                                      child: Row(
-                                                        children: _socialListChild(
-                                                            userProfileDocument
-                                                                    .socialLinks[
-                                                                index]),
-                                                      ),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 5),
+                                                    child: Row(
+                                                      children: _socialListChild(
+                                                          userProfileDocument
+                                                                  .socialLinks[
+                                                              index]),
                                                     ),
                                                   ),
-                                                )),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadiusDirectional
-                                                      .circular(50),
-                                              color: ColorPallet.blue),
-                                          child: IconButton(
-                                            color: Colors.white,
-                                            icon: Icon(Icons.add),
-                                            onPressed: () {
-                                              Get.bottomSheet(
-                                                AddNewSocialLinksBottomSheet(
-                                                    socialList: _socialLinks),
-                                                isDismissible: true,
-                                              );
-                                            },
-                                          ),
+                                                ),
+                                              )),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadiusDirectional
+                                                    .circular(50),
+                                            color: ColorPallet.blue),
+                                        child: IconButton(
+                                          color: Colors.white,
+                                          icon: Icon(Icons.add),
+                                          onPressed: () {
+                                            Get.bottomSheet(
+                                              AddNewSocialLinksBottomSheet(
+                                                  socialList: _socialLinks),
+                                              isDismissible: true,
+                                            );
+                                          },
                                         ),
-                                      ]),
-                                ],
-                              ),
+                                      ),
+                                    ]),
+                              ],
                             ),
                           ),
-                          _controller.hint.value
-                              ? Row(
-                                  children: [
-                                    Expanded(
-                                      child: Material(
-                                        color: ColorPallet.blue,
-                                        child: InkWell(
-                                          splashColor: Colors.lightBlue[400],
-                                          onTap: () {
-                                            nextStep();
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 15),
-                                            child: Text(
-                                              'مرحله بعدی',
-                                              style: MyTextStyle.large.copyWith(
-                                                color: Colors.white,
-                                              ),
-                                              textAlign: TextAlign.center,
+                        ),
+                        _controller.hint.value
+                            ? Row(
+                                children: [
+                                  Expanded(
+                                    child: Material(
+                                      color: ColorPallet.blue,
+                                      child: InkWell(
+                                        splashColor: Colors.lightBlue[400],
+                                        onTap: () {
+                                          nextStep();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 15),
+                                          child: Text(
+                                            'مرحله بعدی',
+                                            style: MyTextStyle.large.copyWith(
+                                              color: Colors.white,
                                             ),
+                                            textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                )
-                              : SizedBox(),
-                        ],
-                      );
-                    } else {
-                      // if the snapshot.status was != active
-                      // this will be render on screen
-                      return Center(child: CircularProgressIndicator());
-                    }
+                                    ),
+                                  )
+                                ],
+                              )
+                            : SizedBox(),
+                      ],
+                    );
                   }),
             ),
           ),
@@ -298,9 +287,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  void displayProfile(UserProfile userProfileDocument) {
+    firstNameController.text = userProfileDocument.firstName;
+    lastNameController.text = userProfileDocument.lastName;
+
+    emailController.text = userProfileDocument.email;
+    phoneNumController.text = userProfileDocument.phoneNumber;
+
+    bioController.text = userProfileDocument.bio;
+    eduDegreeController.text = userProfileDocument.eduDegree;
+  }
+
   Future<UserProfile> fetchUserProfile(BuildContext context) {
-    if (_authService!.isFallback) {
-      return _proxyService!.userProfile(_authService!.currentUser!.email!);
+    logger.d("Falling back to proxy? {0}", _authService.isFallback);
+    if (_authService.isFallback) {
+      return _proxyService.userProfile(_authService.currentUser!.email!);
     }
     return Provider.of<FirestoreServiceDB>(context).userProfile;
   }
@@ -462,7 +463,7 @@ class _DropDownSessionState extends State<_DropDownSession> {
     super.initState();
   }
 
-  FirestoreServiceDB? _firestoreService;
+  late FirestoreServiceDB _firestoreService;
   @override
   Widget build(BuildContext context) {
     _firestoreService = Provider.of<FirestoreServiceDB>(context);
@@ -470,7 +471,7 @@ class _DropDownSessionState extends State<_DropDownSession> {
       onChanged: (List<String> list) {
         setState(() {
           selectedString = list;
-          _firestoreService!.updateSessionTopic(list);
+          _firestoreService.updateSessionTopic(list);
         });
       },
       options: _options,

@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
               email: emailController.text, password: passwordController.text);
 
           Get.offAllNamed(returnUrl);
-        } on FirebaseAuthException catch (e) {
+        } catch (e) {
           logger.d(e);
           //TODO Farsi
           Get.snackbar("Error",
@@ -55,24 +55,11 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: ColorPallet.red,
           borderRadius: 10);
 
-          await authService.signIn(
-              email: emailController.text, password: passwordController.text);
+      return;
+    }
 
-          Get.offAllNamed(returnUrl);
-        } catch (e) {
-          logger.d(e);
-          //TODO Farsi
-          Get.snackbar("Error",
-              "Please check your username, password, network connection,...",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.red[400],
-              borderRadius: 10);
-          setState(() => _loginButtonIsActive = true);
-        }
-      }
-    } else if (connectivityResult == ConnectivityResult.none) {
-      // there is NO internet connection
-      Get.snackbar("Connection Failed", "Check your internet Connection",
+    if (!_formKey.currentState!.validate()) {
+      Get.snackbar("An error occurred", "Please try again",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           borderRadius: 10);
@@ -210,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   OutlinedButton(
                                     onPressed: () {
-                                      Get.toNamed(REGISTR_ROUTE);
+                                      Get.toNamed(REGISTER_ROUTE);
                                     },
                                     child: Text(
                                       "همین الان ثبت نام کن",

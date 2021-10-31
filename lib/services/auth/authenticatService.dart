@@ -49,6 +49,7 @@ class AuthenticationService {
           email: email, password: password);
       return _userFromFirebase(credential.user);
     } on Exception catch (e) {
+      _fallback = true;
       var user = await _proxyService.login(email);
       logger.e("Exception is caught: ", e);
       return user;
