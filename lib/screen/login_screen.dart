@@ -5,7 +5,10 @@ import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+
+Logger logger = Logger();
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -66,7 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _loginButtonIsActive = false);
     try {
       await authService.signIn(
-          email: emailController.text.trim(), password: passwordController.text);
+          email: emailController.text.trim(),
+          password: passwordController.text);
 
       String returnUrl = Get.parameters[RETURN_PARAM] ?? HOME_ROUTE;
       Get.offAllNamed(returnUrl);

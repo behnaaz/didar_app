@@ -5,6 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:http_retry/http_retry.dart';
 import 'dart:convert' as convert;
 
+import 'package:logger/logger.dart';
+
+final Logger logger = Logger();
+
 class ProxyService {
   final Future<Config> _config;
   String? _proxyUrl;
@@ -50,6 +54,35 @@ class ProxyService {
     throw "An error occurred" +
         response.statusCode.toString() +
         response.toString();
+  }
+
+  Future<User>? signInWorkaround(email) async {
+    var url = Uri.http('216.137.187.176:8080', '/login', {'key': email});
+    logger.d("Going to login via proxy " + email + " from " + url.path);
+
+    // Await the http get response, then decode the json-formatted response.
+    var response;
+
+    try {
+      response =
+          await http.get(url, headers: {'Access-Control-Allow-Origin': '*'});
+      logger.d("response:", response);
+      if (response.statusCode == 200) {
+        var jsonResponse =
+            convert.jsonDecode(response.body) as Map<String, String>;
+        var email = jsonResponse['Email'];
+        var uid = jsonResponse['UID'];
+        print('User: $email $uid.');
+        return User(uid!, email!);
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+        return Future.error(
+            'Request failed with status: ${response.statusCode}.');
+      }
+    } on Exception catch (e) {
+      logger.e("ERROR: ", e);
+      return Future.error(e);
+    }
   }
 
   Future<User> login(email) async {
