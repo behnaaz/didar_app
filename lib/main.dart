@@ -28,7 +28,8 @@ Future<void> main() async {
 
 class DidarApp extends StatelessWidget {
   Future<Config> loadConfigs(BuildContext context) async {
-    var yamlString = await DefaultAssetBundle.of(context).loadString(configPath);
+    var yamlString =
+        await DefaultAssetBundle.of(context).loadString(configPath);
     dynamic yamlMap = loadYaml(yamlString);
     return Future.value(new Config(yamlMap[proxyUrlKey]));
   }
@@ -43,20 +44,14 @@ class DidarApp extends StatelessWidget {
           ),
         ),
         Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(
-            
-        
-          ),
+          create: (_) => AuthenticationService(),
         ),
         Provider<Future<Config>>(
           create: (_) => loadConfigs(context),
         ),
-        Provider<FirestoreServiceDB>(
-          // ! YOU Can't Use Provider.of(context) Inside of the Provider. it's not Even Created yet. 
-          // we can only Create here and use in beneath widget tree
-          create: (_) => FirestoreServiceDB(
-            
-          ),
+        ProxyProvider<AuthenticationService, FirestoreServiceDB>(
+          update: (context, authService, firestoreService) =>
+              FirestoreServiceDB(authService),
         )
       ],
       builder: (context, child) {
