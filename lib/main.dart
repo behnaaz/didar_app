@@ -4,6 +4,7 @@ import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:didar_app/services/proxy/proxy_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,10 +45,10 @@ class DidarApp extends StatelessWidget {
           create: (_) =>
               ProxyService(loadConfigs(context), RetryClient(http.Client())),
         ),
-        ProxyProvider<ProxyService, AuthenticationService>(
-          update: (context, proxyService, authService) =>
-              AuthenticationService(proxyService),
-        ),
+        Provider<FirebaseAuth>(create: (_) => FirebaseAuth.instance),
+        ProxyProvider2<ProxyService, FirebaseAuth, AuthenticationService>(
+            update: (context, proxyService, firebaseAuth, authService) =>
+                AuthenticationService(proxyService, firebaseAuth)),
         ProxyProvider<AuthenticationService, FirestoreServiceDB>(
           update: (context, authService, firestoreService) =>
               FirestoreServiceDB(authService),

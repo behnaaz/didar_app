@@ -1,6 +1,8 @@
 //==============================================================================
 //                      session edit Card
 //==============================================================================
+import 'dart:collection';
+
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/controller/sessions_screen_controller.dart';
 import 'package:didar_app/model/session_model.dart';
@@ -49,8 +51,9 @@ class _EditSessionState extends State<EditSession> {
                         height: 20,
                       ),
                       StreamBuilder<Object>(
-                          stream: _firestoreService.userProfile.asStream(),
+                          stream: _firestoreService.userProfile,
                           builder: (context, snapshot) {
+                            //TODO should not be snapshot but UserProfile
                             if (snapshot.connectionState ==
                                 ConnectionState.active) {
                               List<String> items =

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
 
 class FirestoreServiceDB {
@@ -48,8 +47,8 @@ class FirestoreServiceDB {
     });
   }
 
-  Future<UserProfile> get userProfile {
-    return _userProfilesCollection.doc(uid).get().then((value) =>
-        UserProfile.fromJson(value.data())); //TODO if null TODO Options for get
+  Stream<DocumentSnapshot> get userProfile {
+    //TODO return type should be UserProfile
+    return _userProfilesCollection.doc(uid).snapshots();
   }
 }

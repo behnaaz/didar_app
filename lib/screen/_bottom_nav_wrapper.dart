@@ -33,7 +33,8 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
     CalendarWeeklyScreen(),
     SettingScreen(),
   ];
-  final BottomNavigationController _controller = Get.put(BottomNavigationController());
+  final BottomNavigationController _controller =
+      Get.put(BottomNavigationController());
 
   void _onItemTapped(int index) {
     setState(() {
@@ -44,8 +45,9 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
   late AuthenticationService authService;
   @override
   void initState() {
+    authService = Provider.of<AuthenticationService>(context, listen: false);
+
     if (Get.arguments == 'HintActive') {
-      authService = Provider.of<AuthenticationService>(context, listen: false);
       _controller.bottomNavigateTrigger(0);
       _controller.toggleHint();
     }
@@ -54,6 +56,8 @@ class _BottomNavigationWrapperState extends State<BottomNavigationWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    authService = Provider.of<AuthenticationService>(context, listen: false);
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(

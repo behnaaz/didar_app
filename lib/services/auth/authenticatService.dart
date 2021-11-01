@@ -6,9 +6,9 @@ import 'package:logger/logger.dart';
 final Logger logger = Logger();
 
 class AuthenticationService {
-  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+  final auth.FirebaseAuth _firebaseAuth;
   final ProxyService _proxyService;
-  AuthenticationService(this._proxyService);
+  AuthenticationService(this._proxyService, this._firebaseAuth);
 
   bool _fallback = false;
   static User? _currentUser;
@@ -29,19 +29,20 @@ class AuthenticationService {
   }
 
   bool get isFallback {
-    logger.i("isFallback {0}", _fallback);
+    logger.i("isFallback " + _fallback.toString());
     return _fallback;
   }
 
   void enableFallback() {
-    logger.i("fallback was {0}", _fallback);
+    logger.i("fallback was " + _fallback.toString());
     _fallback = true;
     logger.i("Setting fallback to true");
   }
 
   User? get currentUser {
     _currentUser ??= _userFromFirebase(_firebaseAuth.currentUser);
-    logger.i("currentuser {0}", _currentUser);
+    logger.i("currentuser " +
+        (_currentUser == null ? "null" : _currentUser!.asString()));
     return _currentUser;
   }
 
@@ -49,10 +50,11 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
-    logger.i("singining in for {0}", email);
+    logger.d("singining in for " + email);
     try {
       var credential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      logger.d("Credentials retrieved for " + email);
       return _userFromFirebase(credential.user);
     } on Exception catch (e) {
       enableFallback();

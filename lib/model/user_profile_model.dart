@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class UserProfile {
+  static final String FIRST_NAME = 'first_name';
+//TODO rest as above
   final String firstName;
   final String lastName;
   final String email;
@@ -26,7 +28,7 @@ class UserProfile {
 
   factory UserProfile.fromJson(json) {
     return UserProfile(
-      firstName: json["first_name"],
+      firstName: json[FIRST_NAME],
       lastName: json["last_name"],
       email: json["email"],
       phoneNumber: json["phone_number"],
@@ -39,7 +41,7 @@ class UserProfile {
 
   Map<String, Object?> toMap() {
     return {
-      'first_name': firstName,
+      FIRST_NAME: firstName,
       'last_name': lastName,
       'email': email,
       'phone_number': phoneNumber,
