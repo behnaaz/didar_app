@@ -1,9 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:didar_app/constants/them_conf.dart';
-import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
-import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:didar_app/widgets/my_textFormField.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _registerButtonIsActive = true;
   bool _acceptTheRules = false;
 
-  void createAccount(AuthenticationService authService, FirestoreServiceDB db) async {
+  void createAccount(authService) async {
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
     // REVIEW - Internet connection check -- ![ Need to check the internet service status]
     if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
@@ -42,17 +40,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         // NOTE - try Firebase SignUp Service
         try {
-          UserProfile emptyUser = UserProfile(
-            firstName: '',
-            lastName: '',
-            email: emailController.text,
-            phoneNumber: '',
-            bio: '',
-            eduDegree: '',
-            sessionTopics: [],
-            socialLinks: [],
-          );
-          await db.addUserProfileData(emptyUser.toMap());
           await authService.signUp(email: emailController.text, password: passwordController.text);
           // ---------------------
 
@@ -82,7 +69,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     var authService = Provider.of<AuthenticationService>(context);
-    var dbService = Provider.of<FirestoreServiceDB>(context, listen: false);
     return Scaffold(
       body: Stack(
         children: [
@@ -185,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               onPressed: _acceptTheRules
                                   ? _registerButtonIsActive
                                       ? () {
-                                          createAccount(authService, dbService);
+                                          createAccount(authService);
                                         }
                                       : null
                                   : null,
