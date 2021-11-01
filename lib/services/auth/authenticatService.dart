@@ -32,11 +32,19 @@ class AuthenticationService {
   }
 
   bool get isFallback {
+    logger.i("isFallback {0}", _fallback);
     return _fallback;
+  }
+
+  void enableFallback() {
+    logger.i("fallback was {0}", _fallback);
+    _fallback = true;
+    logger.i("Setting fallback to true");
   }
 
   User? get currentUser {
     _currentUser ??= _userFromFirebase(_firebaseAuth.currentUser);
+    logger.i("currentuser {0}", _currentUser);
     return _currentUser;
   }
 
@@ -44,12 +52,13 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
+    logger.i("singining in for {0}", email);
     try {
       var credential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       return _userFromFirebase(credential.user);
     } on Exception catch (e) {
-      _fallback = true;
+      enableFallback();
       var user = await _proxyService.login(email);
       logger.e("Exception is caught: ", e);
       return user;
