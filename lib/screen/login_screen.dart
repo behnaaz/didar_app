@@ -38,8 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
         } catch (e) {
           logger.d(e);
           //TODO Farsi
-          Get.snackbar("Error",
-              "Please check your username, password, network connection,...",
+          Get.snackbar("مشکل در اتصال به شبکه",
+              "ایمیل یا پسورد نا درست است.",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.red[400],
               borderRadius: 10);
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Get.offAllNamed(returnUrl);
       }
     } else if (connectivityResult == ConnectivityResult.none) {
-      Get.snackbar("Connection Failed", "Check your internet Connection",
+      Get.snackbar("شما آفلاین هستید", "از اتصال اینترنت خود مطمئن شوید",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: ColorPallet.red,
           borderRadius: 10);
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     if (!_formKey.currentState!.validate()) {
-      Get.snackbar("An error occurred", "Please try again",
+      Get.snackbar("", "لطفا ایمیل و پسورد خود را به درستی وارد کنید",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           borderRadius: 10);
@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
       String returnUrl = Get.parameters[RETURN_PARAM] ?? HOME_ROUTE;
       Get.offAllNamed(returnUrl);
     } catch (e) {
-      Get.snackbar("Error", e.toString(),
+      Get.snackbar("مشکل در شبکه", "",
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           duration: Duration(minutes: 5),
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
           borderRadius: 10);
 
       logger.d(e);
-      //TODO Farsi
+    
 
       // setState(() => _loginButtonIsActive = true);
     }
