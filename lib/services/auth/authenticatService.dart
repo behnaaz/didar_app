@@ -1,6 +1,4 @@
 import 'package:didar_app/model/user_model.dart';
-import 'package:didar_app/model/user_profile_model.dart';
-import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:didar_app/services/proxy/proxy_service.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:logger/logger.dart';
@@ -10,8 +8,7 @@ final Logger logger = Logger();
 class AuthenticationService {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
   final ProxyService _proxyService;
-  final FirestoreServiceDB _firestoreService;
-  AuthenticationService(this._firestoreService, this._proxyService);
+  AuthenticationService(this._proxyService);
 
   bool _fallback = false;
   static User? _currentUser;
@@ -72,6 +69,8 @@ class AuthenticationService {
     var credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
 
+/** 
+ * TODO: This part should be moved to firestoreService
     UserProfile emptyUser = UserProfile(
       firstName: '',
       lastName: '',
@@ -88,7 +87,7 @@ class AuthenticationService {
       logger.e(
           "authenticateService : I the credential in null, userInstance has been not created");
     }
-
+*/
     return _userFromFirebase(credential.user);
   }
 
