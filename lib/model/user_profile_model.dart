@@ -10,7 +10,6 @@ class UserProfile {
   static final String BIO = 'bio';
   static final String SOCIAL_LINK = 'social_links';
   static final String SESSION_TOPICS = 'session_topics';
-//TODO rest as above
   final String firstName;
   final String lastName;
   final String email;
