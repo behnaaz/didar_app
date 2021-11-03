@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Get.offAllNamed(returnUrl);
         } catch (e) {
           logger.d(e);
-          //TODO Farsi
+          
           Get.snackbar("مشکل در اتصال به شبکه",
               "ایمیل یا پسورد نا درست است.",
               snackPosition: SnackPosition.BOTTOM,

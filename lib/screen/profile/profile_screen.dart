@@ -86,8 +86,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Center(
             child: Container(
               constraints: BoxConstraints(maxWidth: appMaxWithSize), 
-              child: StreamBuilder<Object>(
-                  stream: _dbService.userProfileStream,
+              child: FutureBuilder<Object>(
+                  future: _dbService.userProfileFuture,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       logger.d(snapshot.error);
@@ -95,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Icon(Icons.error_outline),
                       );
                     }
-                    if (snapshot.connectionState == ConnectionState.active) {
+                    if (snapshot.connectionState == ConnectionState.done) {
                       logger.d("user profile " + snapshot.data!.toString());
                       UserProfile userProfileDocument = UserProfile.fromJson(snapshot.data!);
                       logger.d("user profile fetched " + userProfileDocument.toString());
@@ -271,14 +271,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Stream<DocumentSnapshot> fetchUserProfile(BuildContext context) {
+  Future<DocumentSnapshot> fetchUserProfile() {
     // TODO use this instead of _dbService.userProfile above
     //TODO return type should be come User
     if (_authService.isFallback) {
       logger.d("Falling back to proxy");
       /*return TODO */ _proxyService.userProfile(_authService.currentUser!.email!);
     }
-    return _dbService.userProfileStream;
+    return _dbService.userProfileFuture;
   }
 
   Padding _profileTextField({

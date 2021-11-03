@@ -40,14 +40,14 @@ class ProxyService {
           " email:" +
           jsonResponse['email']);
       return UserProfile(
-          firstName: jsonResponse['first_name'],
-          lastName: jsonResponse['last_name'],
-          bio: jsonResponse['first_name'],
-          eduDegree: jsonResponse['first_name'],
-          email: jsonResponse['email'],
-          phoneNumber: jsonResponse['phone_number'],
-          sessionTopics: jsonResponse['session_topics'],
-          socialLinks: jsonResponse['social_links']);
+          firstName: jsonResponse[UserProfile.FIRST_NAME],
+          lastName: jsonResponse[UserProfile.LAST_NAME],
+          bio: jsonResponse[UserProfile.BIO],
+          eduDegree: jsonResponse[UserProfile.EDU_DEGREE],
+          email: jsonResponse[UserProfile.EMAIL],
+          phoneNumber: jsonResponse[UserProfile.PHONE_NUMBER],
+          sessionTopics: jsonResponse[UserProfile.SESSION_TOPICS],
+          socialLinks: jsonResponse[UserProfile.SOCIAL_LINK]);
       //TODO Behnaz : :[] :[map[instagram:ff] map[LinkedIn:eeeee]]]
     }
     throw "An error occurred" +
