@@ -51,7 +51,7 @@ class _EditSessionState extends State<EditSession> {
                         height: 20,
                       ),
                       StreamBuilder<Object>(
-                          stream: _firestoreService.userProfile,
+                          stream: _firestoreService.userProfileStream,
                           builder: (context, snapshot) {
                             //TODO should not be snapshot but UserProfile
                             if (snapshot.connectionState ==

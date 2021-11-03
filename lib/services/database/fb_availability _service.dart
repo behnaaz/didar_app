@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class FBAvailableTimeService {
   // NOTE : AuthService Provider
+  static final String AVAILABLE_LIST = 'available_List';
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
   /// Collection Reference
@@ -20,7 +21,7 @@ class FBAvailableTimeService {
       userProfileRef: '/user_profile/${uid}',
     );
     return await _sessionOfUser.doc(uid).set({
-      'available_List': FieldValue.arrayUnion([item.toMap()])
+      AVAILABLE_LIST: FieldValue.arrayUnion([item.toMap()])
     }, SetOptions(merge: true));
   }
 
@@ -34,7 +35,7 @@ class FBAvailableTimeService {
     try {
       return await _sessionOfUser.doc(uid).update(
         {
-          'available_List': FieldValue.arrayRemove([item.toMap()])
+          AVAILABLE_LIST: FieldValue.arrayRemove([item.toMap()])
         },
       );
     } catch (e) {

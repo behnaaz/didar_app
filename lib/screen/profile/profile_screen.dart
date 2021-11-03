@@ -86,8 +86,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Center(
             child: Container(
               constraints: BoxConstraints(maxWidth: 800), //TODO: Don't use magic numbers
-              child: StreamBuilder(
-                  stream: _dbService.userProfile,
+              child: StreamBuilder<Object>(
+                  stream: _dbService.userProfileStream,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       logger.d(snapshot.error);
@@ -278,7 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       logger.d("Falling back to proxy");
       /*return TODO */ _proxyService.userProfile(_authService.currentUser!.email!);
     }
-    return _dbService.userProfile;
+    return _dbService.userProfileStream;
   }
 
   Padding _profileTextField({

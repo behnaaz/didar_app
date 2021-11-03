@@ -47,8 +47,12 @@ class FirestoreServiceDB {
     });
   }
 
-  Stream<DocumentSnapshot> get userProfile {
+  Stream<DocumentSnapshot<Object?>> get userProfileStream {
     //TODO return type should be UserProfile
     return _userProfilesCollection.doc(uid).snapshots();
+  }
+  Future<DocumentSnapshot> get userProfileFuture {
+    //TODO return type should be UserProfile
+    return _userProfilesCollection.doc(uid).get();
   }
 }
