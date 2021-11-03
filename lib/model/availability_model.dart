@@ -1,4 +1,8 @@
 class AvailabilityModel {
+  static final String TIME_SLOT = 'time_slot';
+  static final String SESSION_TYPE = 'session_type';
+  static final String USER_PROFILE_REF = 'user_profile';
+
   String timeSlot;
   String sessionType;
   String userProfileRef;
@@ -10,17 +14,17 @@ class AvailabilityModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'time_slot': timeSlot,
-      'session_type': sessionType,
-      'user_profile': userProfileRef,
+      TIME_SLOT: timeSlot,
+      SESSION_TYPE: sessionType,
+      USER_PROFILE_REF: userProfileRef,
     };
   }
 
   factory AvailabilityModel.fromMap(Map<String, dynamic> map) {
     return AvailabilityModel(
-      timeSlot: map['time_slot'],
-      sessionType: map['session_type'],
-      userProfileRef: map['user_profile'],
+      timeSlot: map[TIME_SLOT],
+      sessionType: map[SESSION_TYPE],
+      userProfileRef: map[USER_PROFILE_REF],
     );
   }
 }

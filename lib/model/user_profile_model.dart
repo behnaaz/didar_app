@@ -3,6 +3,13 @@ import 'package:flutter/foundation.dart';
 @immutable
 class UserProfile {
   static final String FIRST_NAME = 'first_name';
+  static final String LAST_NAME = 'last_name';
+  static final String EMAIL = 'email';
+  static final String PHONE_NUMBER = 'phone_number';
+  static final String EDU_DEGREE = 'edu_degree';
+  static final String BIO = 'bio';
+  static final String SOCIAL_LINK = 'social_links';
+  static final String SESSION_TOPICS = 'session_topics';
 //TODO rest as above
   final String firstName;
   final String lastName;
@@ -29,26 +36,26 @@ class UserProfile {
   factory UserProfile.fromJson(json) {
     return UserProfile(
       firstName: json[FIRST_NAME],
-      lastName: json["last_name"],
-      email: json["email"],
-      phoneNumber: json["phone_number"],
-      eduDegree: json["edu_degree"],
-      bio: json["bio"],
-      socialLinks: json["social_links"],
-      sessionTopics: json["session_topics"],
+      lastName: json[LAST_NAME],
+      email: json[EMAIL],
+      phoneNumber: json[PHONE_NUMBER],
+      eduDegree: json[EDU_DEGREE],
+      bio: json[BIO],
+      socialLinks: json[SOCIAL_LINK],
+      sessionTopics: json[SESSION_TOPICS],
     );
   }
 
   Map<String, Object?> toMap() {
     return {
       FIRST_NAME: firstName,
-      'last_name': lastName,
-      'email': email,
-      'phone_number': phoneNumber,
-      'edu_degree': eduDegree,
-      'bio': bio,
-      'social_links': socialLinks,
-      'session_topics': sessionTopics,
+      LAST_NAME: lastName,
+      EMAIL: email,
+      PHONE_NUMBER: phoneNumber,
+      EDU_DEGREE: eduDegree,
+      BIO: bio,
+      SOCIAL_LINK: socialLinks,
+      SESSION_TOPICS: sessionTopics,
     };
   }
 
