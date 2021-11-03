@@ -22,6 +22,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   List<dynamic> _socialLinks = [];
+  List<dynamic> _sessionTopics = [];
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -39,8 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void save(BuildContext context) async {
     try {
-      await Provider.of<FirestoreServiceDB>(context, listen: false)
-          .updateUserData(
+      await Provider.of<FirestoreServiceDB>(context, listen: false).updateUserData(
         UserProfile(
           firstName: firstNameController.text,
           lastName: lastNameController.text,
@@ -48,13 +48,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           phoneNumber: phoneNumController.text,
           bio: bioController.text,
           eduDegree: eduDegreeController.text,
-          sessionTopics: [],
+          sessionTopics: _sessionTopics,
           socialLinks: _socialLinks,
         ).toMap(),
       );
     } catch (e) {
-      print(
-          'authenticateService : I the credential in null, userInstance has been not created');
+      print('authenticateService : I the credential in null, userInstance has been not created');
     }
     // this will pop the keyboard onPress
     try {
@@ -86,8 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )),
           Center(
             child: Container(
-              constraints:
-                  BoxConstraints(maxWidth: 800), //TODO: Don't use magic numbers
+              constraints: BoxConstraints(maxWidth: 800), //TODO: Don't use magic numbers
               child: StreamBuilder(
                   stream: _dbService.userProfile,
                   builder: (context, snapshot) {
@@ -99,10 +97,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     }
                     if (snapshot.connectionState == ConnectionState.active) {
                       logger.d("user profile " + snapshot.data!.toString());
-                      UserProfile userProfileDocument =
-                          UserProfile.fromJson(snapshot.data!);
-                      logger.d("user profile fetched " +
-                          userProfileDocument.toString());
+                      UserProfile userProfileDocument = UserProfile.fromJson(snapshot.data!);
+                      logger.d("user profile fetched " + userProfileDocument.toString());
 
                       firstNameController.text = userProfileDocument.firstName;
                       lastNameController.text = userProfileDocument.lastName;
@@ -113,20 +109,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bioController.text = userProfileDocument.bio;
                       eduDegreeController.text = userProfileDocument.eduDegree;
                       _socialLinks = userProfileDocument.socialLinks;
-
+                      _sessionTopics = userProfileDocument.sessionTopics;
                       return Column(
                         children: [
                           Expanded(
                             child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border:
-                                      Border.all(color: ColorPallet.grayBg)),
+                              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: ColorPallet.grayBg)),
                               child: ListView(
                                 children: [
                                   Center(
@@ -136,18 +126,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         CircleAvatar(
                                           radius: 40,
                                           backgroundColor: Colors.white,
-                                          child: Image.asset(
-                                              AssetImages.userEmptyAvatar),
+                                          child: Image.asset(AssetImages.userEmptyAvatar),
                                         ),
                                         Positioned(
                                           bottom: -6,
                                           right: -2,
                                           child: Container(
                                             padding: EdgeInsets.all(3),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
+                                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
                                             child: Image.asset(
                                               AssetImages.editIcon,
                                               width: 18,
@@ -184,8 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   SessionSubject(
-                                    sessionsTopicSelected:
-                                        userProfileDocument.sessionTopics,
+                                    sessionsTopicSelected: userProfileDocument.sessionTopics,
                                   ),
                                   _profileTextField(
                                     controller: emailController,
@@ -213,49 +198,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ...List.generate(
-                                            userProfileDocument
-                                                .socialLinks.length,
-                                            (index) => Material(
-                                                  color: Colors.transparent,
-                                                  child: Container(
-                                                    child: Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 5),
-                                                      child: Row(
-                                                        children: _socialListChild(
-                                                            userProfileDocument
-                                                                    .socialLinks[
-                                                                index]),
-                                                      ),
-                                                    ),
+                                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                    ...List.generate(
+                                        userProfileDocument.socialLinks.length,
+                                        (index) => Material(
+                                              color: Colors.transparent,
+                                              child: Container(
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                                  child: Row(
+                                                    children: _socialListChild(userProfileDocument.socialLinks[index]),
                                                   ),
-                                                )),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadiusDirectional
-                                                      .circular(50),
-                                              color: ColorPallet.blue),
-                                          child: IconButton(
-                                            color: Colors.white,
-                                            icon: Icon(Icons.add),
-                                            onPressed: () {
-                                              Get.bottomSheet(
-                                                AddNewSocialLinksBottomSheet(
-                                                    socialList: _socialLinks),
-                                                isDismissible: true,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ]),
+                                                ),
+                                              ),
+                                            )),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      decoration: BoxDecoration(borderRadius: BorderRadiusDirectional.circular(50), color: ColorPallet.blue),
+                                      child: IconButton(
+                                        color: Colors.white,
+                                        icon: Icon(Icons.add),
+                                        onPressed: () {
+                                          Get.bottomSheet(
+                                            AddNewSocialLinksBottomSheet(socialList: _socialLinks),
+                                            isDismissible: true,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ]),
                                 ],
                               ),
                             ),
@@ -272,8 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             nextStep();
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 15),
+                                            padding: const EdgeInsets.symmetric(vertical: 15),
                                             child: Text(
                                               'مرحله بعدی',
                                               style: MyTextStyle.large.copyWith(
@@ -306,8 +276,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //TODO return type should be come User
     if (_authService.isFallback) {
       logger.d("Falling back to proxy");
-      /*return TODO */ _proxyService
-          .userProfile(_authService.currentUser!.email!);
+      /*return TODO */ _proxyService.userProfile(_authService.currentUser!.email!);
     }
     return _dbService.userProfile;
   }
@@ -332,10 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              borderSide: BorderSide(
-                  color: Colors.yellow, style: BorderStyle.solid, width: 2)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.yellow, style: BorderStyle.solid, width: 2)),
         ),
       ),
     );
@@ -368,8 +334,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
-  final BottomNavigationController _controller =
-      Get.put(BottomNavigationController());
+  final BottomNavigationController _controller = Get.put(BottomNavigationController());
   void nextStep() {
     if (_formKey.currentState!.validate()) {
       save(context);
