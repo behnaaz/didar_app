@@ -26,7 +26,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(
       name: MESSAGE_ROUTE,
       page: () => MessageScreen(),
-      middlewares: [AuthAssure()]),
+      middlewares: [AuthAssure()]), // TODO: Somehow when I'm logeIN it return me to sign_in page Instead of Message page 
 ];
 
 class AuthAssure extends GetMiddleware {
