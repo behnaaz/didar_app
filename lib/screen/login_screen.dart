@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
-                constraints: BoxConstraints(maxWidth: 800),
+                constraints: BoxConstraints(maxWidth: appMaxWithSize),
                 child: Form(
                   key: _formKey,
                   child: ListView(

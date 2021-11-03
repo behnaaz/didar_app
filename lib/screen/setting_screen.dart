@@ -21,7 +21,7 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(constraints: BoxConstraints(maxWidth: 800),
+      child: Container(constraints: BoxConstraints(maxWidth: appMaxWithSize),
         padding: EdgeInsets.symmetric(horizontal: 14, vertical: 20),
         child: GridView.count(
           crossAxisCount: 3,

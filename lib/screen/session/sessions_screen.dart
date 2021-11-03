@@ -23,7 +23,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
       backgroundColor: Colors.grey[800],
       body: Center(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 800),
+          constraints: BoxConstraints(maxWidth: appMaxWithSize),
           child: Column(
             children: [
               Expanded(

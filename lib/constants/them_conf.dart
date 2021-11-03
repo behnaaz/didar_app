@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 const String statusBox = 'status';
-
-Logger logger = Logger();
+const double appMaxWithSize = 800; 
 
 // ::> Colors  -----------------------------------------------------------------
 class ColorPallet {

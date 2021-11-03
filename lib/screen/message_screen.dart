@@ -30,7 +30,7 @@ class MessageScreen extends StatelessWidget {
           bottom: TabBar(tabs: _kTabs),
         ),
         body: Center(
-          child: Container(constraints: BoxConstraints(maxWidth: 800),
+          child: Container(constraints: BoxConstraints(maxWidth: appMaxWithSize),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: TabBarView(
               children: [

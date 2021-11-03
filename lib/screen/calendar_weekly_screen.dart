@@ -8,9 +8,10 @@ import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/extensions.dart';
-
+Logger logger = Logger();
 class CalendarWeeklyScreen extends StatefulWidget {
   const CalendarWeeklyScreen({Key? key}) : super(key: key);
 

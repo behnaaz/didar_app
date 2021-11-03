@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Center(
       child: Container(
         key: _containerKey,
-        constraints: BoxConstraints(maxWidth: 800),
+        constraints: BoxConstraints(maxWidth: appMaxWithSize),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,14 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Positioned(
                         child: Container(
-                          constraints: BoxConstraints(maxWidth: 800),
+                          constraints: BoxConstraints(maxWidth: appMaxWithSize),
                           child: Image.asset(
                             AssetImages.homeHeader,
                           ),
                         ),
                       ),
                       Positioned(
-                          top: widthOfScreen < 800 ? 46 * ((widthOfScreen) / 411) : 100,
+                          top: widthOfScreen < appMaxWithSize ? 46 * ((widthOfScreen) / 411) : 100,
                           child: Container(
                               padding: EdgeInsets.symmetric(horizontal: 15),
                               child: Text(

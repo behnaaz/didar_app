@@ -85,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )),
           Center(
             child: Container(
-              constraints: BoxConstraints(maxWidth: 800), //TODO: Don't use magic numbers
+              constraints: BoxConstraints(maxWidth: appMaxWithSize), 
               child: StreamBuilder<Object>(
                   stream: _dbService.userProfileStream,
                   builder: (context, snapshot) {

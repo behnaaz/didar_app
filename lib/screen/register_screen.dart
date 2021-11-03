@@ -98,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 Center(
                   child: Container(
-                    constraints: BoxConstraints(maxWidth: 800),
+                    constraints: BoxConstraints(maxWidth: appMaxWithSize),
                     padding: const EdgeInsets.all(12.0),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
