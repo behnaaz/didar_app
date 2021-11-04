@@ -11,7 +11,9 @@ import 'package:line_icons/line_icons.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/extensions.dart';
+
 Logger logger = Logger();
+
 class CalendarWeeklyScreen extends StatefulWidget {
   const CalendarWeeklyScreen({Key? key}) : super(key: key);
 
@@ -20,9 +22,7 @@ class CalendarWeeklyScreen extends StatefulWidget {
 }
 
 class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
-  UserProfile parseProfileInfo(Object responseBody) {
-    return UserProfile.fromJson(responseBody);
-  }
+ 
 
   // instance of my solar calendar
   SolarCalendar cal = new SolarCalendar();
@@ -156,19 +156,15 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                     ),
                   ),
                 ),
-                StreamBuilder<Object>(
+                StreamBuilder<List<AvailabilityModel>>(
                     stream: FBAvailableTimeService().availability,
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.active) {
+                        List<AvailabilityModel> _data = snapshot.data ?? [];
                         var _mapData = {};
-                        if (snapshot.data.data() != null) {
-                          List _data = snapshot.data.data()[FBAvailableTimeService.AVAILABLE_LIST] ?? [];
-                          _mapData = Map.fromIterable(
-                            _data,
-                            key: (e) => e[AvailabilityModel.TIME_SLOT],
-                            value: (e) => e[AvailabilityModel.SESSION_TYPE],
-                          );
-                        }
+                        _data.forEach((e) {
+                          _mapData[e.timeSlot] = e.sessionType;
+                        });
 
                         return Expanded(
                           //ANCHOR : pageView builder ---------------------
@@ -230,11 +226,11 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                             Get.defaultDialog(
                                                               title: 'ویرایش',
                                                               middleText: '',
-                                                              confirm: FutureBuilder<Object>(
+                                                              confirm: FutureBuilder<UserProfile>(
                                                                   future: _firestoreService.userProfileFuture,
                                                                   builder: (context, snapshot) {
                                                                     if (snapshot.connectionState == ConnectionState.done) {
-                                                                      UserProfile userProfileDocument = parseProfileInfo(snapshot.data!);
+                                                                    
                                                                       List<String> listToString(List list) {
                                                                         List<String> stringList = [];
                                                                         list.forEach((element) {
@@ -243,7 +239,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                                         return stringList;
                                                                       }
 
-                                                                      List<String> items = listToString(userProfileDocument.sessionTopics);
+                                                                      List<String> items = listToString(snapshot.data!.sessionTopics);
                                                                       String? _dropDownCategory;
                                                                       return Container(
                                                                         width: 150,

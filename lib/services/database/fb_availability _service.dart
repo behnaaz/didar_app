@@ -43,7 +43,18 @@ class FBAvailableTimeService {
     }
   }
 
-  Stream<DocumentSnapshot<Object?>> get availability {
-    return _sessionOfUser.doc(_firebaseAuth.currentUser!.uid).snapshots();
+  AvailabilityModel _availabilityFromSnapshot(map) {
+    return AvailabilityModel.fromMap(map);
+  }
+
+  Stream<List<AvailabilityModel>> get availability {
+    return _sessionOfUser.doc(_firebaseAuth.currentUser!.uid).snapshots().map((event) {
+      List _rawList = (event['available_List']);
+      List<AvailabilityModel> finalList = [];
+      _rawList.forEach((element) {
+        finalList.add(_availabilityFromSnapshot(element));
+      });
+      return finalList;
+    });
   }
 }

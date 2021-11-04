@@ -20,7 +20,7 @@ class AvailabilityModel {
     };
   }
 
-  factory AvailabilityModel.fromMap(Map<String, dynamic> map) {
+  factory AvailabilityModel.fromMap( map) {
     return AvailabilityModel(
       timeSlot: map[TIME_SLOT],
       sessionType: map[SESSION_TYPE],
