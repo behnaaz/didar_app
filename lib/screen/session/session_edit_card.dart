@@ -27,6 +27,7 @@ class _EditSessionState extends State<EditSession> {
     
     FirestoreServiceDB _firestoreService =
         Provider.of<FirestoreServiceDB>(context);
+      FBUserSessionService  _fbUserSessionService = Provider.of<FBUserSessionService>(context, listen: false);
     return Container(
       padding: EdgeInsets.symmetric(),
       child: GetBuilder<SessionsController>(
@@ -319,7 +320,7 @@ class _EditSessionState extends State<EditSession> {
                           _.selectedColorIndex != null &&
                           _.priceController != '' &&
                           _.infoController != '') {
-                        FBUserSessionService()
+                       _fbUserSessionService
                             .deleteSession(_getController.session)
                             .then((value) => printInfo(info: 'Delete item'));
                         SessionModel session = SessionModel(
@@ -331,7 +332,7 @@ class _EditSessionState extends State<EditSession> {
                             price: _.priceController.text,
                             info: _.infoController.text,
                             color: _.selectedColorIndex.toString());
-                        FBUserSessionService().sessionUpdate(session);
+                      _fbUserSessionService.sessionUpdate(session);
                         _.emptyTheFields();
                         setState(() {});
                       } else {

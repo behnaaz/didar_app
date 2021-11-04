@@ -2,6 +2,9 @@ import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/model/config_model.dart';
 import 'package:didar_app/routes/routes.dart';
 import 'package:didar_app/services/auth/authenticatService.dart';
+import 'package:didar_app/services/database/fb_all_session_service.dart';
+import 'package:didar_app/services/database/fb_availability%20_service.dart';
+import 'package:didar_app/services/database/fb_user_session_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:didar_app/services/proxy/proxy_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,13 +49,22 @@ class DidarApp extends StatelessWidget {
               ProxyService(loadConfigs(context), RetryClient(http.Client())),
         ),
         Provider<FirebaseAuth>(create: (_) => FirebaseAuth.instance),
+        Provider<FBAllSessionTypeService>(create: (_) => FBAllSessionTypeService()),
         ProxyProvider2<ProxyService, FirebaseAuth, AuthenticationService>(
             update: (context, proxyService, firebaseAuth, authService) =>
                 AuthenticationService(proxyService, firebaseAuth)),
         ProxyProvider<AuthenticationService, FirestoreServiceDB>(
           update: (context, authService, firestoreService) =>
               FirestoreServiceDB(authService),
-        )
+        ),
+        ProxyProvider<AuthenticationService, FBUserSessionService>(
+          update: (context, authService, firestoreService) =>
+              FBUserSessionService(authService),
+        ),
+        ProxyProvider<AuthenticationService, FBAvailableTimeService>(
+          update: (context, authService, firestoreService) =>
+              FBAvailableTimeService(authService),
+        ),
       ],
       builder: (context, child) {
         return GetMaterialApp(

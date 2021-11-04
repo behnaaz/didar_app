@@ -7,6 +7,7 @@ import 'package:didar_app/services/database/fb_user_session_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 class MySessionList extends StatelessWidget {
   MySessionList({
@@ -15,8 +16,9 @@ class MySessionList extends StatelessWidget {
   final SessionsController _getController = Get.put(SessionsController());
   @override
   Widget build(BuildContext context) {
+    FBUserSessionService _dbService = Provider.of<FBUserSessionService>(context, listen: false);
     return StreamBuilder<Object>(
-        stream: FBUserSessionService().sessionList,
+        stream: _dbService.sessionList,
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Text("Sessions not Available");
@@ -83,7 +85,7 @@ class MySessionList extends StatelessWidget {
                               ),
                               GestureDetector(
                                   onTap: () {
-                                    FBUserSessionService().deleteSession(_list[index]);
+                                    _dbService.deleteSession(_list[index]);
                                   },
                                   child: Icon(LineIcons.trash)),
                             ],

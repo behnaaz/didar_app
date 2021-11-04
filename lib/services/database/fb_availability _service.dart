@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/model/availability_model.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:didar_app/services/auth/authenticatService.dart';
 
 class FBAvailableTimeService {
-  // NOTE : AuthService Provider
+   final AuthenticationService _authService;
+  FBAvailableTimeService(this._authService);
   static final String AVAILABLE_LIST = 'available_List';
-  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+  
 
   /// Collection Reference
   final CollectionReference _sessionOfUser = FirebaseFirestore.instance.collection('user_availability');
@@ -14,7 +15,7 @@ class FBAvailableTimeService {
     required String timeSlot,
     String? sessionType,
   }) async {
-    String uid = _firebaseAuth.currentUser!.uid;
+    String uid = _authService.currentUser!.uid;
     AvailabilityModel item = AvailabilityModel(
       timeSlot: timeSlot,
       sessionType: sessionType ?? '',
@@ -26,7 +27,7 @@ class FBAvailableTimeService {
   }
 
   Future deleteAvailableTime({required String timeSlot, required String type}) async {
-    String uid = _firebaseAuth.currentUser!.uid;
+    String uid = _authService.currentUser!.uid;
     AvailabilityModel item = AvailabilityModel(
       timeSlot: timeSlot,
       sessionType: type,
@@ -48,7 +49,7 @@ class FBAvailableTimeService {
   }
 
   Stream<List<AvailabilityModel>> get availability {
-    return _sessionOfUser.doc(_firebaseAuth.currentUser!.uid).snapshots().map((event) {
+    return _sessionOfUser.doc(_authService.currentUser!.uid).snapshots().map((event) {
       List _rawList = (event['available_List']);
       List<AvailabilityModel> finalList = [];
       _rawList.forEach((element) {

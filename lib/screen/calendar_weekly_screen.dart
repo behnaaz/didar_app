@@ -3,6 +3,7 @@ import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/model/availability_model.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/calendar/solar_calendar.dart';
+import 'package:didar_app/services/database/fb_all_session_service.dart';
 import 'package:didar_app/services/database/fb_availability%20_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,6 @@ class CalendarWeeklyScreen extends StatefulWidget {
 }
 
 class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
- 
-
   // instance of my solar calendar
   SolarCalendar cal = new SolarCalendar();
 
@@ -49,7 +48,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
     FirestoreServiceDB _firestoreService = Provider.of<FirestoreServiceDB>(
       context,
     );
-
+  FBAvailableTimeService _dbAvailableService = Provider.of<FBAvailableTimeService>(context, listen: false);
     logger.i(now.toDateTime());
 
     return Stack(
@@ -157,7 +156,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                   ),
                 ),
                 StreamBuilder<List<AvailabilityModel>>(
-                    stream: FBAvailableTimeService().availability,
+                    stream: _dbAvailableService.availability,
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.active) {
                         List<AvailabilityModel> _data = snapshot.data ?? [];
@@ -214,7 +213,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                     return Expanded(
                                                       child: GestureDetector(
                                                         onLongPress: () {
-                                                          FBAvailableTimeService().deleteAvailableTime(timeSlot: _thisTime, type: _mapData[_thisTime]);
+                                                         _dbAvailableService.deleteAvailableTime(timeSlot: _thisTime, type: _mapData[_thisTime]);
                                                         },
                                                         onTap: () {
                                                           print(
@@ -230,7 +229,6 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                                   future: _firestoreService.userProfileFuture,
                                                                   builder: (context, snapshot) {
                                                                     if (snapshot.connectionState == ConnectionState.done) {
-                                                                    
                                                                       List<String> listToString(List list) {
                                                                         List<String> stringList = [];
                                                                         list.forEach((element) {
@@ -268,11 +266,11 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                                                 setState(() {
                                                                                   // _dropDownCategory = value;
 
-                                                                                  FBAvailableTimeService().deleteAvailableTime(
+                                                                                  _dbAvailableService.deleteAvailableTime(
                                                                                       timeSlot: _thisTime,
                                                                                       type: _mapData[
                                                                                           '${date.toGregorian().year}-${date.toGregorian().month}-${date.addDays(i).toGregorian().day}|${SolarCalendar.clockTime[index]}-${SolarCalendar.clockTime[index + 1]}']);
-                                                                                  FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime, sessionType: value);
+                                                                                  _dbAvailableService.updateAvailableTime(timeSlot: _thisTime, sessionType: value);
                                                                                   Get.back();
                                                                                 });
                                                                               },
@@ -288,7 +286,7 @@ class _CalendarWeeklyScreenState extends State<CalendarWeeklyScreen> {
                                                                   }),
                                                             );
                                                           } else {
-                                                            FBAvailableTimeService().updateAvailableTime(timeSlot: _thisTime);
+                                                            _dbAvailableService.updateAvailableTime(timeSlot: _thisTime);
                                                             print('done');
                                                           }
                                                         },

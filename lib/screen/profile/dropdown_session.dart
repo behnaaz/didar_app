@@ -15,8 +15,9 @@ class SessionSubject extends StatelessWidget {
   SessionSubject({Key? key, required this.sessionsTopicSelected}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    FBAllSessionTypeService _dbService = Provider.of<FBAllSessionTypeService>(context, listen: false);
     return FutureBuilder<AllSessionModel>(
-        future: FBAllSessionTypeService().allSessionsFuture,
+        future: _dbService.allSessionsFuture,
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Text("Error");
