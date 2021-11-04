@@ -1,11 +1,9 @@
-
+import 'package:didar_app/model/all_session_model.dart';
 import 'package:didar_app/services/database/fb_all_session_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:didar_app/widgets/multiSelect.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-
 
 // =============================================================================
 // Session Type Future from DB --::--::--::--::--::--::--::--::--::--::--::--::-
@@ -17,21 +15,15 @@ class SessionSubject extends StatelessWidget {
   SessionSubject({Key? key, required this.sessionsTopicSelected}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: FBAllSessionTypeService().allSessionsType,
+    return FutureBuilder<AllSessionModel>(
+        future: FBAllSessionTypeService().allSessionsFuture,
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
-            return Text("Sessions not Available");
+            return Text("Error");
           }
 
-          if (snapshot.hasData && !snapshot.data!.exists) {
-            return Text("Document does not exist");
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-            List<dynamic> _o = data['type'];
-            _o.forEach((e) {
+          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+            snapshot.data.list.forEach((e) {
               _options.add(e.toString());
             });
 
@@ -60,7 +52,6 @@ class SessionSubject extends StatelessWidget {
         });
   }
 }
-
 
 class _DropDownSession extends StatefulWidget {
   final List<String> options;
