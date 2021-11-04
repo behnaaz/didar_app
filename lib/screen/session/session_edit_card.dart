@@ -18,14 +18,7 @@ class EditSession extends StatefulWidget {
 }
 
 class _EditSessionState extends State<EditSession> {
-// _____________________________________________________________________________
-//         >> Get the stream response and return UserProfile_model<<
-//                          ---------
-  UserProfile parseProfileInfo(Object responseBody) {
-    return UserProfile.fromJson(responseBody);
-  }
 
-// -----------------------------------------------------------------------------
 
   final SessionsController _getController = Get.put(SessionsController());
 
@@ -49,14 +42,14 @@ class _EditSessionState extends State<EditSession> {
                       SizedBox(
                         height: 20,
                       ),
-                      FutureBuilder<Object>(
+                      FutureBuilder<UserProfile>(
                           future: _firestoreService.userProfileFuture,
                           builder: (context, snapshot) {
                             //TODO should not be snapshot but UserProfile
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
                               List<String> items =
-                                  parseProfileInfo(snapshot.data!)
+                                  snapshot.data!
                                       .sessionTopics
                                       .map((e) => e.toString())
                                       .toList();

@@ -52,8 +52,11 @@ class FirestoreServiceDB {
     });
   }
 
-  Future<DocumentSnapshot> get userProfileFuture {
-    //TODO return type should be UserProfile
-    return _userProfilesCollection.doc(uid).get();
+  UserProfile _userProfileFromSnapshot(DocumentSnapshot snapshot) {
+    return UserProfile.fromJson(snapshot.data());
+  }
+
+  Future<UserProfile> get userProfileFuture {
+    return _userProfilesCollection.doc(uid).snapshots().map(_userProfileFromSnapshot).first;
   }
 }

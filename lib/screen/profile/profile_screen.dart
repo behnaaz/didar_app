@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:didar_app/constants/them_conf.dart';
 import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/model/user_profile_model.dart';
@@ -85,8 +84,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )),
           Center(
             child: Container(
-              constraints: BoxConstraints(maxWidth: appMaxWithSize), 
-              child: FutureBuilder<Object>(
+              constraints: BoxConstraints(maxWidth: appMaxWithSize),
+              child: FutureBuilder<UserProfile>(
                   future: _dbService.userProfileFuture,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
@@ -95,21 +94,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Icon(Icons.error_outline),
                       );
                     }
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      logger.d("user profile " + snapshot.data!.toString());
-                      UserProfile userProfileDocument = UserProfile.fromJson(snapshot.data!);
-                      logger.d("user profile fetched " + userProfileDocument.toString());
+                    if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
+                      var _data = snapshot.data!;
+                      logger.d("user profile " + _data.toString());
+                      logger.d("user profile fetched " + _data.toString());
 
-                      firstNameController.text = userProfileDocument.firstName;
-                      lastNameController.text = userProfileDocument.lastName;
+                      firstNameController.text = _data.firstName;
+                      lastNameController.text = _data.lastName;
+                      emailController.text = _data.email;
+                      phoneNumController.text = _data.phoneNumber;
+                      bioController.text = _data.bio;
+                      eduDegreeController.text = _data.eduDegree;
+                      _socialLinks = _data.socialLinks;
+                      _sessionTopics = _data.sessionTopics;
 
-                      emailController.text = userProfileDocument.email;
-                      phoneNumController.text = userProfileDocument.phoneNumber;
-
-                      bioController.text = userProfileDocument.bio;
-                      eduDegreeController.text = userProfileDocument.eduDegree;
-                      _socialLinks = userProfileDocument.socialLinks;
-                      _sessionTopics = userProfileDocument.sessionTopics;
                       return Column(
                         children: [
                           Expanded(
@@ -170,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   SessionSubject(
-                                    sessionsTopicSelected: userProfileDocument.sessionTopics,
+                                    sessionsTopicSelected: _data.sessionTopics,
                                   ),
                                   _profileTextField(
                                     controller: emailController,
@@ -200,14 +198,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                     ...List.generate(
-                                        userProfileDocument.socialLinks.length,
+                                        _data.socialLinks.length,
                                         (index) => Material(
                                               color: Colors.transparent,
                                               child: Container(
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(vertical: 5),
                                                   child: Row(
-                                                    children: _socialListChild(userProfileDocument.socialLinks[index]),
+                                                    children: _socialListChild(_data.socialLinks[index]),
                                                   ),
                                                 ),
                                               ),
@@ -271,7 +269,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future<DocumentSnapshot> fetchUserProfile() {
+  Future fetchUserProfile() {
     // TODO use this instead of _dbService.userProfile above
     //TODO return type should be come User
     if (_authService.isFallback) {
