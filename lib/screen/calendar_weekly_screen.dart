@@ -3,7 +3,6 @@ import 'package:didar_app/controller/bottom_navigation_controller.dart';
 import 'package:didar_app/model/availability_model.dart';
 import 'package:didar_app/model/user_profile_model.dart';
 import 'package:didar_app/services/calendar/solar_calendar.dart';
-import 'package:didar_app/services/database/fb_all_session_service.dart';
 import 'package:didar_app/services/database/fb_availability%20_service.dart';
 import 'package:didar_app/services/database/firestore_service.dart';
 import 'package:flutter/material.dart';
