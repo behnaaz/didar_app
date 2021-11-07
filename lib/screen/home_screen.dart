@@ -190,9 +190,7 @@ class HomeEventDetails extends StatelessWidget {
             SizedBox(
               height: 4,
             ),
-            SizedBox(
-              height: 15,
-            ),
+           
             Text(
               'جلسات آنلاین پیش رو',
               style: MyTextStyle.large.copyWith(fontWeight: FontWeight.bold),
@@ -264,7 +262,7 @@ class HomeEventDetails extends StatelessWidget {
                                               child: Center(
                                                 child: Text(
                                                   '2',
-                                                  style: TextStyle(color: Colors.white),
+                                                  style: TextStyle(color: Colors.white, fontSize: 10),
                                                 ),
                                               ),
                                             ),
@@ -280,7 +278,7 @@ class HomeEventDetails extends StatelessWidget {
                                               child: Center(
                                                 child: Text(
                                                   '2',
-                                                  style: TextStyle(color: Colors.white),
+                                                  style: TextStyle(color: Colors.white ,fontSize: 10),
                                                 ),
                                               ),
                                             ),
@@ -291,7 +289,7 @@ class HomeEventDetails extends StatelessWidget {
                                         ),
                                         Text(
                                           'ثانیه',
-                                          style: MyTextStyle.xSmall.copyWith(color: Colors.white),
+                                          style: MyTextStyle.xSmall.copyWith(color: Colors.white, fontSize: 10),
                                         )
                                       ],
                                     ),
@@ -311,7 +309,7 @@ class HomeEventDetails extends StatelessWidget {
                                               child: Center(
                                                 child: Text(
                                                   '5',
-                                                  style: TextStyle(color: Colors.white),
+                                                  style: TextStyle(color: Colors.white, fontSize: 10),
                                                 ),
                                               ),
                                             ),
@@ -327,7 +325,7 @@ class HomeEventDetails extends StatelessWidget {
                                               child: Center(
                                                 child: Text(
                                                   '4',
-                                                  style: TextStyle(color: Colors.white),
+                                                  style: TextStyle(color: Colors.white, fontSize: 10),
                                                 ),
                                               ),
                                             ),
@@ -358,7 +356,7 @@ class HomeEventDetails extends StatelessWidget {
                                               child: Center(
                                                 child: Text(
                                                   '2',
-                                                  style: TextStyle(color: Colors.white),
+                                                  style: TextStyle(color: Colors.white, fontSize: 10),
                                                 ),
                                               ),
                                             ),
@@ -374,7 +372,7 @@ class HomeEventDetails extends StatelessWidget {
                                               child: Center(
                                                 child: Text(
                                                   '0',
-                                                  style: TextStyle(color: Colors.white),
+                                                  style: TextStyle(color: Colors.white, fontSize: 10),
                                                 ),
                                               ),
                                             ),

@@ -18,6 +18,8 @@ class MessageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width ;
+
     return DefaultTabController(
       length: _kTabs.length,
       child: Scaffold(
@@ -113,72 +115,28 @@ class MessageScreen extends StatelessWidget {
                                       ),
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                LineIcons.check,
-                                                color: ColorPallet.blue,
-                                                size: 22,
-                                              ),
-                                              SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                'چهارشنبه 8 دی ماه ساعت 10 تا 11',
-                                                style: MyTextStyle.base,
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                LineIcons.check,
-                                                color: ColorPallet.blue,
-                                                size: 22,
-                                              ),
-                                              SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                'پنجشنبه 8 دی ماه ساعت 10 تا 11',
-                                                style: MyTextStyle.base,
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                LineIcons.check,
-                                                color: ColorPallet.blue,
-                                                size: 22,
-                                              ),
-                                              SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                'چهارشنبه 8 دی ماه ساعت 11 تا 12',
-                                                style: MyTextStyle.base,
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                LineIcons.check,
-                                                color: ColorPallet.blue,
-                                                size: 22,
-                                              ),
-                                              SizedBox(
-                                                width: 4,
-                                              ),
-                                              Text(
-                                                'چهارشنبه 8 دی ماه ساعت 10 تا 11',
-                                                style: MyTextStyle.base,
-                                              )
-                                            ],
+                                        children: 
+                                         List.generate(4, (index) =>  Row(
+                                              children: [
+                                                Icon(
+                                                  LineIcons.check,
+                                                  color: ColorPallet.blue,
+                                                  size: 22,
+                                                ),
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Container(
+                                                  width: _width * 0.4,
+                                                  child: Text(
+                                                    'چهارشنبه 8 دی ماه ساعت 10 تا 11',
+                                                    style: MyTextStyle.base,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           )
-                                        ],
+                                        
                                       )
                                     ],
                                   )
@@ -204,7 +162,7 @@ class MessageScreen extends StatelessWidget {
                           children: [
                             Image.asset(
                               AssetImages.logo,
-                              height: 40,
+                              height: 30,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,7 +207,7 @@ class MessageScreen extends StatelessWidget {
                           children: [
                             Image.asset(
                               AssetImages.logo,
-                              height: 40,
+                              height: 30,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
